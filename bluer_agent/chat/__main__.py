@@ -3,7 +3,7 @@ import argparse
 from blueness import module
 from blueness.argparse.generic import sys_exit
 
-from bluer_algo import NAME
+from bluer_agent import NAME
 from bluer_agent.chat.post_processing import post_process
 from bluer_agent.logger import logger
 

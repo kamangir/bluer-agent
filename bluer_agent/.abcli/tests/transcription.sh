@@ -12,6 +12,6 @@ function test_bluer_agent_transcription() {
 
     bluer_ai_eval ,$options \
         bluer_agent_transcription_validate \
-        download,filename=english.wav,language=env,verbose \
+        download,filename=english.wav,language=en,verbose \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
 }

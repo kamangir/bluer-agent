@@ -9,7 +9,7 @@ function bluer_agent_transcription() {
         return
     fi
 
-    python3 -m bluer_algo.ai_agent.transcription "$@"
+    python3 -m bluer_agent.transcription "$@"
 }
 
 bluer_ai_source_caller_suffix_path /transcription

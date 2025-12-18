@@ -27,7 +27,7 @@ function bluer_agent_chat_validate() {
         bluer_ai_cat $chat_filename
 
     bluer_ai_eval - \
-        python3 -m bluer_algo.ai_agent.chat \
+        python3 -m bluer_agent.chat \
         post_process \
         --object_name $object_name
     [[ $? -ne 0 ]] && return 1

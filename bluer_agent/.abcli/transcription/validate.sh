@@ -65,7 +65,7 @@ function bluer_agent_transcription_validate() {
         bluer_ai_cat $transcript_filename
 
     bluer_ai_eval - \
-        python3 -m bluer_algo.ai_agent.transcription \
+        python3 -m bluer_agent.transcription \
         post_process \
         --object_name $object_name \
         --filename $voice_filename \
