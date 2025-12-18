@@ -10,7 +10,9 @@ setup(
     description=DESCRIPTION,
     packages=[
         NAME,
+        f"{NAME}.chat",
         f"{NAME}.help",
+        f"{NAME}.transcription",
     ],
     include_package_data=True,
     package_data={
