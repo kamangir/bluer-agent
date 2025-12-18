@@ -1,3 +1,3 @@
-# ai-agent: chat
+# chat
 
 - [validation](./validation.md)

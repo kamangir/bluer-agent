@@ -53,19 +53,16 @@ def build():
             },
             # features
             {
-                "path": "../docs",
+                "path": "./docs/chat",
             },
             {
-                "path": "../docs/chat",
+                "path": "./docs/chat/validation.md",
             },
             {
-                "path": "../docs/chat/validation.md",
+                "path": "./docs/transcription",
             },
             {
-                "path": "../docs/transcription",
-            },
-            {
-                "path": "../docs/transcription/validation.md",
+                "path": "./docs/transcription/validation.md",
             },
         ]
     )

@@ -1,4 +1,4 @@
-# aliases: ai-agent
+# aliases: agent
 
 ```bash
 @agent \
@@ -7,6 +7,9 @@
 	[upload,verbose] \
 	[-|<object-name>]
  . validate agent.
+```
+
+```bash
 @agent \
 	transcription \
 	validate \

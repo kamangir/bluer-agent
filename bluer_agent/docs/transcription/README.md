@@ -1,3 +1,3 @@
-# ai-agent: transcription
+# transcription
 
 - [validation](./validation.md)
