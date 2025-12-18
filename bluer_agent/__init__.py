@@ -4,11 +4,11 @@ ICON = "👾"
 
 DESCRIPTION = f"{ICON} an AI agent."
 
-VERSION = "5.5.1"
+VERSION = "5.6.1"
 
 REPO_NAME = "bluer-agent"
 
-MARQUEE = "https://github.com/kamangir/assets/raw/main/blue-plugin/marquee.png?raw=true"
+MARQUEE = "https://github.com/kamangir/assets2/raw/main/bluer-agent/icon.jpg?raw=true"
 
 ALIAS = "@agent"
 

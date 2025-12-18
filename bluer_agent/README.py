@@ -9,14 +9,15 @@ from bluer_agent.help.functions import help_functions
 items = README.Items(
     [
         {
-            "name": f"feature {index}",
-            "marquee": "https://github.com/kamangir/assets/raw/main/blue-plugin/marquee.png?raw=true",
-            "description": f"description of feature {index} ...",
-            "url": "./bluer_agent/docs/feature_{}".format(
-                index if index == 1 else f"{index}.md"
-            ),
-        }
-        for index in range(1, 4)
+            "name": "chat",
+            "marquee": "https://github.com/kamangir/assets2/raw/main/bluer-agent/icon.jpg?raw=true",
+            "url": "./bluer_agent/docs/chat",
+        },
+        {
+            "name": "transcription",
+            "marquee": "https://github.com/kamangir/assets2/raw/main/bluer-agent/icon.jpg?raw=true",
+            "url": "./bluer_agent/docs/transcription",
+        },
     ]
 )
 
