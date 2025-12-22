@@ -24,6 +24,11 @@ function test_bluer_agent_help() {
         \
         "@ai_agent" \
         \
+        "@audio" \
+        "@audio install" \
+        "@audio play" \
+        "@audio record" \
+        \
         "bluer_agent"; do
         bluer_ai_eval ,$options \
             bluer_ai_help $module

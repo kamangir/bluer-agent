@@ -5,13 +5,17 @@ function test_bluer_agent_transcription() {
 
     bluer_ai_eval ,$options \
         bluer_agent_transcription_validate \
-        download,filename=farsi.wav,language=fa,verbose \
-        $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
+        filename=farsi.wav \
+        $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
+        download \
+        language=fa,verbose
     [[ $? -ne 0 ]] && return 1
     bluer_ai_hr
 
     bluer_ai_eval ,$options \
         bluer_agent_transcription_validate \
-        download,filename=english.wav,language=en,verbose \
-        $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
+        filename=english.wav \
+        $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
+        download \
+        language=en,verbose
 }

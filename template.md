@@ -14,7 +14,8 @@ items:::
 
 # aliases
 
-[@agent](./bluer_agent/docs/aliases/agent.md).
+[@agent](./bluer_agent/docs/aliases/agent.md), 
+[@audio](./bluer_agent/docs/aliases/audio.md).
 
 ---
 

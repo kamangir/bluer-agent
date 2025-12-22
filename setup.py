@@ -12,6 +12,7 @@ setup(
         NAME,
         f"{NAME}.chat",
         f"{NAME}.help",
+        f"{NAME}.README",
         f"{NAME}.transcription",
     ],
     include_package_data=True,

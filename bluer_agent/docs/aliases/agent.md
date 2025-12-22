@@ -13,7 +13,9 @@
 @agent \
 	transcription \
 	validate \
-	[download,filename=<filename.wav>,install,language=en|fa,~play,record,upload,verbose] \
-	[-|<object-name>]
+	[filename=<filename.wav>,install] \
+	[-|<object-name>] \
+	[download,record,play,upload] \
+	[language=en|fa,verbose]
  . validate agent.
 ```
