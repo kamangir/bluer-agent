@@ -12,7 +12,14 @@ function bluer_agent_transcription_validate() {
     local verbose=$(bluer_ai_option_int "$options" verbose 1)
 
     if [[ "$do_install" == 1 ]]; then
-        brew install sox
+        if [[ "$abcli_is_rpi" == true ]]; then
+            sudo apt install -y sox libsox-fmt-all
+        elif [[ "$abcli_is_mac" == true ]]; then
+            brew install sox
+        else
+            bluer_ai_log_error "cannot install sox"
+            return 1
+        fi
     fi
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
