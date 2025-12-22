@@ -7,7 +7,7 @@ function bluer_agent_transcription_validate() {
         bluer_agent_audio_install
         [[ $? -ne 0 ]] && return 1
     fi
-    local filename=$(bluer_ai_option "$install_options" filename audio-$(bluer_ai_string_timestamp))
+    local filename=$(bluer_ai_option "$install_options" filename audio-$(bluer_ai_string_timestamp).wav)
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
 
