@@ -15,6 +15,10 @@ function bluer_agent_audio_play() {
 
     bluer_ai_log "playing audio: $object_name/$filename"
 
+    local callable=afplay
+    [[ "$abcli_is_rpi" == true ]] &&
+        callable=aplay
+
     bluer_ai_eval - \
-        afplay $voice_filename
+        $callable $voice_filename
 }
