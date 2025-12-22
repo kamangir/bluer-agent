@@ -1,10 +1,10 @@
 #! /usr/bin/env bash
 
-function test_bluer_agent_transcription() {
+function test_bluer_agent_transcribe() {
     local options=$1
 
     bluer_ai_eval ,$options \
-        bluer_agent_transcription_validate \
+        bluer_agent_transcribe \
         filename=farsi.wav \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
         download,~record,~play \
@@ -13,7 +13,7 @@ function test_bluer_agent_transcription() {
     bluer_ai_hr
 
     bluer_ai_eval ,$options \
-        bluer_agent_transcription_validate \
+        bluer_agent_transcribe \
         filename=english.wav \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
         download,~record,~play \

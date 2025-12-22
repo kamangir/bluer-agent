@@ -2,4 +2,4 @@ title:::
 
 help::: bluer_agent chat
 
-help::: bluer_agent transcription
+help::: bluer_agent transcribe
