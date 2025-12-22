@@ -29,7 +29,7 @@ function bluer_agent_audio_listen() {
     # - On Raspberry Pi with mic as default: don't specify device
     # - If you need a specific ALSA device: add `-t alsa hw:1,0` after rec
     rec \
-        -q \
+        -V1 \
         -r "$RATE" \
         -c "$CH" \
         "$voice_filename" \
