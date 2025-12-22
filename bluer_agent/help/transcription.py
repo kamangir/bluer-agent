@@ -10,7 +10,7 @@ def help_validate(
 
     install_options = xtra("filename=<filename.wav>,install", mono=mono)
 
-    record_options = "download,record,play,upload"
+    record_options = xtra("download,~record,~play,upload", mono=mono)
 
     options = "".join(
         [

@@ -15,7 +15,7 @@
 	validate \
 	[filename=<filename.wav>,install] \
 	[-|<object-name>] \
-	[download,record,play,upload] \
+	[download,~record,~play,upload] \
 	[language=en|fa,verbose]
  . validate agent.
 ```
