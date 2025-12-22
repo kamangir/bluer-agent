@@ -17,6 +17,34 @@ def help_install(
     )
 
 
+def record_options(mono: bool):
+    return "".join(
+        [
+            xtra("filename=<audio.wav>,", mono=mono),
+            "play",
+            xtra(",upload", mono=mono),
+        ]
+    )
+
+
+def help_listen(
+    tokens: List[str],
+    mono: bool,
+) -> str:
+    options = record_options(mono=mono)
+
+    return show_usage(
+        [
+            "@audio",
+            "listen",
+            f"[{options}]",
+            "[-|<object-name>]",
+        ],
+        "record <object-name>/<audio.wav>.",
+        mono=mono,
+    )
+
+
 def help_play(
     tokens: List[str],
     mono: bool,
@@ -39,13 +67,7 @@ def help_record(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "".join(
-        [
-            xtra("filename=<audio.wav>,", mono=mono),
-            "play",
-            xtra(",upload", mono=mono),
-        ]
-    )
+    options = record_options(mono=mono)
 
     return show_usage(
         [
@@ -61,6 +83,7 @@ def help_record(
 
 help_functions = {
     "install": help_install,
+    "listen": help_listen,
     "play": help_play,
     "record": help_record,
 }
