@@ -7,7 +7,7 @@ function test_bluer_agent_transcription() {
         bluer_agent_transcription_validate \
         filename=farsi.wav \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
-        download \
+        download,~record,~play \
         language=fa,verbose
     [[ $? -ne 0 ]] && return 1
     bluer_ai_hr
@@ -16,6 +16,6 @@ function test_bluer_agent_transcription() {
         bluer_agent_transcription_validate \
         filename=english.wav \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
-        download \
+        download,~record,~play \
         language=en,verbose
 }
