@@ -33,7 +33,8 @@ function bluer_agent_transcribe() {
     local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
 
     # https://docs.arvancloud.ir/fa/aiaas/api-usage
-    bluer_ai_log "processing..."
+    local voice_file_size=$(bluer_objects_file - size $voice_filename)
+    bluer_ai_log "processing ($voice_file_size)..."
     curl --location "$BLUER_AGENT_TRANSCRIPTION_ENDPOINT/audio/transcriptions" \
         --header "Authorization: apikey $BLUER_AGENT_API_KEY" \
         --form "model=whisper-1" \
