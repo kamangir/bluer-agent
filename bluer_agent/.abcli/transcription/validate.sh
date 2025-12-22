@@ -11,12 +11,12 @@ function bluer_agent_transcription_validate() {
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
 
-    local record_options=$3
-    local do_record=$(bluer_ai_option_int "$record_options" record 0)
-    local do_download=$(bluer_ai_option_int "$play_options" download 0)
+    local source_options=$3
+    local do_record=$(bluer_ai_option_int "$source_options" record 0)
+    local do_download=$(bluer_ai_option_int "$source_options" download 0)
     if [[ "$do_record" == 1 ]]; then
         bluer_agent_audio_record \
-            $record_options,filename=$filename \
+            $source_options,filename=$filename \
             $object_name
         [[ $? -ne 0 ]] && return 1
     elif [[ "$do_download" == 1 ]]; then
