@@ -11,8 +11,7 @@
 
 ```bash
 @agent \
-	transcription \
-	validate \
+	transcribe \
 	[filename=<filename.wav>,install] \
 	[-|<object-name>] \
 	[download,~record,~play,upload] \

@@ -3,11 +3,10 @@ from typing import List
 from bluer_options.terminal import show_usage, xtra
 
 
-def help_validate(
+def help(
     tokens: List[str],
     mono: bool,
 ) -> str:
-
     install_options = xtra("filename=<filename.wav>,install", mono=mono)
 
     record_options = xtra("download,~record,~play,upload", mono=mono)
@@ -22,8 +21,7 @@ def help_validate(
     return show_usage(
         [
             "@agent",
-            "transcription",
-            "validate",
+            "transcribe",
             f"[{install_options}]",
             "[-|<object-name>]",
             f"[{record_options}]",
@@ -32,8 +30,3 @@ def help_validate(
         "validate agent.",
         mono=mono,
     )
-
-
-help_functions = {
-    "validate": help_validate,
-}

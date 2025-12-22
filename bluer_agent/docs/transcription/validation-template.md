@@ -11,7 +11,7 @@ set:::object_name env:::BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
 # farsi
 
 ```bash
-@agent transcription validate \
+@agent transcribe \
 	filename=farsi.wav . \
 	record,play,upload \
 	language=fa,verbose
@@ -24,7 +24,7 @@ assets:::get:::object_name/farsi.wav
 # english
 
 ```bash
-@agent transcription validate \
+@agent transcribe \
 	filename=english.wav . \
 	record,play,upload \
 	language=en,verbose

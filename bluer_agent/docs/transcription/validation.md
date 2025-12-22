@@ -10,7 +10,7 @@
 # farsi
 
 ```bash
-@agent transcription validate \
+@agent transcribe \
 	filename=farsi.wav . \
 	record,play,upload \
 	language=fa,verbose
@@ -29,7 +29,7 @@
 # english
 
 ```bash
-@agent transcription validate \
+@agent transcribe \
 	filename=english.wav . \
 	record,play,upload \
 	language=en,verbose

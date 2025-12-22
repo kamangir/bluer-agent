@@ -19,3 +19,6 @@ def test_bluer_agent_env():
 
     assert env.BLUER_AGENT_CHAT_ENDPOINT
     assert env.BLUER_AGENT_CHAT_TEST_OBJECT
+
+    assert isinstance(env.BLUER_AGENT_TRANSCRIPTION_RETRIAL, int)
+    assert env.BLUER_AGENT_TRANSCRIPTION_RETRIAL >= 0

@@ -9,8 +9,7 @@ function test_bluer_agent_help() {
         "@agent chat" \
         \
         "@agent chat validate" \
-        "@agent transcription" \
-        "@agent transcription validate" \
+        "@agent transcribe" \
         \
         "@agent pypi" \
         "@agent pypi browse" \

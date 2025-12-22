@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-function bluer_agent_transcription_validate() {
+function bluer_agent_transcribe() {
     local install_options=$1
     local do_install=$(bluer_ai_option_int "$install_options" install 0)
     if [[ "$do_install" == 1 ]]; then
@@ -33,13 +33,36 @@ function bluer_agent_transcription_validate() {
     local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
 
     # https://docs.arvancloud.ir/fa/aiaas/api-usage
-    bluer_ai_log "processing..."
-    curl --location "$BLUER_AGENT_TRANSCRIPTION_ENDPOINT/audio/transcriptions" \
-        --header "Authorization: apikey $BLUER_AGENT_API_KEY" \
-        --form "model=whisper-1" \
-        --form "file=@$voice_filename" \
-        --form "language=$language" >$transcript_filename
-    [[ $? -ne 0 ]] && return 1
+    local voice_file_size=$(bluer_objects_file - size $voice_filename)
+    bluer_ai_log "processing ($voice_file_size)..."
+
+    local attempt=1
+    while [[ "$attempt" -le "$BLUER_AGENT_TRANSCRIPTION_RETRIAL" ]]; do
+        [[ "$attempt" -ge 2 ]] &&
+            bluer_ai_log "attempt $attempt / $BLUER_AGENT_TRANSCRIPTION_RETRIAL..."
+
+        if curl \
+            --fail \
+            --location "$BLUER_AGENT_TRANSCRIPTION_ENDPOINT/audio/transcriptions" \
+            --header "Authorization: apikey $BLUER_AGENT_API_KEY" \
+            --form "model=whisper-1" \
+            --form "file=@$voice_filename" \
+            --form "language=$language" \
+            >"$transcript_filename"; then
+
+            break
+        fi
+
+        bluer_ai_log_warning "transcription failed (attempt $attempt)."
+
+        if [ "$attempt" -eq "$BLUER_AGENT_TRANSCRIPTION_RETRIAL" ]; then
+            bluer_ai_log "reached maximum retry limit ($BLUER_AGENT_TRANSCRIPTION_RETRIAL)."
+            return 1
+        fi
+
+        attempt=$((attempt + 1))
+        sleep 2
+    done
 
     [[ "$verbose" == 1 ]] &&
         bluer_ai_cat $transcript_filename
