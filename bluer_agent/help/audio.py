@@ -40,7 +40,7 @@ def help_listen(
             f"[{options}]",
             "[-|<object-name>]",
         ],
-        "record <object-name>/<audio.wav>.",
+        "listen and record <object-name>/<audio.wav>.",
         mono=mono,
     )
 

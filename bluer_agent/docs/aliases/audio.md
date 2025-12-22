@@ -8,7 +8,7 @@
 	listen \
 	[filename=<audio.wav>,play,upload] \
 	[-|<object-name>]
- . record <object-name>/<audio.wav>.
+ . listen and record <object-name>/<audio.wav>.
 @audio \
 	play \
 	[download,filename=<audio.wav>] \
