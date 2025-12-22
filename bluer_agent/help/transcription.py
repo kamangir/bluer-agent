@@ -7,27 +7,15 @@ def help_validate(
     tokens: List[str],
     mono: bool,
 ) -> str:
+
+    install_options = xtra("filename=<filename.wav>,install", mono=mono)
+
+    record_options = xtra("download,~record,~play,upload", mono=mono)
+
     options = "".join(
         [
-            xtra(
-                "download,",
-                mono=mono,
-            ),
-            "filename=<filename.wav>",
-            xtra(
-                ",install,",
-                mono=mono,
-            ),
             "language=en|fa",
-            xtra(
-                ",~play,",
-                mono=mono,
-            ),
-            "record",
-            xtra(
-                ",upload,verbose",
-                mono=mono,
-            ),
+            xtra(",verbose", mono=mono),
         ]
     )
 
@@ -36,8 +24,10 @@ def help_validate(
             "@agent",
             "transcription",
             "validate",
-            f"[{options}]",
+            f"[{install_options}]",
             "[-|<object-name>]",
+            f"[{record_options}]",
+            f"[{options}]",
         ],
         "validate agent.",
         mono=mono,

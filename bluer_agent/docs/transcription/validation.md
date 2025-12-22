@@ -1,5 +1,7 @@
 # transcription: validation
 
+🔥
+
 ```bash
 @select ai-agent-transcription-$(@@timestamp)
 ```
@@ -9,7 +11,9 @@
 
 ```bash
 @agent transcription validate \
-	filename=farsi.wav,language=fa,record,upload .
+	filename=farsi.wav . \
+	record,play,upload \
+	language=fa,verbose
 ```
 
 ```yaml
@@ -26,7 +30,9 @@
 
 ```bash
 @agent transcription validate \
-	filename=english.wav,language=en,record,upload .
+	filename=english.wav . \
+	record,play,upload \
+	language=en,verbose
 ```
 
 ```yaml

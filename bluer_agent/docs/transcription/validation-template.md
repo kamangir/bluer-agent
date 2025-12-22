@@ -1,5 +1,7 @@
 title:::
 
+🔥
+
 ```bash
 @select ai-agent-transcription-$(@@timestamp)
 ```
@@ -10,7 +12,9 @@ set:::object_name env:::BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
 
 ```bash
 @agent transcription validate \
-	filename=farsi.wav,language=fa,record,upload .
+	filename=farsi.wav . \
+	record,play,upload \
+	language=fa,verbose
 ```
 
 metadata:::get:::object_name:::farsi
@@ -21,7 +25,9 @@ assets:::get:::object_name/farsi.wav
 
 ```bash
 @agent transcription validate \
-	filename=english.wav,language=en,record,upload .
+	filename=english.wav . \
+	record,play,upload \
+	language=en,verbose
 ```
 
 metadata:::get:::object_name:::english

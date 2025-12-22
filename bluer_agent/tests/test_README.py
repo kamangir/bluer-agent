@@ -1,6 +1,5 @@
-from bluer_agent import README
+from bluer_agent.README import build
 
 
 def test_build_README():
-    assert README.build()
-
+    assert build.build()

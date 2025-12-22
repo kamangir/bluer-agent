@@ -1,0 +1,15 @@
+title:::
+
+```bash
+@select audio-$(@@timestamp)
+
+@audio record play,upload .
+
+@audio play - .
+
+@assets publish extensions=wav,push .
+```
+
+set:::object_name audio-2025-12-22-4styuj
+
+assets:::get:::object_name/audio.wav

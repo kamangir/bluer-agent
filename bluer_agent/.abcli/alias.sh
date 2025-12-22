@@ -2,3 +2,5 @@
 
 alias @agent=bluer_agent
 alias @ai_agent=bluer_agent
+
+alias @audio=bluer_agent_audio
