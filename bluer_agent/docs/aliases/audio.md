@@ -5,6 +5,11 @@
 	install
  . install.
 @audio \
+	listen \
+	[filename=<audio.wav>,play,upload] \
+	[-|<object-name>]
+ . record <object-name>/<audio.wav>.
+@audio \
 	play \
 	[download,filename=<audio.wav>] \
 	[.|<object-name>]
