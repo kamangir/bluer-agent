@@ -10,15 +10,19 @@ function test_bluer_agent_audio() {
 
     bluer_agent_audio \
         listen \
-        filename=listen.wav,play \
+        filename=listen.wav,length=10,play \
         $object_name
     [[ $? -ne 0 ]] && return 1
 
+    bluer_ai_hr
+
     bluer_agent_audio \
         record \
-        filename=record.wav,play \
+        filename=record.wav,length=10,play \
         $object_name
     [[ $? -ne 0 ]] && return 1
+
+    bluer_ai_hr
 
     bluer_agent_audio \
         play \

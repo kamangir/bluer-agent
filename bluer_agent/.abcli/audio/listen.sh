@@ -5,11 +5,12 @@ function bluer_agent_audio_listen() {
     local filename=$(bluer_ai_option "$options" filename audio.wav)
     local do_upload=$(bluer_ai_option_int "$options" upload 0)
     local do_play=$(bluer_ai_option_int "$options" play 0)
+    local length=$(bluer_ai_option "$options" length 30)
 
     local object_name=$(bluer_ai_clarify_object $2 audio-$(bluer_ai_string_timestamp))
     local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
 
-    bluer_ai_log "listening for audio -> $object_name/$filename ... (^C to end)"
+    bluer_ai_log "listening for audio -> $object_name/$filename (max $length second(s))... (^C to end)"
 
     local RATE=48000
     local CH=1
@@ -22,9 +23,6 @@ function bluer_agent_audio_listen() {
     local START_HOLD="0.10" # need this long above threshold to start (sec)
     local STOP_HOLD="1.20"  # stop after this long below threshold (sec)
 
-    # Safety cap (optional): max recording length (seconds)
-    local MAX_LEN=60
-
     # Pick input device:
     # - On Raspberry Pi with mic as default: don't specify device
     # - If you need a specific ALSA device: add `-t alsa hw:1,0` after rec
@@ -33,7 +31,7 @@ function bluer_agent_audio_listen() {
         -r "$RATE" \
         -c "$CH" \
         "$voice_filename" \
-        trim 0 "$MAX_LEN" \
+        trim 0 "$length" \
         silence \
         1 "$START_HOLD" "$START_THRESHOLD" \
         1 "$STOP_HOLD" "$STOP_THRESHOLD"

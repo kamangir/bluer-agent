@@ -20,7 +20,7 @@ def help_install(
 def record_options(mono: bool):
     return "".join(
         [
-            xtra("filename=<audio.wav>,", mono=mono),
+            xtra("filename=<audio.wav>,length=<30>,", mono=mono),
             "play",
             xtra(",upload", mono=mono),
         ]
