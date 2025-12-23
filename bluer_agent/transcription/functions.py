@@ -69,8 +69,17 @@ def transcribe(
             f'--form "language={language}"',
         ]
 
-        success, output = shell(command, return_output=True)
+        success, output = shell(
+            command,
+            return_output=True,
+            clean_after=True,
+        )
         if success:
+            if not output:
+                logger.warning("silence detected.")
+                text = ""
+                break
+
             try:
                 output_dict = json.loads(" ".join(output))
 
