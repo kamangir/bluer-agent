@@ -61,15 +61,18 @@ class AudioProperties:
         # - On Raspberry Pi with mic as default: don't specify device
         # - If you need a specific ALSA device: add `-t alsa hw:1,0` after rec
         return (
-            ["rec"]
-            + (
+            (
                 [
-                    f"-t alsa {env.BLUER_AGENT_AUDIO_ALSA_HW}",
+                    "sudo",
+                    "-u",
+                    "pi",
+                    "-H",
                 ]
                 if is_rpi()
                 else []
             )
             + [
+                "rec",
                 "-V1",
                 f'-r "{self.rate}"',
                 f'-c "{self.channels}"',
