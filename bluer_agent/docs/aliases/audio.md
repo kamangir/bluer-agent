@@ -5,11 +5,6 @@
 	install
  . install.
 @audio \
-	listen \
-	[filename=<audio.wav>,play,upload] \
-	[-|<object-name>]
- . listen and record <object-name>/<audio.wav>.
-@audio \
 	play \
 	[download,filename=<audio.wav>] \
 	[.|<object-name>]
@@ -17,6 +12,10 @@
 @audio \
 	record \
 	[filename=<audio.wav>,play,upload] \
-	[-|<object-name>]
+	[-|<object-name>] \
+	[--crop_silence <0>] \
+	[--channels <1>] \
+	[--length <30>] \
+	[--rate <16000>]
  . record <object-name>/<audio.wav>.
 ```

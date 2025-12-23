@@ -10,15 +10,17 @@ def test_required_env():
 
 
 def test_bluer_agent_env():
-    assert env.BLUER_AGENT_MACHINE_USER_NAME
-
-    assert env.BLUER_AGENT_API_KEY
-
-    assert env.BLUER_AGENT_TRANSCRIPTION_ENDPOINT
-    assert env.BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT
-
-    assert env.BLUER_AGENT_CHAT_ENDPOINT
-    assert env.BLUER_AGENT_CHAT_TEST_OBJECT
+    for thing in [
+        env.BLUER_AGENT_API_KEY,
+        env.BLUER_AGENT_AUDIO_TEST_OBJECT,
+        env.BLUER_AGENT_CHAT_ENDPOINT,
+        env.BLUER_AGENT_CHAT_TEST_OBJECT,
+        env.BLUER_AGENT_MACHINE_USER_NAME,
+        env.BLUER_AGENT_TRANSCRIPTION_ENDPOINT,
+        env.BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT,
+    ]:
+        assert isinstance(thing, str)
+        assert thing
 
     assert isinstance(env.BLUER_AGENT_TRANSCRIPTION_RETRIAL, int)
     assert env.BLUER_AGENT_TRANSCRIPTION_RETRIAL >= 0

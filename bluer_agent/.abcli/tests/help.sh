@@ -25,7 +25,6 @@ function test_bluer_agent_help() {
         \
         "@audio" \
         "@audio install" \
-        "@audio listen" \
         "@audio play" \
         "@audio record" \
         \
