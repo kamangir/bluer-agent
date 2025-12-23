@@ -1,2 +1,1 @@
 bluer_ai
-bluer_agent
