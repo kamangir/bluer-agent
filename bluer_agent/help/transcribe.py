@@ -9,25 +9,22 @@ def help(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    install_options = xtra("filename=<filename.wav>,install", mono=mono)
-
-    record_options = xtra("download,~record,~play,upload", mono=mono)
-
     options = "".join(
         [
+            xtra("filename=<filename.wav>,install", mono=mono),
             "language=en|fa",
-            xtra(",verbose", mono=mono),
         ]
     )
+
+    record_options = xtra("download,~record,~play,upload", mono=mono)
 
     return show_usage(
         [
             "@agent",
             "transcribe",
-            f"[{install_options}]",
+            f"[{options}]",
             "[-|<object-name>]",
             f"[{record_options}]",
-            f"[{options}]",
         ]
         + record_args,
         "validate transcription.",

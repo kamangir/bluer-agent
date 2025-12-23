@@ -6,10 +6,9 @@ function test_bluer_agent_transcribe() {
     if [[ "$abcli_is_github_workflow" == false ]]; then
         bluer_ai_eval ,$options \
             bluer_agent_transcribe \
-            filename=farsi.wav \
+            filename=farsi.wav,language=fa \
             $object_name \
-            play \
-            language=fa,verbose \
+            record,play \
             --length 10
         [[ $? -ne 0 ]] && return 1
 
@@ -18,18 +17,16 @@ function test_bluer_agent_transcribe() {
 
     bluer_ai_eval ,$options \
         bluer_agent_transcribe \
-        filename=farsi.wav \
+        filename=farsi.wav,language=fa \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
-        download,~record \
-        language=fa,verbose
+        download
     [[ $? -ne 0 ]] && return 1
 
     bluer_ai_hr
 
     bluer_ai_eval ,$options \
         bluer_agent_transcribe \
-        filename=english.wav \
+        filename=english.wav,language=en \
         $BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT \
-        download,~record \
-        language=en,verbose
+        download
 }

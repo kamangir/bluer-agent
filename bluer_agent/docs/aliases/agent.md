@@ -12,10 +12,9 @@
 ```bash
 @agent \
 	transcribe \
-	[filename=<filename.wav>,install] \
+	[filename=<filename.wav>,installlanguage=en|fa] \
 	[-|<object-name>] \
 	[download,~record,~play,upload] \
-	[language=en|fa,verbose] \
 	[--channels <1>] \
 	[--crop_silence <0>] \
 	[--length <30>] \

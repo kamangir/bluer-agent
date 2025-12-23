@@ -1,23 +1,31 @@
 #! /usr/bin/env bash
 
 function bluer_agent_transcribe() {
-    local install_options=$1
-    local do_install=$(bluer_ai_option_int "$install_options" install 0)
+    local options=$1
+    local do_install=$(bluer_ai_option_int "$options" install 0)
     if [[ "$do_install" == 1 ]]; then
         bluer_agent_audio_install
         [[ $? -ne 0 ]] && return 1
     fi
-    local filename=$(bluer_ai_option "$install_options" filename audio-$(bluer_ai_string_timestamp).wav)
+    local filename=$(bluer_ai_option "$options" filename audio-$(bluer_ai_string_timestamp).wav)
+    local language=$(bluer_ai_option "$options" language fa)
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
 
     local source_options=$3
-    local do_record=$(bluer_ai_option_int "$source_options" record 1)
     local do_download=$(bluer_ai_option_int "$source_options" download 0)
+    local do_record=$(bluer_ai_option_int "$source_options" record $(bluer_ai_not $do_download))
 
-    local options=$4
-    local language=$(bluer_ai_option "$options" language fa)
-    local verbose=$(bluer_ai_option_int "$options" verbose 1)
+    #bluer_ai_eval - \
+    #    python3 -m bluer_agent.transcription \
+    #    process \
+    #    --object_name $object_name \
+    #    --filename $filename \
+    #    --download $do_download \
+    #    --language $language \
+    #    --record $do_record
+
+    :
 
     local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
     local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
@@ -26,7 +34,7 @@ function bluer_agent_transcribe() {
         bluer_agent_audio_record \
             play,filename=$filename,$source_options \
             $object_name \
-            "${@:5}"
+            "${@:4}"
         [[ $? -ne 0 ]] && return 1
     elif [[ "$do_download" == 1 ]]; then
         bluer_objects_download \
@@ -65,9 +73,6 @@ function bluer_agent_transcribe() {
         attempt=$((attempt + 1))
         sleep 2
     done
-
-    [[ "$verbose" == 1 ]] &&
-        bluer_ai_cat $transcript_filename
 
     bluer_ai_eval - \
         python3 -m bluer_agent.transcription \
