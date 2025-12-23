@@ -18,19 +18,25 @@ parser.add_argument(
     help="listen | play | record",
 )
 parser.add_argument(
-    "--arg",
-    type=bool,
-    default=0,
-    help="0|1",
+    "--object_name",
+    type=str,
+)
+parser.add_argument(
+    "--filename",
+    type=str,
+    default="audio.wav",
 )
 args = parser.parse_args()
 
 success = False
 if args.task == "listen":
     success = listen(args.arg)
-if args.task == "play":
-    success = play(args.arg)
-if args.task == "record":
+elif args.task == "play":
+    success = play(
+        object_name=args.object_name,
+        filename=args.filename,
+    )
+elif args.task == "record":
     success = record(args.arg)
 else:
     success = None
