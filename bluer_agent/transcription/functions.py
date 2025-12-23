@@ -1,6 +1,8 @@
+from typing import Tuple
 import json
 
 from blueness import module
+from bluer_options import string
 from bluer_objects import file, objects
 from bluer_objects.host import shell
 from bluer_objects.metadata import post_to_object
@@ -17,17 +19,21 @@ NAME = module.name(__file__, NAME)
 
 def transcribe(
     object_name: str,
-    filename: str,
+    filename: str = "",
     language: str = "fa",
     record: bool = False,
     properties: AudioProperties = AudioProperties(),
-) -> bool:
+    post_metadata: bool = False,
+) -> Tuple[bool, str]:
+    if not filename:
+        filename = "{}.wav".format(string.timestamp())
+
     if record and not record_audio(
         object_name=object_name,
         filename=filename,
         properties=properties,
     ):
-        return False
+        return False, ""
 
     logger.info(
         "{}.transcribe({}/{}) [{}]".format(
@@ -78,6 +84,7 @@ def transcribe(
 
                 break
             except Exception as e:
+                logger.warning(f"bad output: {output}")
                 logger.warning(e)
 
         logger.warning(f"transcription failed (attempt {attempt}).")
@@ -87,12 +94,16 @@ def transcribe(
         logger.error(
             f"reached maximum retry limit ({env.BLUER_AGENT_TRANSCRIPTION_RETRIAL})."
         )
-        return False
+        return False, ""
 
     logger.info(text)
 
-    return post_to_object(
-        object_name,
-        file.name(filename),
+    return (
+        not post_metadata
+        or post_to_object(
+            object_name,
+            file.name(filename),
+            text,
+        ),
         text,
     )

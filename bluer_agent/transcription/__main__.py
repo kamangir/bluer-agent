@@ -43,7 +43,7 @@ args = parser.parse_args()
 
 success = False
 if args.task == "transcribe":
-    success = transcribe(
+    success, _ = transcribe(
         object_name=args.object_name,
         filename=args.filename,
         language=args.language,
@@ -54,6 +54,7 @@ if args.task == "transcribe":
             length=args.length,
             rate=args.rate,
         ),
+        post_metadata=True,
     )
 else:
     success = None
