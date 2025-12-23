@@ -2,7 +2,7 @@
 
 function bluer_agent_audio_install() {
     if [[ "$abcli_is_rpi" == true ]]; then
-        sudo apt install -y sox libsox-fmt-all
+        sudo apt install -y sox libsox-fmt-all libsox-fmt-alsa
         return
     fi
 

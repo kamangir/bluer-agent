@@ -72,8 +72,19 @@ class AudioProperties:
                 else []
             )
             + [
-                "rec",
+                "sox" if is_rpi() else "rec",
                 "-V1",
+            ]
+            + (
+                [
+                    "-t",
+                    "alsa",
+                    '"plughw:CARD=C930e,DEV=0"',
+                ]
+                if is_rpi()
+                else []
+            )
+            + [
                 f'-r "{self.rate}"',
                 f'-c "{self.channels}"',
                 filename,
