@@ -4,7 +4,6 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
-from bluer_agent.audio.listen import listen
 from bluer_agent.audio.play import play
 from bluer_agent.audio.record import record
 from bluer_agent.logger import logger
@@ -15,7 +14,7 @@ parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,
-    help="listen | play | record",
+    help="play | record",
 )
 parser.add_argument(
     "--object_name",
@@ -32,22 +31,39 @@ parser.add_argument(
     default=30,
     help="in seconds",
 )
+parser.add_argument(
+    "--crop_silence",
+    type=int,
+    default=1,
+    help="0 | 1",
+)
+parser.add_argument(
+    "--rate",
+    type=int,
+    default=48000,
+)
+parser.add_argument(
+    "--channels",
+    type=int,
+    default=1,
+)
 args = parser.parse_args()
 
 success = False
-if args.task == "listen":
-    success = listen(
-        object_name=args.object_name,
-        filename=args.filename,
-        length=args.length,
-    )
-elif args.task == "play":
+if args.task == "play":
     success = play(
         object_name=args.object_name,
         filename=args.filename,
     )
 elif args.task == "record":
-    success = record(args.arg)
+    success = record(
+        object_name=args.object_name,
+        filename=args.filename,
+        length=args.length,
+        rate=args.rate,
+        channels=args.channels,
+        crop_silence=args.crop_silence == 1,
+    )
 else:
     success = None
 

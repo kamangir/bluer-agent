@@ -18,7 +18,10 @@ def help_install(
 
 
 record_args = [
+    "[--crop_silence <0>]",
+    "[--channels <1>]",
     "[--length <30>]",
+    "[--rate <16000>]",
 ]
 
 
@@ -29,25 +32,6 @@ def record_options(mono: bool):
             "play",
             xtra(",upload", mono=mono),
         ]
-    )
-
-
-def help_listen(
-    tokens: List[str],
-    mono: bool,
-) -> str:
-    options = record_options(mono=mono)
-
-    return show_usage(
-        [
-            "@audio",
-            "listen",
-            f"[{options}]",
-            "[-|<object-name>]",
-        ]
-        + record_args,
-        "listen and record <object-name>/<audio.wav>.",
-        mono=mono,
     )
 
 
@@ -90,7 +74,6 @@ def help_record(
 
 help_functions = {
     "install": help_install,
-    "listen": help_listen,
     "play": help_play,
     "record": help_record,
 }
