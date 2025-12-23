@@ -31,7 +31,10 @@ def record(
         )
     )
 
-    if not shell(properties.record_command(full_filename)):
+    if not shell(
+        command=properties.record_command(full_filename),
+        log=True,
+    ):
         return False
 
     if not file.exists(full_filename):

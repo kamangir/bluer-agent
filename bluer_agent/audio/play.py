@@ -34,8 +34,9 @@ def play(
     )
 
     return shell(
-        "{} {}".format(
+        command=[
             "aplay" if is_rpi() else "afplay",
             full_filename,
-        ),
+        ],
+        log=True,
     )
