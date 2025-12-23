@@ -3,8 +3,10 @@
 function bluer_agent_transcribe() {
     local options=$1
     local do_install=$(bluer_ai_option_int "$options" install 0)
+    local do_download=$(bluer_ai_option_int "$options" download 0)
+    local do_play=$(bluer_ai_option_int "$options" play 0)
+    local do_upload=$(bluer_ai_option_int "$options" upload 0)
     local filename=$(bluer_ai_option "$options" filename audio-$(bluer_ai_string_timestamp).wav)
-    local language=$(bluer_ai_option "$options" language fa)
 
     if [[ "$do_install" == 1 ]]; then
         bluer_agent_audio_install
@@ -13,72 +15,28 @@ function bluer_agent_transcribe() {
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
 
-    local source_options=$3
-    local do_download=$(bluer_ai_option_int "$source_options" download 0)
-    local do_record=$(bluer_ai_option_int "$source_options" record $(bluer_ai_not $do_download))
-
-    #bluer_ai_eval - \
-    #    python3 -m bluer_agent.transcription \
-    #    process \
-    #    --object_name $object_name \
-    #    --filename $filename \
-    #    --download $do_download \
-    #    --language $language \
-    #    --record $do_record
-
-    :
-
-    local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
-    local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
-
-    if [[ "$do_record" == 1 ]]; then
-        bluer_agent_audio_record \
-            play,filename=$filename,$source_options \
-            $object_name \
-            "${@:4}"
-        [[ $? -ne 0 ]] && return 1
-    elif [[ "$do_download" == 1 ]]; then
+    [[ "$do_download" == 1 ]] &&
         bluer_objects_download \
             filename=$filename \
             $object_name
-    fi
-
-    # https://docs.arvancloud.ir/fa/aiaas/api-usage
-    local voice_file_size=$(bluer_objects_file - size $voice_filename)
-    bluer_ai_log "processing ($voice_file_size)..."
-
-    local attempt=1
-    while [[ "$attempt" -le "$BLUER_AGENT_TRANSCRIPTION_RETRIAL" ]]; do
-        [[ "$attempt" -ge 2 ]] &&
-            bluer_ai_log "attempt $attempt / $BLUER_AGENT_TRANSCRIPTION_RETRIAL..."
-
-        if curl \
-            --fail \
-            --location "$BLUER_AGENT_TRANSCRIPTION_ENDPOINT/audio/transcriptions" \
-            --header "Authorization: apikey $BLUER_AGENT_API_KEY" \
-            --form "model=whisper-1" \
-            --form "file=@$voice_filename" \
-            --form "language=$language" \
-            >"$transcript_filename"; then
-
-            break
-        fi
-
-        bluer_ai_log_warning "transcription failed (attempt $attempt)."
-
-        if [ "$attempt" -eq "$BLUER_AGENT_TRANSCRIPTION_RETRIAL" ]; then
-            bluer_ai_log "reached maximum retry limit ($BLUER_AGENT_TRANSCRIPTION_RETRIAL)."
-            return 1
-        fi
-
-        attempt=$((attempt + 1))
-        sleep 2
-    done
 
     bluer_ai_eval - \
         python3 -m bluer_agent.transcription \
-        post_process \
+        transcribe \
         --object_name $object_name \
-        --filename $voice_filename \
-        --language $language
+        --filename $filename \
+        --record $(bluer_ai_not $do_download) \
+        "${@:3}"
+    [[ $? -ne 0 ]] && return 1
+
+    [[ "$do_upload" == 1 ]] &&
+        bluer_objects_upload \
+            filename=$filename \
+            $object_name
+
+    if [[ "$do_play" == 1 ]]; then
+        bluer_agent_audio_play \
+            filename=$filename \
+            $object_name
+    fi
 }

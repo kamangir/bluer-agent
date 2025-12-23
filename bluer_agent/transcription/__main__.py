@@ -4,7 +4,8 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
-from bluer_agent.transcription.post_processing import post_process
+from bluer_agent.transcription.functions import transcribe
+from bluer_agent.audio.properties import AudioProperties
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -13,7 +14,7 @@ parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,
-    help="post_process",
+    help="transcribe",
 )
 parser.add_argument(
     "--object_name",
@@ -29,14 +30,30 @@ parser.add_argument(
     default="fa",
     help="en | fa",
 )
+parser.add_argument(
+    "--record",
+    type=int,
+    default=1,
+    help="0 | 1",
+)
+
+AudioProperties.add_args(parser)
+
 args = parser.parse_args()
 
 success = False
-if args.task == "post_process":
-    success = post_process(
+if args.task == "transcribe":
+    success = transcribe(
         object_name=args.object_name,
         filename=args.filename,
         language=args.language,
+        record=args.record,
+        properties=AudioProperties(
+            channels=args.channels,
+            crop_silence=args.crop_silence == 1,
+            length=args.length,
+            rate=args.rate,
+        ),
     )
 else:
     success = None
