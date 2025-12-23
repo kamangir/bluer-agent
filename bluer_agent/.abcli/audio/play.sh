@@ -6,7 +6,7 @@ function bluer_agent_audio_play() {
     local do_download=$(bluer_ai_option_int "$options" download 0)
 
     local object_name=$(bluer_ai_clarify_object $2 .)
-    local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
+    local full_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
 
     [[ "$do_download" == 1 ]] &&
         bluer_objects_download \
@@ -21,5 +21,5 @@ function bluer_agent_audio_play() {
         callable=aplay
 
     bluer_ai_eval - \
-        $callable $voice_filename
+        $callable $full_filename
 }
