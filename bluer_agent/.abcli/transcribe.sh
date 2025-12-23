@@ -3,12 +3,13 @@
 function bluer_agent_transcribe() {
     local options=$1
     local do_install=$(bluer_ai_option_int "$options" install 0)
+    local filename=$(bluer_ai_option "$options" filename audio-$(bluer_ai_string_timestamp).wav)
+    local language=$(bluer_ai_option "$options" language fa)
+
     if [[ "$do_install" == 1 ]]; then
         bluer_agent_audio_install
         [[ $? -ne 0 ]] && return 1
     fi
-    local filename=$(bluer_ai_option "$options" filename audio-$(bluer_ai_string_timestamp).wav)
-    local language=$(bluer_ai_option "$options" language fa)
 
     local object_name=$(bluer_ai_clarify_object $2 transcription-$(bluer_ai_string_timestamp))
 
