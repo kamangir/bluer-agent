@@ -14,6 +14,14 @@ function bluer_agent_transcribe() {
     local source_options=$3
     local do_record=$(bluer_ai_option_int "$source_options" record 1)
     local do_download=$(bluer_ai_option_int "$source_options" download 0)
+
+    local options=$4
+    local language=$(bluer_ai_option "$options" language fa)
+    local verbose=$(bluer_ai_option_int "$options" verbose 1)
+
+    local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
+    local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
+
     if [[ "$do_record" == 1 ]]; then
         bluer_agent_audio_record \
             play,filename=$filename,$source_options \
@@ -25,13 +33,6 @@ function bluer_agent_transcribe() {
             filename=$filename \
             $object_name
     fi
-
-    local options=$4
-    local language=$(bluer_ai_option "$options" language fa)
-    local verbose=$(bluer_ai_option_int "$options" verbose 1)
-
-    local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
-    local transcript_filename=$ABCLI_OBJECT_ROOT/$object_name/transcript.json
 
     # https://docs.arvancloud.ir/fa/aiaas/api-usage
     local voice_file_size=$(bluer_objects_file - size $voice_filename)
