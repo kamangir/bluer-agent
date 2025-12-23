@@ -11,12 +11,19 @@ def help(
 ) -> str:
     options = "".join(
         [
-            xtra("filename=<filename.wav>,install", mono=mono),
-            "language=en|fa",
+            xtra("download,filename=<filename.wav>,install,", mono=mono),
+            "play",
+            xtra(",upload", mono=mono),
         ]
     )
 
-    record_options = xtra("download,~record,~play,upload", mono=mono)
+    args = sorted(
+        [
+            "[--language en|fa]",
+            "[--record 0]",
+        ]
+        + record_args
+    )
 
     return show_usage(
         [
@@ -24,9 +31,8 @@ def help(
             "transcribe",
             f"[{options}]",
             "[-|<object-name>]",
-            f"[{record_options}]",
         ]
-        + record_args,
+        + args,
         "validate transcription.",
         mono=mono,
     )
