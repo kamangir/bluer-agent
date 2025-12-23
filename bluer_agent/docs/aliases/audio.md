@@ -6,8 +6,9 @@
  . install.
 @audio \
 	listen \
-	[filename=<audio.wav>,length=<30>,play,upload] \
-	[-|<object-name>]
+	[filename=<audio.wav>,play,upload] \
+	[-|<object-name>] \
+	[--length <30>]
  . listen and record <object-name>/<audio.wav>.
 @audio \
 	play \
@@ -16,7 +17,8 @@
  . play <object-name>/<audio.wav>.
 @audio \
 	record \
-	[filename=<audio.wav>,length=<30>,play,upload] \
-	[-|<object-name>]
+	[filename=<audio.wav>,play,upload] \
+	[-|<object-name>] \
+	[--length <30>]
  . record <object-name>/<audio.wav>.
 ```

@@ -26,11 +26,21 @@ parser.add_argument(
     type=str,
     default="audio.wav",
 )
+parser.add_argument(
+    "--length",
+    type=int,
+    default=30,
+    help="in seconds",
+)
 args = parser.parse_args()
 
 success = False
 if args.task == "listen":
-    success = listen(args.arg)
+    success = listen(
+        object_name=args.object_name,
+        filename=args.filename,
+        length=args.length,
+    )
 elif args.task == "play":
     success = play(
         object_name=args.object_name,

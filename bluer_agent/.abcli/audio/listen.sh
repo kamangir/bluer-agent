@@ -5,45 +5,15 @@ function bluer_agent_audio_listen() {
     local filename=$(bluer_ai_option "$options" filename audio.wav)
     local do_upload=$(bluer_ai_option_int "$options" upload 0)
     local do_play=$(bluer_ai_option_int "$options" play 0)
-    local length=$(bluer_ai_option "$options" length 30)
 
     local object_name=$(bluer_ai_clarify_object $2 audio-$(bluer_ai_string_timestamp))
-    local full_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
 
-    bluer_ai_log "listening for audio -> $object_name/$filename (max $length second(s))... (^C to end)"
-
-    local RATE=48000
-    local CH=1
-
-    # Thresholds: percent of full scale. Try 1%..5%.
-    local START_THRESHOLD="2%" # how loud to begin
-    local STOP_THRESHOLD="2%"  # how quiet to consider silence
-
-    # Durations:
-    local START_HOLD="0.10" # need this long above threshold to start (sec)
-    local STOP_HOLD="1.20"  # stop after this long below threshold (sec)
-
-    # Pick input device:
-    # - On Raspberry Pi with mic as default: don't specify device
-    # - If you need a specific ALSA device: add `-t alsa hw:1,0` after rec
-    rec \
-        -V1 \
-        -r "$RATE" \
-        -c "$CH" \
-        "$full_filename" \
-        trim 0 "$length" \
-        silence \
-        1 "$START_HOLD" "$START_THRESHOLD" \
-        1 "$STOP_HOLD" "$STOP_THRESHOLD"
+    python3 -m bluer_agent.audio \
+        listen \
+        --object_name $object_name \
+        --filename $filename \
+        "${@:3}"
     [[ $? -ne 0 ]] && return 1
-
-    if [[ ! -f "$full_filename" ]]; then
-        bluer_ai_log_error "file not found: $full_filename"
-        return 1
-    fi
-
-    local file_size=$(bluer_objects_file - size $full_filename)
-    bluer_ai_log "audio size: $file_size"
 
     [[ "$do_upload" == 1 ]] &&
         bluer_objects_upload \
