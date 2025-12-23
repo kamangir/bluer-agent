@@ -13,8 +13,8 @@
 	record \
 	[filename=<audio.wav>,play,upload] \
 	[-|<object-name>] \
-	[--crop_silence <0>] \
 	[--channels <1>] \
+	[--crop_silence <0>] \
 	[--length <30>] \
 	[--rate <16000>]
  . record <object-name>/<audio.wav>.

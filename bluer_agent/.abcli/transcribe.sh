@@ -17,7 +17,8 @@ function bluer_agent_transcribe() {
     if [[ "$do_record" == 1 ]]; then
         bluer_agent_audio_record \
             play,filename=$filename,$source_options \
-            $object_name
+            $object_name \
+            "${@:5}"
         [[ $? -ne 0 ]] && return 1
     elif [[ "$do_download" == 1 ]]; then
         bluer_objects_download \
@@ -72,6 +73,5 @@ function bluer_agent_transcribe() {
         post_process \
         --object_name $object_name \
         --filename $voice_filename \
-        --language $language \
-        "${@:5}"
+        --language $language
 }

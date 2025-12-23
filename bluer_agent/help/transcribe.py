@@ -2,6 +2,8 @@ from typing import List
 
 from bluer_options.terminal import show_usage, xtra
 
+from bluer_agent.help.audio import record_args
+
 
 def help(
     tokens: List[str],
@@ -26,7 +28,8 @@ def help(
             "[-|<object-name>]",
             f"[{record_options}]",
             f"[{options}]",
-        ],
-        "validate agent.",
+        ]
+        + record_args,
+        "validate transcription.",
         mono=mono,
     )

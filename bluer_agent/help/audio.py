@@ -35,6 +35,14 @@ def help_play(
     )
 
 
+record_args = [
+    "[--channels <1>]",
+    "[--crop_silence <0>]",
+    "[--length <30>]",
+    "[--rate <16000>]",
+]
+
+
 def help_record(
     tokens: List[str],
     mono: bool,
@@ -47,13 +55,6 @@ def help_record(
         ]
     )
 
-    args = [
-        "[--crop_silence <0>]",
-        "[--channels <1>]",
-        "[--length <30>]",
-        "[--rate <16000>]",
-    ]
-
     return show_usage(
         [
             "@audio",
@@ -61,7 +62,7 @@ def help_record(
             f"[{options}]",
             "[-|<object-name>]",
         ]
-        + args,
+        + record_args,
         "record <object-name>/<audio.wav>.",
         mono=mono,
     )
