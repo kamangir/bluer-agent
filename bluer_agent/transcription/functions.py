@@ -71,6 +71,11 @@ def transcribe(
 
         success, output = shell(command, return_output=True)
         if success:
+            if not output:
+                logger.warning("silence detected.")
+                text = ""
+                break
+
             try:
                 output_dict = json.loads(" ".join(output))
 
