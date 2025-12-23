@@ -9,8 +9,7 @@ function bluer_agent_audio() {
         return
     fi
 
-    bluer_ai_log_error "@plugin: audio: $task: command not found."
-    return 1
+    python3 -m bluer_agent.audio "$@"
 }
 
 bluer_ai_source_caller_suffix_path /audio
