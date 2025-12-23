@@ -84,6 +84,7 @@ def transcribe(
 
                 break
             except Exception as e:
+                logger.warning(f"bad output: {output}")
                 logger.warning(e)
 
         logger.warning(f"transcription failed (attempt {attempt}).")
