@@ -13,7 +13,8 @@ function bluer_agent_audio_play() {
             filename=$filename \
             $object_name
 
-    bluer_ai_log "playing audio: $object_name/$filename"
+    local file_size=$(bluer_objects_file - size $full_filename)
+    bluer_ai_log "playing audio: $object_name/$filename ($file_size)"
 
     local callable=afplay
     [[ "$abcli_is_rpi" == true ]] &&
