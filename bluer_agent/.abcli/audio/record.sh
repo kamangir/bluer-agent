@@ -8,7 +8,7 @@ function bluer_agent_audio_record() {
     local length=$(bluer_ai_option "$options" length 30)
 
     local object_name=$(bluer_ai_clarify_object $2 audio-$(bluer_ai_string_timestamp))
-    local voice_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
+    local full_filename=$ABCLI_OBJECT_ROOT/$object_name/$filename
 
     bluer_ai_log "recording audio -> $object_name/$filename (max $length second(s)) ... (^C to end)"
 
@@ -16,15 +16,18 @@ function bluer_agent_audio_record() {
         rec \
         -r 48000 \
         -c 1 \
-        $voice_filename \
+        $full_filename \
         "${@:3}" \
         trim 0 "$length"
     [[ $? -ne 0 ]] && return 1
 
-    if [[ ! -f "$voice_filename" ]]; then
-        bluer_ai_log_error "voice file not found: $voice_filename"
+    if [[ ! -f "$full_filename" ]]; then
+        bluer_ai_log_error "file not found: $full_filename"
         return 1
     fi
+
+    local file_size=$(bluer_objects_file - size $full_filename)
+    bluer_ai_log "audio size: $file_size"
 
     [[ "$do_upload" == 1 ]] &&
         bluer_objects_upload \
