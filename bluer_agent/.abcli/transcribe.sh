@@ -3,9 +3,9 @@
 function bluer_agent_transcribe() {
     local options=$1
     local do_install=$(bluer_ai_option_int "$options" install 0)
-    local do_download=$(bluer_ai_option_int "$source_options" download 0)
-    local do_play=$(bluer_ai_option_int "$source_options" play 0)
-    local do_upload=$(bluer_ai_option_int "$source_options" upload 0)
+    local do_download=$(bluer_ai_option_int "$options" download 0)
+    local do_play=$(bluer_ai_option_int "$options" play 0)
+    local do_upload=$(bluer_ai_option_int "$options" upload 0)
     local filename=$(bluer_ai_option "$options" filename audio-$(bluer_ai_string_timestamp).wav)
 
     if [[ "$do_install" == 1 ]]; then
