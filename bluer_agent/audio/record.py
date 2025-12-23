@@ -53,8 +53,8 @@ def record(
         + (
             [
                 "silence",
-                f'1 "{consts.BLUER_AGENT_AUDIO_LISTEN_START_HOLD}" "{consts.BLUER_AGENT_AUDIO_LISTEN_START_THRESHOLD}',
-                f'1 "{consts.BLUER_AGENT_AUDIO_LISTEN_STOP_HOLD}" "{consts.BLUER_AGENT_AUDIO_LISTEN_STOP_THRESHOLD}',
+                f'1 "{consts.BLUER_AGENT_AUDIO_LISTEN_START_HOLD}" "{consts.BLUER_AGENT_AUDIO_LISTEN_START_THRESHOLD}"',
+                f'1 "{consts.BLUER_AGENT_AUDIO_LISTEN_STOP_HOLD}" "{consts.BLUER_AGENT_AUDIO_LISTEN_STOP_THRESHOLD}"',
             ]
             if crop_silence
             else []

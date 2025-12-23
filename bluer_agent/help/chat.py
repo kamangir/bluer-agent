@@ -20,7 +20,7 @@ def help_validate(
             f"[{options}]",
             "[-|<object-name>]",
         ],
-        "validate agent.",
+        "validate chatting.",
         mono=mono,
     )
 

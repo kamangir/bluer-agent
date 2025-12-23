@@ -3,7 +3,7 @@ from bluer_ai.help.generic import help_functions as generic_help_functions
 from bluer_agent import ALIAS
 from bluer_agent.help.audio import help_functions as help_audio
 from bluer_agent.help.chat import help_functions as help_chat
-from bluer_agent.help.transcription import help as help_transcribe
+from bluer_agent.help.transcribe import help as help_transcribe
 
 help_functions = generic_help_functions(plugin_name=ALIAS)
 

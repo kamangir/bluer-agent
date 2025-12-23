@@ -6,15 +6,18 @@
 	validate \
 	[upload,verbose] \
 	[-|<object-name>]
- . validate agent.
+ . validate chatting.
 ```
 
 ```bash
 @agent \
 	transcribe \
-	[filename=<filename.wav>,install] \
+	[filename=<filename.wav>,installlanguage=en|fa] \
 	[-|<object-name>] \
 	[download,~record,~play,upload] \
-	[language=en|fa,verbose]
- . validate agent.
+	[--channels <1>] \
+	[--crop_silence <0>] \
+	[--length <30>] \
+	[--rate <16000>]
+ . validate transcription.
 ```
