@@ -13,10 +13,7 @@ function bluer_agent_audio() {
 }
 
 if [[ "$abcli_is_rpi" == true ]]; then
-    export BLUER_AGENT_AUDIO_ALSA_HW="$(
-        arecord -l 2>/dev/null |
-            awk '$1=="card"{c=$2;sub(":","",c)} $1=="device"{d=$2;sub(":","",d);print "hw:"c","d;exit}'
-    )"
+    export BLUER_AGENT_AUDIO_ALSA_HW=$(python3 -m bluer_agent.audio.detect_alsa_capture_hw)
 
     bluer_ai_log "ALSA capture device: $BLUER_AGENT_AUDIO_ALSA_HW"
 fi
