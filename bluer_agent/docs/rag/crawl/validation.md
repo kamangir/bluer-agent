@@ -8,6 +8,8 @@ python3 -m bluer_agent.rag.crawl.collect \
     --page-count 25 \
     --max-depth 2 \
     --out site_text.pkl.gz
+
+python3 -m bluer_agent.rag.crawl.review \
 ```
 
 🔥
