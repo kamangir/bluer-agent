@@ -2,9 +2,7 @@
 
 ```bash
 @chat \
-	validate \
-	[upload,verbose] \
-	[-|<object-name>]
+	validate
  . validate chatting.
 ```
 
