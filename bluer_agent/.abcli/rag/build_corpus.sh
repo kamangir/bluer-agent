@@ -12,8 +12,8 @@ function bluer_agent_rag_build_corpus() {
         bluer_objects_download - $object_name
 
     bluer_ai_eval dryrun=$do_dryrun \
-        python3 -m bluer_agent.rag \
-        build_corpus \
+        python3 -m bluer_agent.rag.corpus \
+        build \
         --object_name $object_name \
         "${@:3}"
     local status="$?"
