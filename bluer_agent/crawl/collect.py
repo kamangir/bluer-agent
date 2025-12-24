@@ -159,6 +159,8 @@ class SiteTextCollector:
                 # Respect immediate interrupts
                 raise
             except Exception as e:
+                logger.warning(e)
+
                 if attempt == self.retry.max_retries:
                     break
 
