@@ -1,6 +1,5 @@
 import argparse
 
-from bluer_options.logger.config import log_list
 from bluer_objects import objects
 
 from bluer_agent.crawl.collect import load_binary
@@ -16,14 +15,12 @@ def main() -> None:
     p.add_argument("--object_name")
     args = p.parse_args()
 
-    results = load_binary(
+    load_binary(
         objects.path_of(
             object_name=args.object_name,
             filename="{}.pkl.gz".format(url_to_filename(args.root)),
         )
     )
-
-    log_list(logger, "loaded", results.keys(), "page(s)")
 
 
 if __name__ == "__main__":

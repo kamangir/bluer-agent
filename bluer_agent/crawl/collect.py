@@ -32,6 +32,7 @@ from urllib.parse import urljoin, urldefrag, urlparse
 import requests
 from bs4 import BeautifulSoup
 
+from bluer_options.logger.config import log_list
 from bluer_objects import objects
 
 from bluer_agent.crawl.functions import url_to_filename
@@ -337,7 +338,12 @@ def load_binary(path: str) -> Dict[str, str]:
         raise ValueError("Unrecognized binary format.")
 
     results = payload["results"]
-    logger.info(f"loaded {len(results)} page(s) from {path}")
+    log_list(
+        logger,
+        f"loaded from {path}",
+        results.keys(),
+        "page(s)",
+    )
 
     return results
 
