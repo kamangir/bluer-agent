@@ -14,8 +14,7 @@ def help_validate(
 
     return show_usage(
         [
-            "@agent",
-            "chat",
+            "@chat",
             "validate",
             f"[{options}]",
             "[-|<object-name>]",

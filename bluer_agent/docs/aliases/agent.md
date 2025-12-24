@@ -1,8 +1,7 @@
 # aliases: agent
 
 ```bash
-@agent \
-	chat \
+@chat \
 	validate \
 	[upload,verbose] \
 	[-|<object-name>]
@@ -10,8 +9,7 @@
 ```
 
 ```bash
-@agent \
-	transcribe \
+@transcribe \
 	[download,filename=<filename.wav>,install,play,upload] \
 	[-|<object-name>] \
 	[--channels <1>] \

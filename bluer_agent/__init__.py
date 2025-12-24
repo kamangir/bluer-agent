@@ -4,7 +4,7 @@ ICON = "👾"
 
 DESCRIPTION = f"{ICON} an AI agent."
 
-VERSION = "5.69.1"
+VERSION = "5.70.1"
 
 REPO_NAME = "bluer-agent"
 
