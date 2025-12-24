@@ -1,5 +1,6 @@
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Tuple
 import requests
+import re
 
 from blueness import module
 from bluer_options.logger.config import log_list
@@ -14,7 +15,8 @@ NAME = module.name(__file__, NAME)
 
 def chat(
     messages: List[Dict],
-) -> Tuple[bool, Any]:
+    remove_thoughts: bool = True,
+) -> Tuple[bool, str]:
     log_list(
         logger,
         f"{NAME}.chat({env.BLUER_AGENT_CHAT_MODEL_NAME}):",
@@ -41,6 +43,7 @@ def chat(
         timeout=env.BLUER_AGENT_CHAT_TIMEOUT,
     )
 
+    success = True
     if response.status_code // 100 != 2:  # Check if status code is not in the 2xx range
         logger.info(
             "failed, status_code: {}, reason: {}.".format(
@@ -48,6 +51,43 @@ def chat(
                 response.reason,
             )
         )
-        return False, ""
+        success = False
+    else:
+        try:
+            response_json = response.json()
+        except Exception as e:
+            logger.error(f"failed to parse response to json: {e}, response: {response}")
+            success = False
 
-    return True, response.json()
+    if success:
+        if not isinstance(response_json, dict):
+            logger.error("response is not a dict")
+            success = False
+        elif "choices" not in response_json:
+            logger.error("choices not in response")
+            success = False
+        elif len(response_json["choices"]) == 0:
+            logger.error("response.choices is empty")
+            success = False
+        elif len(response_json["choices"]) > 1:
+            logger.warning(
+                "{} choice(s), will use the first one.".format(response_json["choices"])
+            )
+    if not success:
+        return success, ""
+
+    text = response_json["choices"][0].get("message", {}).get("content", "")
+
+    if remove_thoughts and text:
+        text = re.sub(
+            r"<think>.*?</think>",
+            "",
+            text,
+            flags=re.DOTALL | re.IGNORECASE,
+        )
+
+    text = re.sub(r"\s+", " ", text).strip()
+
+    logger.info(text)
+
+    return success, text

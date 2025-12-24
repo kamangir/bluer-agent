@@ -19,7 +19,7 @@ args = parser.parse_args()
 
 success = False
 if args.task == "validate":
-    success, response = chat(
+    success, _ = chat(
         messages=[
             {
                 "role": "user",
@@ -27,9 +27,6 @@ if args.task == "validate":
             }
         ]
     )
-
-    if success:
-        logger.info(response)
 else:
     success = None
 
