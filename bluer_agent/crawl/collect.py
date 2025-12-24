@@ -33,6 +33,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from bluer_options.logger.config import log_list
+from bluer_objects.metadata import post_to_object
 from bluer_objects import objects
 
 from bluer_agent.crawl.functions import url_to_filename
@@ -355,7 +356,7 @@ def main() -> None:
     )
     p.add_argument("--page-count", type=int, default=25)
     p.add_argument("--max-depth", type=int, default=2)
-    p.add_argument("--object_name")
+    p.add_argument("--object_name", type=str, default="")
     p.add_argument("--out", default="site_text.pkl.gz")
     p.add_argument("--timeout", type=float, default=15.0)
     p.add_argument("--max-retries", type=int, default=4)
@@ -398,6 +399,13 @@ def main() -> None:
         )
     else:
         logger.warning("no pages collected; nothing to save.")
+
+    if args.object_name:
+        post_to_object(
+            args.object_name,
+            "crawl_collect",
+            list(results.keys()),
+        )
 
     if interrupted:
         raise SystemExit(130)

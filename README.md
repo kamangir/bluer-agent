@@ -10,11 +10,11 @@ pip install bluer-agent
 
 ## features
 
-- [audio](./audio.md)
-- [chat](./chat)
-- [crawl](./crawl)
-- [rag](./rag)
-- [transcription](./transcription)
+- [audio](./bluer_agent/docs/audio.md)
+- [chat](./bluer_agent/docs/chat)
+- [crawl](./bluer_agent/docs/crawl)
+- [rag](./bluer_agent/docs/rag)
+- [transcription](./bluer_agent/docs/transcription)
 
 # aliases
 
@@ -29,4 +29,4 @@ pip install bluer-agent
 
 [![pylint](https://github.com/kamangir/bluer-agent/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/bluer-agent/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/bluer-agent/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/bluer-agent.svg)](https://pypi.org/project/bluer-agent/) [![PyPI - Downloads](https://img.shields.io/pypi/dd/bluer-agent)](https://pypistats.org/packages/bluer-agent)
 
-built by 🌀 [`bluer README`](https://github.com/kamangir/bluer-objects/tree/main/bluer_objects/README), based on 👾 [`bluer_agent-5.95.1`](https://github.com/kamangir/bluer-agent).
+built by 🌀 [`bluer README`](https://github.com/kamangir/bluer-objects/tree/main/bluer_objects/README), based on 👾 [`bluer_agent-5.96.1`](https://github.com/kamangir/bluer-agent).

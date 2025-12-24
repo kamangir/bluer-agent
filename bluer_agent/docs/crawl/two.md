@@ -11,4 +11,16 @@ continues [one](./one.md).
     --max-depth 2
 
 @crawl review root=https://badkoobeh.com/ .
+
+@metadata upload .
+```
+
+
+```yaml
+- https://badkoobeh.com
+- https://badkoobeh.com/projects/
+- https://badkoobeh.com/services/
+- https://badkoobeh.com/about-us/
+- https://badkoobeh.com/clients/
+
 ```

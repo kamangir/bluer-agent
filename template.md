@@ -10,11 +10,11 @@ pip install bluer-agent
 
 ## features
 
-- [audio](./audio.md)
-- [chat](./chat)
-- [crawl](./crawl)
-- [rag](./rag)
-- [transcription](./transcription)
+- [audio](./bluer_agent/docs/audio.md)
+- [chat](./bluer_agent/docs/chat)
+- [crawl](./bluer_agent/docs/crawl)
+- [rag](./bluer_agent/docs/rag)
+- [transcription](./bluer_agent/docs/transcription)
 
 # aliases
 

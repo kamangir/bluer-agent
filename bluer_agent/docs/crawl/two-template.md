@@ -11,4 +11,10 @@ continues [one](./one.md).
     --max-depth 2
 
 @crawl review root=https://badkoobeh.com/ .
+
+@metadata upload .
 ```
+
+set:::object_name corpus-2025-12-25-03-04-37-xfttjy
+
+metadata:::get:::object_name:::crawl_collect
