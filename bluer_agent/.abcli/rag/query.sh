@@ -15,7 +15,7 @@ function bluer_agent_rag_query() {
     bluer_ai_eval dryrun=$do_dryrun \
         python3 -m bluer_agent.rag \
         query \
-        --corpus_object_name $corpus_object_name \
+        --object_name $corpus_object_name \
         --query \"$query\" \
         "${@:4}"
 }
