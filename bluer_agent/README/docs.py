@@ -1,5 +1,5 @@
 from bluer_agent.README.items import items
-from bluer_agent.README import aliases, audio, chat, transcription
+from bluer_agent.README import aliases, audio, chat, rag, transcription
 
 docs = (
     [
@@ -14,5 +14,6 @@ docs = (
     + aliases.docs
     + audio.docs
     + chat.docs
+    + rag.docs
     + transcription.docs
 )

@@ -13,6 +13,8 @@ setup(
         f"{NAME}.audio",
         f"{NAME}.chat",
         f"{NAME}.help",
+        f"{NAME}.rag",
+        f"{NAME}.rag.corpus",
         f"{NAME}.README",
         f"{NAME}.transcription",
     ],

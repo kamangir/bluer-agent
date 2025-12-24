@@ -4,7 +4,9 @@ docs = [
     }
     for alias in [
         "",
-        "agent.md",
         "audio.md",
+        "chat.md",
+        "rag.md",
+        "transcribe.md",
     ]
 ]

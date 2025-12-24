@@ -28,6 +28,10 @@ function test_bluer_agent_help() {
         "@audio play" \
         "@audio record" \
         \
+        "@rag" \
+        "@rag build_corpus" \
+        "@rag query" \
+        \
         "bluer_agent"; do
         bluer_ai_eval ,$options \
             bluer_ai_help $module

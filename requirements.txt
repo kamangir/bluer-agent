@@ -1,1 +1,4 @@
 bluer_ai
+
+scikit-learn
+joblib

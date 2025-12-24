@@ -7,4 +7,6 @@ alias @audio=bluer_agent_audio
 
 alias @chat=bluer_agent_chat
 
+alias @rag=bluer_agent_rag
+
 alias @transcribe=bluer_agent_transcribe

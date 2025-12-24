@@ -35,6 +35,8 @@ def test_bluer_agent_env():
         #
         env.BLUER_AGENT_MACHINE_USER_NAME,
         #
+        env.BLUER_AGENT_RAG_TEST_CORPUS,
+        #
         env.BLUER_AGENT_TRANSCRIPTION_ENDPOINT,
         env.BLUER_AGENT_TRANSCRIPTION_MODEL_NAME,
         env.BLUER_AGENT_TRANSCRIPTION_TEST_OBJECT,

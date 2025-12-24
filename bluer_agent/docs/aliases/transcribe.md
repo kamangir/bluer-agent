@@ -1,10 +1,4 @@
-# aliases: agent
-
-```bash
-@chat \
-	validate
- . validate chatting.
-```
+# aliases: transcribe
 
 ```bash
 @transcribe \
