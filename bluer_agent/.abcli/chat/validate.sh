@@ -14,7 +14,7 @@ function bluer_agent_chat_validate() {
         --header "Authorization: apikey $BLUER_AGENT_API_KEY" \
         --header 'Content-Type: application/json' \
         --data '{
-    "model": "DeepSeek-R1-Distill-Qwen-32b",
+    "model": "Xerxes-1",
     "messages": [
         {"role": "user", "content": "چرا آسمان آبی است؟"}
     ],
