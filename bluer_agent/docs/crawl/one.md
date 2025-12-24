@@ -1,4 +1,4 @@
-# rag: crawl: one
+# crawl: one
 
 ```bash
 @select corpus-$(@timestamp)

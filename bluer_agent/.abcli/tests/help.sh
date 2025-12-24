@@ -28,6 +28,10 @@ function test_bluer_agent_help() {
         "@audio play" \
         "@audio record" \
         \
+        "@crawl" \
+        "@crawl collect" \
+        "@crawl review" \
+        \
         "@rag" \
         "@rag build_corpus" \
         "@rag query" \
