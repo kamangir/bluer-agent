@@ -13,15 +13,18 @@ Usage:
 
 from __future__ import annotations
 
-VERSION = "2.1.1"
+VERSION = "2.2.0"
 
 import argparse
 import gzip
 import pickle
 import random
 import re
+import signal
+import sys
 import time
 from collections import deque
+from contextlib import suppress
 from dataclasses import dataclass
 from typing import Deque, Dict, Iterable, Optional, Set
 from urllib.parse import urljoin, urldefrag, urlparse
@@ -68,6 +71,22 @@ class SiteTextCollector:
             }
         )
 
+        # Ctrl+C / SIGINT handling
+        self._stop_requested: bool = False
+        self._old_sigint_handler = None
+
+    def _on_sigint(self, signum, frame) -> None:
+        # First Ctrl+C: request a graceful stop
+        if not self._stop_requested:
+            self._stop_requested = True
+            logger.warning(
+                "Ctrl+C received: stopping after current step, will save partial results..."
+            )
+        else:
+            # Second Ctrl+C: hard exit
+            logger.warning("Ctrl+C received again: exiting immediately.")
+            raise KeyboardInterrupt
+
     @staticmethod
     def _normalize_url(url: str) -> str:
         url, _ = urldefrag(url)  # remove #fragment
@@ -103,6 +122,9 @@ class SiteTextCollector:
         last_exc: Optional[Exception] = None
 
         for attempt in range(1, self.retry.max_retries + 1):
+            if self._stop_requested:
+                return None
+
             try:
                 resp = self.session.get(
                     url,
@@ -115,6 +137,9 @@ class SiteTextCollector:
                         f"Retryable HTTP {resp.status_code}", response=resp
                     )
                 return resp
+            except KeyboardInterrupt:
+                # Respect immediate interrupts
+                raise
             except Exception as e:
                 last_exc = e
                 if attempt == self.retry.max_retries:
@@ -162,6 +187,9 @@ class SiteTextCollector:
         soup = BeautifulSoup(html, "html.parser")
 
         for a in soup.find_all("a", href=True):
+            if self._stop_requested:
+                break
+
             href = (a.get("href") or "").strip()
             if not href or href.startswith(("mailto:", "tel:", "javascript:")):
                 continue
@@ -195,49 +223,66 @@ class SiteTextCollector:
             yield abs_url
 
     def collect(self, *, page_count: int, max_depth: int) -> Dict[str, str]:
+        # install SIGINT handler for graceful Ctrl+C
+        self._stop_requested = False
+        self._old_sigint_handler = signal.getsignal(signal.SIGINT)
+        signal.signal(signal.SIGINT, self._on_sigint)
+
         queue: Deque[CrawlItem] = deque([CrawlItem(self.root_url, 0)])
         visited: Set[str] = set()
         results: Dict[str, str] = {}
 
-        while queue and len(results) < page_count:
-            logger.info(
-                "{} / {} page(s) so far...".format(
-                    len(results),
-                    page_count,
+        try:
+            while queue and len(results) < page_count and not self._stop_requested:
+                logger.info(
+                    "{} / {} page(s) so far...".format(
+                        len(results),
+                        page_count,
+                    )
                 )
-            )
 
-            item = queue.popleft()
-            if item.url in visited:
-                continue
-            visited.add(item.url)
+                item = queue.popleft()
+                if item.url in visited:
+                    continue
+                visited.add(item.url)
 
-            resp = self._fetch_with_retries(item.url)
-            if resp is None:
-                continue
+                resp = self._fetch_with_retries(item.url)
+                if self._stop_requested:
+                    break
+                if resp is None:
+                    continue
 
-            if not self._is_probably_html(resp):
-                continue
+                if not self._is_probably_html(resp):
+                    continue
 
-            # Helps Persian text when server mislabels encoding
-            resp.encoding = resp.apparent_encoding or resp.encoding
-            html = resp.text or ""
+                # Helps Persian text when server mislabels encoding
+                resp.encoding = resp.apparent_encoding or resp.encoding
+                html = resp.text or ""
 
-            text = self._extract_text(html)
-            if text:
-                logger.info(f"📜 += {item.url}")
-                results[item.url] = text
+                text = self._extract_text(html)
+                if text:
+                    logger.info(f"📜 += {item.url}")
+                    results[item.url] = text
 
-            if item.depth < max_depth:
-                for link in self._extract_links(html, base_url=item.url):
-                    if link not in visited:
-                        logger.info(f"🔗 += {link}")
-                        queue.append(CrawlItem(link, item.depth + 1))
+                if item.depth < max_depth and not self._stop_requested:
+                    for link in self._extract_links(html, base_url=item.url):
+                        if self._stop_requested:
+                            break
+                        if link not in visited:
+                            logger.info(f"🔗 += {link}")
+                            queue.append(CrawlItem(link, item.depth + 1))
 
-            if self.retry.delay_between_requests_s > 0:
-                time.sleep(self.retry.delay_between_requests_s)
+                if self.retry.delay_between_requests_s > 0 and not self._stop_requested:
+                    time.sleep(self.retry.delay_between_requests_s)
 
-        return results
+            return results
+
+        finally:
+            # restore original SIGINT handler + close HTTP session
+            with suppress(Exception):
+                signal.signal(signal.SIGINT, self._old_sigint_handler)
+            with suppress(Exception):
+                self.session.close()
 
 
 def save_binary(results: Dict[str, str], out_path: str) -> None:
@@ -257,7 +302,7 @@ def save_binary(results: Dict[str, str], out_path: str) -> None:
     with gzip.open(out_path, "wb") as f:
         pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-    logger(f"saved {len(results)} page(s) to {out_path}")
+    logger.info(f"saved {len(results)} page(s) to {out_path}")
 
 
 def load_binary(path: str) -> Dict[str, str]:
@@ -267,7 +312,7 @@ def load_binary(path: str) -> Dict[str, str]:
         raise ValueError("Unrecognized binary format.")
 
     results = payload["results"]
-    logger(f"loaded {len(results)} page(s) from {path}")
+    logger.info(f"loaded {len(results)} page(s) from {path}")
 
     return results
 
@@ -296,8 +341,24 @@ def main() -> None:
     )
 
     collector = SiteTextCollector(args.root, retry=retry)
-    results = collector.collect(page_count=args.page_count, max_depth=args.max_depth)
-    save_binary(results, args.out)
+
+    results: Dict[str, str] = {}
+    interrupted = False
+    try:
+        results = collector.collect(
+            page_count=args.page_count, max_depth=args.max_depth
+        )
+    except KeyboardInterrupt:
+        interrupted = True
+        logger.warning("Interrupted by user (Ctrl+C). Saving partial results...")
+
+    if results:
+        save_binary(results, args.out)
+    else:
+        logger.warning("No pages collected; nothing to save.")
+
+    if interrupted:
+        raise SystemExit(130)
 
 
 if __name__ == "__main__":
