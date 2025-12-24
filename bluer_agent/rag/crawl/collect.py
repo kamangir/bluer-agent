@@ -350,12 +350,12 @@ def main() -> None:
         )
     except KeyboardInterrupt:
         interrupted = True
-        logger.warning("Interrupted by user (Ctrl+C). Saving partial results...")
+        logger.warning("Ctrl+C, saving partial results...")
 
     if results:
         save_binary(results, args.out)
     else:
-        logger.warning("No pages collected; nothing to save.")
+        logger.warning("no pages collected; nothing to save.")
 
     if interrupted:
         raise SystemExit(130)
