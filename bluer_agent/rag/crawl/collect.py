@@ -251,9 +251,10 @@ class SiteTextCollector:
         try:
             while queue and len(results) < page_count and not self._stop_requested:
                 logger.info(
-                    "{} / {} page(s) so far...".format(
+                    "{} / {} page(s) fetched - {} queued...".format(
                         len(results),
                         page_count,
+                        len(queue),
                     )
                 )
 

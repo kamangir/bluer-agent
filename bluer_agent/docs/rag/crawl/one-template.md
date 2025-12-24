@@ -1,4 +1,4 @@
-# rag: crawl: validation
+title:::
 
 ```bash
 @select corpus-$(@timestamp)
@@ -11,5 +11,3 @@ python3 -m bluer_agent.rag.crawl.collect \
 
 python3 -m bluer_agent.rag.crawl.review
 ```
-
-🔥
