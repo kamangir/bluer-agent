@@ -44,6 +44,7 @@ def chat(
     )
 
     success = True
+    response_json = {}
     if response.status_code // 100 != 2:  # Check if status code is not in the 2xx range
         logger.info(
             "failed, status_code: {}, reason: {}.".format(
