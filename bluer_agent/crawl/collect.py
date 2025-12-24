@@ -108,7 +108,7 @@ class SiteTextCollector:
         p = urlparse(url)
 
         # Only normalize the root path "/" (or empty) to no trailing slash.
-        if p.scheme and p.netloc and (p.path == "" or p.path == "/") and not p.query:
+        if p.scheme and p.netloc and (p.path in ("", "/")) and not p.query:
             return f"{p.scheme}://{p.netloc}"
         return url
 
@@ -139,8 +139,6 @@ class SiteTextCollector:
         )
 
     def _fetch_with_retries(self, url: str) -> Optional[requests.Response]:
-        last_exc: Optional[Exception] = None
-
         for attempt in range(1, self.retry.max_retries + 1):
             if self._stop_requested:
                 return None
@@ -161,7 +159,6 @@ class SiteTextCollector:
                 # Respect immediate interrupts
                 raise
             except Exception as e:
-                last_exc = e
                 if attempt == self.retry.max_retries:
                     break
 

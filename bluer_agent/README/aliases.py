@@ -4,7 +4,7 @@ from bluer_agent import NAME
 
 docs = [
     {
-        "path": f"../docs/aliases",
+        "path": "../docs/aliases",
         "macros": {
             "aliases:::": list_of_aliases(
                 NAME,
