@@ -17,6 +17,7 @@ def build():
             NAME=NAME,
             VERSION=VERSION,
             REPO_NAME=REPO_NAME,
+            macros=readme.get("macros", {}),
             help_function=lambda tokens: get_help(
                 tokens,
                 help_functions,
