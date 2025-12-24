@@ -2,8 +2,8 @@ from typing import Tuple, Any
 
 from blueness import module
 
-from bluer_plugin import NAME
-from bluer_plugin.logger import logger
+from bluer_agent import NAME
+from bluer_agent.logger import logger
 
 
 NAME = module.name(__file__, NAME)
