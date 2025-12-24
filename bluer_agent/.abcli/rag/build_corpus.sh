@@ -3,8 +3,8 @@
 function bluer_agent_rag_build_corpus() {
     local options=$1
     local do_dryrun=$(bluer_ai_option_int "$options" dryrun 0)
-    local do_download=$(bluer_ai_option_int "$options" download $(bluer_ai_not $do_dryrun))
-    local do_upload=$(bluer_ai_option_int "$options" upload $(bluer_ai_not $do_dryrun))
+    local do_download=$(bluer_ai_option_int "$options" download 0)
+    local do_upload=$(bluer_ai_option_int "$options" upload 0)
 
     local object_name=$(bluer_ai_clarify_object $2 .)
 
