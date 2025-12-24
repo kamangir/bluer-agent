@@ -12,5 +12,3 @@ continues [one](./one.md).
 
 @crawl review root=https://badkoobeh.com/ .
 ```
-
-🔥

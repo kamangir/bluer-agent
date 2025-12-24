@@ -4,7 +4,6 @@ from bluer_objects import objects
 
 from bluer_agent.crawl.collect import load_binary
 from bluer_agent.crawl.functions import url_to_filename
-from bluer_agent.logger import logger
 
 
 def main() -> None:
