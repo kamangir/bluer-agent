@@ -1,17 +1,13 @@
 # aliases: agent
 
 ```bash
-@agent \
-	chat \
-	validate \
-	[upload,verbose] \
-	[-|<object-name>]
+@chat \
+	validate
  . validate chatting.
 ```
 
 ```bash
-@agent \
-	transcribe \
+@transcribe \
 	[download,filename=<filename.wav>,install,play,upload] \
 	[-|<object-name>] \
 	[--channels <1>] \

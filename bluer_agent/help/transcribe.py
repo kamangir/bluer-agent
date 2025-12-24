@@ -27,8 +27,7 @@ def help(
 
     return show_usage(
         [
-            "@agent",
-            "transcribe",
+            "@transcribe",
             f"[{options}]",
             "[-|<object-name>]",
         ]
