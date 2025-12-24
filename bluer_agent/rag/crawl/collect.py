@@ -245,6 +245,7 @@ class SiteTextCollector:
 
         queue: Deque[CrawlItem] = deque([CrawlItem(self.root_url, 0)])
         visited: Set[str] = set()
+        enqueued: Set[str] = {self._url_key(self.root_url)}  # de-dupe the queue
         results: Dict[str, str] = {}
 
         try:
@@ -258,6 +259,8 @@ class SiteTextCollector:
 
                 item = queue.popleft()
                 item_key = self._url_key(item.url)
+                enqueued.discard(item_key)  # no longer in queue
+
                 if item_key in visited:
                     continue
                 visited.add(item_key)
@@ -285,9 +288,10 @@ class SiteTextCollector:
                         if self._stop_requested:
                             break
                         link_key = self._url_key(link)
-                        if link_key not in visited:
+                        if link_key not in visited and link_key not in enqueued:
                             logger.info(f"🔗 += {link}")
                             queue.append(CrawlItem(link, item.depth + 1))
+                            enqueued.add(link_key)
 
                 if self.retry.delay_between_requests_s > 0 and not self._stop_requested:
                     time.sleep(self.retry.delay_between_requests_s)
