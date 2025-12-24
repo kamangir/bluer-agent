@@ -15,6 +15,7 @@ setup(
         f"{NAME}.help",
         f"{NAME}.rag",
         f"{NAME}.rag.corpus",
+        f"{NAME}.rag.crawl",
         f"{NAME}.README",
         f"{NAME}.transcription",
     ],
