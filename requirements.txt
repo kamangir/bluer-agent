@@ -1,4 +1,5 @@
 bluer_ai
 
-scikit-learn
+beautifulsoup4
 joblib
+scikit-learn
