@@ -92,6 +92,21 @@ class SiteTextCollector:
         url, _ = urldefrag(url)  # remove #fragment
         return url.strip()
 
+    @staticmethod
+    def _url_key(url: str) -> str:
+        """
+        Canonical key used for de-duping.
+        Treat https://badkoobeh.com and https://badkoobeh.com/ as identical.
+        Only collapses the trailing slash for the *root path*.
+        """
+        url = SiteTextCollector._normalize_url(url)
+        p = urlparse(url)
+
+        # Only normalize the root path "/" (or empty) to no trailing slash.
+        if p.scheme and p.netloc and (p.path == "" or p.path == "/") and not p.query:
+            return f"{p.scheme}://{p.netloc}"
+        return url
+
     def _normalize_root(self, root_url: str) -> str:
         root = self._normalize_url(root_url)
         # Make urljoin predictable for relative paths:
@@ -242,9 +257,10 @@ class SiteTextCollector:
                 )
 
                 item = queue.popleft()
-                if item.url in visited:
+                item_key = self._url_key(item.url)
+                if item_key in visited:
                     continue
-                visited.add(item.url)
+                visited.add(item_key)
 
                 resp = self._fetch_with_retries(item.url)
                 if self._stop_requested:
@@ -262,13 +278,14 @@ class SiteTextCollector:
                 text = self._extract_text(html)
                 if text:
                     logger.info(f"📜 += {item.url}")
-                    results[item.url] = text
+                    results[item_key] = text
 
                 if item.depth < max_depth and not self._stop_requested:
                     for link in self._extract_links(html, base_url=item.url):
                         if self._stop_requested:
                             break
-                        if link not in visited:
+                        link_key = self._url_key(link)
+                        if link_key not in visited:
                             logger.info(f"🔗 += {link}")
                             queue.append(CrawlItem(link, item.depth + 1))
 

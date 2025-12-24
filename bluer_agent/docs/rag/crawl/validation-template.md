@@ -5,11 +5,11 @@ title:::
 
 python3 -m bluer_agent.rag.crawl.collect \
     --root https://badkoobeh.com/ \
-    --page-count 25 \
+    --page-count 5 \
     --max-depth 2 \
     --out site_text.pkl.gz
 
-python3 -m bluer_agent.rag.crawl.review \
+python3 -m bluer_agent.rag.crawl.review
 ```
 
 🔥
