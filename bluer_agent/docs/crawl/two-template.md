@@ -10,7 +10,7 @@ continues [one](./one.md).
     --page-count 5 \
     --max-depth 2
 
-@crawl review - .
+@crawl review root=https://badkoobeh.com/ .
 ```
 
 🔥

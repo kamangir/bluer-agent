@@ -3,26 +3,25 @@
 function bluer_agent_crawl_collect() {
     local options=$1
     local do_dryrun=$(bluer_ai_option_int "$options" dryrun 0)
-    local do_download=$(bluer_ai_option_int "$options" download $(bluer_ai_not $do_dryrun))
-    local do_upload=$(bluer_ai_option_int "$options" upload $(bluer_ai_not $do_dryrun))
+    local do_download=$(bluer_ai_option_int "$options" download 0)
+    local do_upload=$(bluer_ai_option_int "$options" upload 0)
+    local root=$(bluer_ai_option "$options" root void)
 
-    local object_name_1=$(bluer_ai_clarify_object $2 .)
+    local object_name=$(bluer_ai_clarify_object $2 .)
 
     [[ "$do_download" == 1 ]] &&
-        bluer_objects_download - $object_name_1
-
-    local object_name_2=$(bluer_ai_clarify_object $3 bluer_agent_crawl_collect-$(bluer_ai_string_timestamp))
+        bluer_objects_download - $object_name
 
     bluer_ai_eval dryrun=$do_dryrun \
-        python3 -m bluer_agent.crawl \
-        collect \
-        --object_name_1 $object_name_1 \
-        --object_name_2 $object_name_2 \
-        "${@:4}"
+        python3 -m bluer_agent.crawl.collect \
+        --root $root \
+        --object_name $object_name \
+        --out auto \
+        "${@:3}"
     local status="$?"
 
     [[ "$do_upload" == 1 ]] &&
-        bluer_objects_upload - $object_name_2
+        bluer_objects_upload - $object_name
 
     return $status
 }

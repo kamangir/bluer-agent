@@ -4,7 +4,7 @@ Collect text from up to N pages under a root URL (same host), limited by max dep
 and save results to a binary file (gzip-compressed pickle).
 
 Usage:
-  python3 -m bluer_agent.rag.crawl.collect \
+  python3 -m bluer_agent.crawl.collect \
     --root https://badkoobeh.com/ \
     --page-count 25 \
     --max-depth 2 \
@@ -32,6 +32,9 @@ from urllib.parse import urljoin, urldefrag, urlparse
 import requests
 from bs4 import BeautifulSoup
 
+from bluer_objects import objects
+
+from bluer_agent.crawl.functions import url_to_filename
 from bluer_agent.logger import logger
 
 
@@ -346,6 +349,7 @@ def main() -> None:
     )
     p.add_argument("--page-count", type=int, default=25)
     p.add_argument("--max-depth", type=int, default=2)
+    p.add_argument("--object_name")
     p.add_argument("--out", default="site_text.pkl.gz")
     p.add_argument("--timeout", type=float, default=15.0)
     p.add_argument("--max-retries", type=int, default=4)
@@ -375,7 +379,17 @@ def main() -> None:
         logger.warning("Ctrl+C, saving partial results...")
 
     if results:
-        save_binary(results, args.out)
+        save_binary(
+            results,
+            (
+                objects.path_of(
+                    object_name=args.object_name,
+                    filename="{}.pkl.gz".format(url_to_filename(args.root)),
+                )
+                if args.out == "auto"
+                else args.out
+            ),
+        )
     else:
         logger.warning("no pages collected; nothing to save.")
 

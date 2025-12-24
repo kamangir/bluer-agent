@@ -11,7 +11,7 @@ def help_collect(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "root=<url>,upload"
+    options = "download,root=<url>,upload"
     args = [
         "[--page-count 25]",
         "[--max-depth 2]",
@@ -39,7 +39,7 @@ def help_review(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "download"
+    options = "download,root=<url>"
 
     return show_usage(
         [

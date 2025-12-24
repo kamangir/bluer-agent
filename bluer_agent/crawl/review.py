@@ -1,7 +1,30 @@
+import argparse
+
 from bluer_options.logger.config import log_list
+from bluer_objects import objects
 
 from bluer_agent.crawl.collect import load_binary
+from bluer_agent.crawl.functions import url_to_filename
 from bluer_agent.logger import logger
 
-results = load_binary("site_text.pkl.gz")
-log_list(logger, "loaded", results.keys(), "page(s)")
+
+def main() -> None:
+    p = argparse.ArgumentParser()
+    p.add_argument(
+        "--root", required=True, help='Root URL, e.g. "https://badkoobeh.com/"'
+    )
+    p.add_argument("--object_name")
+    args = p.parse_args()
+
+    results = load_binary(
+        objects.path_of(
+            object_name=args.object_name,
+            filename="{}.pkl.gz".format(url_to_filename(args.root)),
+        )
+    )
+
+    log_list(logger, "loaded", results.keys(), "page(s)")
+
+
+if __name__ == "__main__":
+    main()
