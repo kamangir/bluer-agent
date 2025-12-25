@@ -8,4 +8,7 @@ docs = [
     {
         "path": "../docs/crawl/two.md",
     },
+    {
+        "path": "../docs/crawl/three.md",
+    },
 ]

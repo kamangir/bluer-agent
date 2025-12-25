@@ -2,9 +2,11 @@
 from typing import Dict
 import argparse
 
+from blueness import module
 from bluer_objects import objects
 from bluer_objects.metadata import post_to_object
 
+from bluer_agent import NAME
 from bluer_agent.crawl.classes import RetryPolicy
 from bluer_agent.crawl.functions import url_to_filename
 from bluer_agent.crawl.collector import SiteTextCollector
@@ -12,64 +14,67 @@ from bluer_agent.crawl import file
 from bluer_agent.logger import logger
 
 
-def main() -> None:
-    p = argparse.ArgumentParser()
-    p.add_argument(
-        "--root", required=True, help='Root URL, e.g. "https://badkoobeh.com/"'
-    )
-    p.add_argument("--page-count", type=int, default=25)
-    p.add_argument("--max-depth", type=int, default=2)
-    p.add_argument("--object_name", type=str, default="")
-    p.add_argument("--out", default="site_text.pkl.gz")
-    p.add_argument("--timeout", type=float, default=15.0)
-    p.add_argument("--max-retries", type=int, default=4)
-    p.add_argument("--backoff-base", type=float, default=0.7)
-    p.add_argument("--backoff-jitter", type=float, default=0.4)
-    p.add_argument("--delay", type=float, default=0.2)
-    args = p.parse_args()
+NAME = module.name(__file__, NAME)
+
+
+def collect(
+    root: str,
+    page_count: int = 25,
+    max_depth: int = 2,
+    object_name: str = "",
+    out: str = "site_text.pkl.gz",
+    timeout: float = 15.0,
+    max_retries: int = 4,
+    backoff_base: float = 0.7,
+    backoff_jitter: float = 0.4,
+    delay: float = 0.2,
+) -> bool:
+    logger.info(f"{NAME}.collect({root})...")
 
     retry = RetryPolicy(
-        max_retries=args.max_retries,
-        timeout_s=args.timeout,
-        backoff_base_s=args.backoff_base,
-        backoff_jitter_s=args.backoff_jitter,
-        delay_between_requests_s=args.delay,
+        max_retries=max_retries,
+        timeout_s=timeout,
+        backoff_base_s=backoff_base,
+        backoff_jitter_s=backoff_jitter,
+        delay_between_requests_s=delay,
     )
 
-    collector = SiteTextCollector(args.root, retry=retry)
+    collector = SiteTextCollector(root, retry=retry)
 
     results: Dict[str, str] = {}
     interrupted = False
     try:
         results = collector.collect(
-            page_count=args.page_count, max_depth=args.max_depth
+            page_count=page_count,
+            max_depth=max_depth,
         )
     except KeyboardInterrupt:
         interrupted = True
         logger.warning("Ctrl+C, saving partial results...")
 
-    file.save(
+    if not file.save(
         results,
         (
             objects.path_of(
-                object_name=args.object_name,
-                filename="{}.pkl.gz".format(url_to_filename(args.root)),
+                object_name=object_name,
+                filename="{}.pkl.gz".format(url_to_filename(root)),
             )
-            if args.out == "auto"
-            else args.out
+            if out == "auto"
+            else out
         ),
-    )
+    ):
+        return False
 
-    if args.object_name:
-        post_to_object(
-            args.object_name,
-            "crawl_collect",
-            list(results.keys()),
-        )
+    if object_name and not post_to_object(
+        object_name,
+        "crawl_collect",
+        list(results.keys()),
+    ):
+        return False
 
     if interrupted:
-        raise SystemExit(130)
+        # raise SystemExit(130)
+        logger.error("interrupted...")
+        return False
 
-
-if __name__ == "__main__":
-    main()
+    return True
