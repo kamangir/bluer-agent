@@ -5,7 +5,7 @@ import json
 import numpy as np
 
 from blueness import module
-from bluer_objects import file
+from bluer_objects import file, storage
 from bluer_objects import objects
 
 from bluer_agent import NAME
@@ -23,8 +23,12 @@ class Context:
     def __init__(
         self,
         object_name: str,
+        download: bool = False,
     ):
         self.object_name = object_name
+
+        if download:
+            storage.download(self.object_name)
 
         # --- load corpus embeddings ---
         self.corpus_vec = np.load(
