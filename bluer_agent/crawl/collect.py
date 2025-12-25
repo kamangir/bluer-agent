@@ -21,18 +21,16 @@ import pickle
 import random
 import re
 import signal
-import sys
 import time
 from collections import deque
 from contextlib import suppress
 from dataclasses import dataclass
 from typing import Deque, Dict, Iterable, Optional, Set
 from urllib.parse import urljoin, urldefrag, urlparse
-
 import requests
 from bs4 import BeautifulSoup
 
-from bluer_options.logger.config import log_list
+from bluer_options.logger.config import log_list, shorten_text
 from bluer_objects.metadata import post_to_object
 from bluer_objects import objects
 
@@ -285,7 +283,12 @@ class SiteTextCollector:
 
                 text = self._extract_text(html)
                 if text:
-                    logger.info(f"📜 += {item.url}")
+                    logger.info(
+                        "📜 += {}: {}".format(
+                            item.url,
+                            shorten_text(text.replace("\n", " ")),
+                        )
+                    )
                     results[item_key] = text
 
                 if item.depth < max_depth and not self._stop_requested:
