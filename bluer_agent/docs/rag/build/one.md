@@ -40,11 +40,13 @@ crawl:
 
 ```bash
 @rag build_corpus - .. .
-```
 
-🔥
+@upload public,zip .
+```
 
 ```yaml
 {}
 
 ```
+
+[corpus-2025-12-25-rx092a](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-2025-12-25-rx092a.tar.gz)

@@ -17,8 +17,10 @@ metadata:::get:::object_crawl_name
 
 ```bash
 @rag build_corpus - .. .
+
+@upload public,zip .
 ```
 
-🔥
-
 metadata:::get:::object_corpus_name
+
+object:::get:::object_corpus_name
