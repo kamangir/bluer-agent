@@ -21,7 +21,7 @@ parser.add_argument(
 parser.add_argument(
     "--root",
     required=True,
-    help='Root URL, e.g. "https://badkoobeh.com/"',
+    help="https://badkoobeh.com/",
 )
 parser.add_argument(
     "--page-count",
