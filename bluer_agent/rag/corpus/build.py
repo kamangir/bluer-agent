@@ -117,9 +117,8 @@ def build(
                 "text": _normalize(" ".join(agg_parts))[:200_000],
             }
 
-            logger.info("🪄")
     logger.info(
-        " corpus -{}-> {}".format(
+        "corpus -{}-> {}".format(
             string.pretty_bytes(file_size(corpus_filename)),
             corpus_filename,
         )

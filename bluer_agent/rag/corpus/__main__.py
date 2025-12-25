@@ -5,7 +5,7 @@ from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
 from bluer_agent.rag.corpus.build import build
-from bluer_agent.rag.corpus.embed import embed
+from bluer_agent.rag.corpus.embed import embed, embed_fn
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -35,7 +35,8 @@ if args.task == "build_and_embed":
 
     if success:
         success = embed(
-            corpus_object_name=args.corpus_object_name,
+            object_name=args.corpus_object_name,
+            embed_fn=embed_fn,
         )
 else:
     success = None
