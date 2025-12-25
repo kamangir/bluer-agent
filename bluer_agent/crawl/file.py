@@ -3,7 +3,9 @@ import pickle
 from typing import Dict, Tuple
 
 from blueness import module
+from bluer_options import string
 from bluer_options.logger.config import log_list, shorten_text
+from bluer_objects import file
 
 from bluer_agent import NAME
 from bluer_agent.logger import logger
@@ -40,10 +42,11 @@ def save(
         return False
 
     logger.info(
-        "{}.save: {} page(s) -> {}".format(
+        "{}.save: {} page(s) -> {} [{}]".format(
             NAME,
             len(results),
             filename,
+            string.pretty_bytes(file.size(filename)),
         )
     )
     return True
@@ -69,7 +72,10 @@ def load(filename: str) -> Tuple[bool, Dict[str, str]]:
 
     log_list(
         logger,
-        f"loaded from {filename}",
+        "loaded from {} [{}]".format(
+            filename,
+            string.pretty_bytes(file.size(filename)),
+        ),
         [
             "{}: {}".format(
                 key,
