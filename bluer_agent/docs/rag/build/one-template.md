@@ -16,7 +16,7 @@ set:::object_corpus_name env:::BLUER_AGENT_RAG_CORPUS_TEST_OBJECT
 metadata:::get:::object_crawl_name
 
 ```bash
-@rag build_corpus - .. .
+@rag build_corpus upload .. .
 
 @upload public,zip .
 ```

@@ -39,7 +39,7 @@ crawl:
 ```
 
 ```bash
-@rag build_corpus - .. .
+@rag build_corpus upload .. .
 
 @upload public,zip .
 ```
