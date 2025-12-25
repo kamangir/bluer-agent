@@ -2,6 +2,8 @@
 
 using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
 
+uses [crawl/three](../crawl/three.md)
+
 ```bash
 @select $BLUER_AGENT_CRAWL_TEST_OBJECT
 
@@ -10,39 +12,29 @@ using [top advertising agencies in iran](https://trainomarketing.com/top-adverti
 
 
 ```yaml
-api_count: 2167
-created_by: bluer_geo-5.15.1-bluer_flow-5.16.1-bluer_ai-12.136.1-bluer_objects-6.96.1-bluer_options-5.86.1-torch-2.2.2-Python
-  3.12.9-Darwin 23.6.0--Jupyter-Notebook
-creation_date: 23 April 2025, 10:33:49
-dataset:
-  class_count: 10
-  classes:
-    0: Apple 8
-    1: Apple Braeburn 1
-    2: Apple Golden 1
-    3: Apple hit 1
-    4: Cactus fruit red 1
-    5: Cherry 4
-    6: Nut 3
-    7: Pear Red 1
-    8: Tomato Cherry Orange 1
-    9: Zucchini 1
-  count: 10
-  ratios:
-    eval: 0.09999999999999998
-    test: 0.1
-    train: 0.8
-  source: fruits_360
-  subsets:
-    eval: 2
-    test: 0
-    train: 8
-description: Civilian Harm in Ukraine TimeMap
-failure_count: 0
-ingested_count: 2167
-range:
-- 2022-02-24
-- 2025-04-06
+corpus:
+- https://badkoobeh.com/
+- https://irannovin.net/
+- https://korosheh.com
+crawl_collection:
+  https://badkoobeh.com/:
+  - https://badkoobeh.com
+  - https://badkoobeh.com/projects/
+  - https://badkoobeh.com/services/
+  - https://badkoobeh.com/about-us/
+  - https://badkoobeh.com/clients/
+  https://irannovin.net/:
+  - https://irannovin.net
+  - https://irannovin.net/departments/
+  - https://irannovin.net/clients
+  - https://irannovin.net/blog/
+  - "https://irannovin.net/\u062A\u0645\u0627\u0633-\u0628\u0627-\u0645\u0627/"
+  https://korosheh.com:
+  - https://korosheh.com
+  - https://korosheh.com/services
+  - https://korosheh.com/branding-marketing
+  - https://korosheh.com/digital-marketing
+  - https://korosheh.com/video-marketing
 
 ```
 
@@ -51,38 +43,17 @@ range:
 ```
 
 ```yaml
-api_count: 2167
-created_by: bluer_geo-5.15.1-bluer_flow-5.16.1-bluer_ai-12.136.1-bluer_objects-6.96.1-bluer_options-5.86.1-torch-2.2.2-Python
-  3.12.9-Darwin 23.6.0--Jupyter-Notebook
-creation_date: 23 April 2025, 10:33:49
-dataset:
-  class_count: 10
-  classes:
-    0: Apple 8
-    1: Apple Braeburn 1
-    2: Apple Golden 1
-    3: Apple hit 1
-    4: Cactus fruit red 1
-    5: Cherry 4
-    6: Nut 3
-    7: Pear Red 1
-    8: Tomato Cherry Orange 1
-    9: Zucchini 1
-  count: 10
-  ratios:
-    eval: 0.09999999999999998
-    test: 0.1
-    train: 0.8
-  source: fruits_360
-  subsets:
-    eval: 2
-    test: 0
-    train: 8
-description: Civilian Harm in Ukraine TimeMap
-failure_count: 0
-ingested_count: 2167
-range:
-- 2022-02-24
-- 2025-04-06
+corpus:
+- https://badkoobeh.com/
+- https://irannovin.net/
+- https://korosheh.com
+- https://eshareh.com/
+- https://tusi.co/
+- https://daarvag.com
+- https://sainaagency.com
+- https://andisheparsi.com
+corpus-not:
+- https://maat.com
+- https://felesh.com
 
 ```
