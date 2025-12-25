@@ -3,7 +3,7 @@ title:::
 continues [two](./two.md).
 
 ```bash
-@select corpus-$(@timestamp)
+@select crawl-$(@timestamp)
 
 cat > metadata.yaml <<'EOF'
 corpus:
@@ -13,7 +13,7 @@ corpus:
 EOF
 ```
 
-set:::object_name corpus-2025-12-25-12-52-52-m81i3e
+set:::object_name env:::BLUER_AGENT_CRAWL_TEST_OBJECT
 
 metadata:::get:::object_name:::corpus
 

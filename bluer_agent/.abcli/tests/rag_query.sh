@@ -7,6 +7,6 @@ function test_bluer_agent_rag_query() {
         bluer_agent_rag \
         query \
         download \
-        $BLUER_AGENT_RAG_TEST_CORPUS \
+        $BLUER_AGENT_RAG_CORPUS_TEST_OBJECT \
         \"درباره‌ی شرکت مهندسی کاربند چی می‌دونی؟\"
 }

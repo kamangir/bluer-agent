@@ -16,14 +16,21 @@ parser.add_argument(
     help="build",
 )
 parser.add_argument(
-    "--object_name",
+    "--corpus_object_name",
+    type=str,
+)
+parser.add_argument(
+    "--crawl_object_name",
     type=str,
 )
 args = parser.parse_args()
 
 success = False
 if args.task == "build":
-    success = build(args.object_name)
+    success = build(
+        corpus_object_name=args.corpus_object_name,
+        crawl_object_name=args.crawl_object_name,
+    )
 else:
     success = None
 

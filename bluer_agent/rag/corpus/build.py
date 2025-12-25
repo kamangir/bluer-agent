@@ -9,8 +9,11 @@ from bluer_agent.logger import logger
 NAME = module.name(__file__, NAME)
 
 
-def build(object_name: str) -> bool:
-    logger.info(f"{NAME}.build({object_name})")
+def build(
+    corpus_object_name: str,
+    crawl_object_name: str,
+) -> bool:
+    logger.info(f"{NAME}.build: {crawl_object_name} -> {corpus_object_name}")
 
     corpus_roots = get_from_object(object_name, "corpus", [])
     log_list(logger, "loaded", corpus_roots, "root(s)")
