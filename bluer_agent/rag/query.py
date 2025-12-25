@@ -5,6 +5,7 @@ import json
 import numpy as np
 
 from blueness import module
+from bluer_objects import file
 from bluer_objects import objects
 
 from bluer_agent import NAME
@@ -22,18 +23,23 @@ def _cosine(a: np.ndarray, b: np.ndarray) -> float:
 def query(
     object_name: str,
     query: str,
-    *,
     top_k: int = 5,
 ) -> Tuple[bool, Dict]:
     logger.info(f'{NAME}.query[{object_name}]("{query}")')
 
     # --- load roots ---
     roots_vec = np.load(
-        objects.path_of(object_name=object_name, filename="roots.embeddings.npy")
+        objects.path_of(
+            object_name=object_name,
+            filename="roots.embeddings.npy",
+        )
     )
 
     with gzip.open(
-        objects.path_of(object_name=object_name, filename="roots.meta.json.gz"),
+        objects.path_of(
+            object_name=object_name,
+            filename="roots.meta.json.gz",
+        ),
         "rt",
         encoding="utf-8",
     ) as f:
@@ -53,14 +59,19 @@ def query(
 
     # --- load corpus embeddings ---
     corpus_vec = np.load(
-        objects.path_of(object_name=object_name, filename="corpus.embeddings.npy")
+        objects.path_of(
+            object_name=object_name,
+            filename="corpus.embeddings.npy",
+        )
     )
 
     corpus_meta_file = objects.path_of(
-        object_name=object_name, filename="corpus.meta.jsonl.gz"
+        object_name=object_name,
+        filename="corpus.meta.jsonl.gz",
     )
     corpus_text_file = objects.path_of(
-        object_name=object_name, filename="corpus.jsonl.gz"
+        object_name=object_name,
+        filename="corpus.jsonl.gz",
     )
 
     candidates: List[Tuple[float, dict]] = []
@@ -102,7 +113,7 @@ def query(
 
     for chunk in chunks:
         logger.info(
-            "#{} - {}: {:.2f}\n{}".format(
+            "{} #{} @ {:.2f}: {}".format(
                 chunk["chunk_id"],
                 chunk["url"],
                 chunk["score"],
@@ -114,5 +125,27 @@ def query(
         "root": best_root,
         "chunks": chunks,
     }
+
+    file.save_text(
+        objects.path_of(
+            object_name=object_name,
+            filename="result.txt",
+        ),
+        [
+            f"query: {query}",
+            "",
+            "retrievals:",
+        ]
+        + [
+            "{} #{} @ {:.2f}: {}".format(
+                chunk["chunk_id"],
+                chunk["url"],
+                chunk["score"],
+                chunk["text"][:300],
+            )
+            for chunk in chunks
+        ],
+        log=True,
+    )
 
     return True, context

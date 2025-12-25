@@ -8,5 +8,5 @@ function test_bluer_agent_rag_query() {
         query \
         download \
         $BLUER_AGENT_RAG_CORPUS_TEST_OBJECT \
-        \"درباره‌ی شرکت مهندسی کاربند چی می‌دونی؟\"
+        \"کدام شرکت در تبلیغات محیطی موفق‌تر بوده است؟\"
 }
