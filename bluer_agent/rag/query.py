@@ -62,6 +62,7 @@ def query(
                 (
                     score,
                     {
+                        "root": meta["root"],
                         "url": meta["url"],
                         "chunk_id": meta["chunk_id"],
                         "text": record["text"],
@@ -74,10 +75,8 @@ def query(
 
     chunks = [
         {
-            "url": item["url"],
-            "chunk_id": item["chunk_id"],
+            **item,
             "score": round(score, 4),
-            "text": item["text"],
         }
         for score, item in top
     ]
@@ -85,7 +84,7 @@ def query(
     for chunk in chunks:
         logger.info(
             "{} #{} @ {:.2f}: {}".format(
-                chunk["url"],
+                chunk["root"],
                 chunk["chunk_id"],
                 chunk["score"],
                 chunk["text"][:300],
@@ -108,7 +107,7 @@ def query(
         ]
         + [
             "{} #{} @ {:.2f}: {}".format(
-                chunk["url"],
+                chunk["root"],
                 chunk["chunk_id"],
                 chunk["score"],
                 chunk["text"][:300],
