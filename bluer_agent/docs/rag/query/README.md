@@ -1,3 +1,3 @@
 # rag: query
 
-- validations: 
+- validations: [one](./one.md)

@@ -11,4 +11,7 @@ docs = [
     {
         "path": "../docs/rag/query/",
     },
+    {
+        "path": "../docs/rag/query/one.md",
+    },
 ]

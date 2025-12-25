@@ -1,3 +1,3 @@
 title:::
 
-- validations: 
+- validations: [one](./one.md)
