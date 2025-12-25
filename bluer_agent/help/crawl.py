@@ -1,13 +1,19 @@
 from typing import List
 
-from bluer_options.terminal import show_usage
+from bluer_options.terminal import show_usage, xtra
 
 
 def help_collect(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "download,root=<url>,upload"
+    options = "".join(
+        [
+            xtra("download,", mono=mono),
+            "root=<url>|all",
+            xtra(",upload", mono=mono),
+        ]
+    )
     args = [
         "[--page-count 25]",
         "[--max-depth 2]",
@@ -26,7 +32,7 @@ def help_collect(
             "[-|<object-name>]",
         ]
         + args,
-        "crawl <root> -> <object-name>.",
+        "crawl <url> -> <object-name>.",
         mono=mono,
     )
 

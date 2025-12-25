@@ -3,7 +3,7 @@
 ```bash
 @crawl \
 	collect \
-	[download,root=<url>,upload] \
+	[download,root=<url>|all,upload] \
 	[-|<object-name>] \
 	[--page-count 25] \
 	[--max-depth 2] \
@@ -12,7 +12,7 @@
 	[--backoff-base 0.7] \
 	[--backoff-jitter 0.4] \
 	[--delay 0.2]
- . crawl <root> -> <object-name>.
+ . crawl <url> -> <object-name>.
 @crawl \
 	review \
 	[download,root=<url>] \
