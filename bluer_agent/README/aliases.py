@@ -1,10 +1,23 @@
+from bluer_objects.README.alias import list_of_aliases
+
+from bluer_agent import NAME
+
 docs = [
     {
-        "path": f"../docs/aliases/{alias}",
+        "path": "../docs/aliases",
+        "macros": {
+            "aliases:::": list_of_aliases(
+                NAME,
+                itemized=True,
+            ),
+        },
     }
-    for alias in [
-        "",
-        "agent.md",
-        "audio.md",
-    ]
+] + [
+    {
+        "path": f"../docs/aliases/{alias_name}.md",
+    }
+    for alias_name in list_of_aliases(
+        NAME,
+        as_markdown=False,
+    )
 ]

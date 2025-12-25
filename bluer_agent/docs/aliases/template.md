@@ -1,3 +1,3 @@
 title:::
 
-- [@agent](./plugin.md)
+aliases:::

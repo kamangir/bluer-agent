@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+function test_bluer_agent_rag_build_corpus() {
+    local options=$1
+
+    bluer_ai_eval ,$options \
+        bluer_agent_rag \
+        build_corpus \
+        download \
+        $BLUER_AGENT_RAG_TEST_CORPUS
+}
