@@ -13,7 +13,8 @@ function bluer_agent_crawl_collect() {
         bluer_objects_download - $object_name
 
     bluer_ai_eval dryrun=$do_dryrun \
-        python3 -m bluer_agent.crawl.collect \
+        python3 -m bluer_agent.crawl \
+        collect \
         --root $root \
         --object_name $object_name \
         --out auto \
