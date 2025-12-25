@@ -2,6 +2,8 @@ from typing import List
 
 from bluer_options.terminal import show_usage, xtra
 
+from bluer_agent.crawl.collect import CollectionProperties
+
 
 def help_collect(
     tokens: List[str],
@@ -14,14 +16,16 @@ def help_collect(
             xtra(",upload", mono=mono),
         ]
     )
+
+    properties = CollectionProperties()
     args = [
         "[--page-count 25]",
         "[--max-depth 2]",
-        "[--timeout 15.0]",
-        "[--max-retries 4]",
-        "[--backoff-base 0.7]",
-        "[--backoff-jitter 0.4]",
-        "[--delay 0.2]",
+        f"[--timeout {properties.timeout}]",
+        f"[--max-retries {properties.max_retries}]",
+        f"[--backoff-base {properties.backoff_base}]",
+        f"[--backoff-jitter {properties.backoff_jitter}]",
+        f"[--delay {properties.delay}]",
     ]
 
     return show_usage(
@@ -32,7 +36,7 @@ def help_collect(
             "[-|<object-name>]",
         ]
         + args,
-        "crawl <url> -> <object-name>.",
+        "crawl -> <object-name>.",
         mono=mono,
     )
 
@@ -41,7 +45,12 @@ def help_review(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "download,root=<url>"
+    options = "".join(
+        [
+            xtra("download,", mono=mono),
+            "root=<url>|all",
+        ]
+    )
 
     return show_usage(
         [

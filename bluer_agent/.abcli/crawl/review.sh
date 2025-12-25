@@ -4,7 +4,7 @@ function bluer_agent_crawl_review() {
     local options=$1
     local do_dryrun=$(bluer_ai_option_int "$options" dryrun 0)
     local do_download=$(bluer_ai_option_int "$options" download 1)
-    local root=$(bluer_ai_option "$options" root void)
+    local root=$(bluer_ai_option "$options" root all)
 
     local object_name=$(bluer_ai_clarify_object $2 .)
 

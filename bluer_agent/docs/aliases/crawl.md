@@ -12,10 +12,10 @@
 	[--backoff-base 0.7] \
 	[--backoff-jitter 0.4] \
 	[--delay 0.2]
- . crawl <url> -> <object-name>.
+ . crawl -> <object-name>.
 @crawl \
 	review \
-	[download,root=<url>] \
+	[download,root=<url>|all] \
 	[.|<object-name>]
  . review <object-name>.
 ```
