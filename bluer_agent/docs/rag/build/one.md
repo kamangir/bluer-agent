@@ -42,18 +42,9 @@ crawl:
 @rag build_corpus - .. .
 ```
 
+🔥
+
 ```yaml
-corpus:
-- https://badkoobeh.com/
-- https://irannovin.net/
-- https://korosheh.com
-- https://eshareh.com/
-- https://tusi.co/
-- https://daarvag.com
-- https://sainaagency.com
-- https://andisheparsi.com
-corpus-not:
-- https://maat.com
-- https://felesh.com
+{}
 
 ```
