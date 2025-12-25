@@ -3,6 +3,6 @@ docs = [
         "path": "../docs/rag",
     },
     {
-        "path": "../docs/rag/validation.md",
+        "path": "../docs/rag/one.md",
     },
 ]

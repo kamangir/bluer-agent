@@ -1,3 +1,3 @@
 # rag
 
-- [validation](./validation.md)
+- validations: [one](./one.md)
