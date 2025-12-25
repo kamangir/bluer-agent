@@ -16,8 +16,6 @@ from __future__ import annotations
 VERSION = "2.2.0"
 
 import argparse
-import gzip
-import pickle
 import random
 import re
 import signal
@@ -30,11 +28,12 @@ from urllib.parse import urljoin, urldefrag, urlparse
 import requests
 from bs4 import BeautifulSoup
 
-from bluer_options.logger.config import log_list, shorten_text
+from bluer_options.logger.config import shorten_text
 from bluer_objects.metadata import post_to_object
 from bluer_objects import objects
 
 from bluer_agent.crawl.functions import url_to_filename
+from bluer_agent.crawl import file
 from bluer_agent.logger import logger
 
 
@@ -314,49 +313,6 @@ class SiteTextCollector:
                 self.session.close()
 
 
-def save_binary(results: Dict[str, str], out_path: str) -> None:
-    """
-    Save results as gzip-compressed pickle:
-      - binary
-      - compact
-      - easy to load back in Python
-
-    WARNING: Only unpickle files you trust.
-    """
-    payload = {
-        "format": "site_text_collector",
-        "version": 1,
-        "results": results,
-    }
-    with gzip.open(out_path, "wb") as f:
-        pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
-
-    logger.info(f"saved {len(results)} page(s) to {out_path}")
-
-
-def load_binary(path: str) -> Dict[str, str]:
-    with gzip.open(path, "rb") as f:
-        payload = pickle.load(f)
-    if not isinstance(payload, dict) or payload.get("format") != "site_text_collector":
-        raise ValueError("Unrecognized binary format.")
-
-    results = payload["results"]
-    log_list(
-        logger,
-        f"loaded from {path}",
-        [
-            "{}: {}".format(
-                key,
-                shorten_text(text.replace("\n", " ")),
-            )
-            for key, text in results.items()
-        ],
-        "page(s)",
-    )
-
-    return results
-
-
 def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument(
@@ -393,20 +349,17 @@ def main() -> None:
         interrupted = True
         logger.warning("Ctrl+C, saving partial results...")
 
-    if results:
-        save_binary(
-            results,
-            (
-                objects.path_of(
-                    object_name=args.object_name,
-                    filename="{}.pkl.gz".format(url_to_filename(args.root)),
-                )
-                if args.out == "auto"
-                else args.out
-            ),
-        )
-    else:
-        logger.warning("no pages collected; nothing to save.")
+    file.save(
+        results,
+        (
+            objects.path_of(
+                object_name=args.object_name,
+                filename="{}.pkl.gz".format(url_to_filename(args.root)),
+            )
+            if args.out == "auto"
+            else args.out
+        ),
+    )
 
     if args.object_name:
         post_to_object(
