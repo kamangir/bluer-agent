@@ -2,9 +2,12 @@ import argparse
 
 from blueness import module
 from blueness.argparse.generic import sys_exit
+from bluer_objects import objects
 
 from bluer_agent import NAME
+from bluer_agent.crawl import file
 from bluer_agent.crawl.collect import collect
+from bluer_agent.crawl.functions import url_to_filename
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -13,7 +16,7 @@ parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,
-    help="collect",
+    help="collect | review",
 )
 parser.add_argument(
     "--root",
@@ -79,6 +82,13 @@ if args.task == "collect":
         backoff_base=args.backoff_base,
         backoff_jitter=args.backoff_jitter,
         delay=args.delay,
+    )
+elif args.task == "review":
+    success, _ = file.load(
+        objects.path_of(
+            object_name=args.object_name,
+            filename="{}.pkl.gz".format(url_to_filename(args.root)),
+        )
     )
 else:
     success = None
