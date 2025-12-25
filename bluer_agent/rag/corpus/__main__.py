@@ -5,6 +5,7 @@ from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
 from bluer_agent.rag.corpus.build import build
+from bluer_agent.rag.corpus.embed import embed
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -13,7 +14,7 @@ parser = argparse.ArgumentParser(NAME)
 parser.add_argument(
     "task",
     type=str,
-    help="build",
+    help="build_and_embed",
 )
 parser.add_argument(
     "--crawl_object_name",
@@ -26,11 +27,16 @@ parser.add_argument(
 args = parser.parse_args()
 
 success = False
-if args.task == "build":
+if args.task == "build_and_embed":
     success = build(
         crawl_object_name=args.crawl_object_name,
         corpus_object_name=args.corpus_object_name,
     )
+
+    if success:
+        success = embed(
+            corpus_object_name=args.corpus_object_name,
+        )
 else:
     success = None
 

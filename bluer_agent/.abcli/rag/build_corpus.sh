@@ -15,7 +15,7 @@ function bluer_agent_rag_build_corpus() {
 
     bluer_ai_eval dryrun=$do_dryrun \
         python3 -m bluer_agent.rag.corpus \
-        build \
+        build_and_embed \
         --crawl_object_name $crawl_object_name \
         --corpus_object_name $corpus_object_name \
         "${@:4}"
