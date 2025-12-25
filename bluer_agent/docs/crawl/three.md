@@ -11,7 +11,15 @@ corpus:
   - https://irannovin.net/
   - https://korosheh.com
 EOF
+```
 
+```yaml
+{}
+
+```
+
+
+```bash
 @crawl collect - . \
     --page-count 5 \
     --max-depth 2
@@ -20,7 +28,6 @@ EOF
 
 @metadata upload .
 ```
-
 
 ```yaml
 https://badkoobeh.com/:

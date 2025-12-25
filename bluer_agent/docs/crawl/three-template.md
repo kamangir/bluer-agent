@@ -11,7 +11,13 @@ corpus:
   - https://irannovin.net/
   - https://korosheh.com
 EOF
+```
 
+metadata:::get:::object_name:::corpus
+
+set:::object_name corpus-2025-12-25-12-52-52-m81i3e
+
+```bash
 @crawl collect - . \
     --page-count 5 \
     --max-depth 2
@@ -20,7 +26,5 @@ EOF
 
 @metadata upload .
 ```
-
-set:::object_name corpus-2025-12-25-12-52-52-m81i3e
 
 metadata:::get:::object_name:::crawl_collection
