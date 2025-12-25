@@ -13,9 +13,9 @@ corpus:
 EOF
 ```
 
-metadata:::get:::object_name:::corpus
-
 set:::object_name corpus-2025-12-25-12-52-52-m81i3e
+
+metadata:::get:::object_name:::corpus
 
 ```bash
 @crawl collect - . \

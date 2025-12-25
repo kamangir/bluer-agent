@@ -13,11 +13,13 @@ corpus:
 EOF
 ```
 
+
 ```yaml
-{}
+- https://badkoobeh.com/
+- https://irannovin.net/
+- https://korosheh.com
 
 ```
-
 
 ```bash
 @crawl collect - . \
