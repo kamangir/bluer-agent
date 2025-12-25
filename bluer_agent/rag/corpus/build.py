@@ -7,10 +7,12 @@ import re
 from tqdm import tqdm
 
 from blueness import module
+from bluer_options import string
 from bluer_options.logger.config import log_list
 from bluer_objects import objects
 from bluer_objects.file import list_of
 from bluer_objects.file import name as file_name
+from bluer_objects.file import size as file_size
 
 from bluer_agent import NAME
 from bluer_agent.crawl import file
@@ -116,11 +118,20 @@ def build(
             }
 
             logger.info("🪄")
+    logger.info(
+        " corpus -{}-> {}".format(
+            string.pretty_bytes(file_size(corpus_filename)),
+            corpus_filename,
+        )
+    )
 
     with gzip.open(roots_filename, "wt", encoding="utf-8") as f:
         f.write(json.dumps(roots, ensure_ascii=False))
-
-    logger.info(f"{NAME}.build: wrote -> {corpus_filename}")
-    logger.info(f"{NAME}.build: wrote -> {roots_filename}")
+    logger.info(
+        "roots -{}-> {}".format(
+            string.pretty_bytes(file_size(roots_filename)),
+            roots_filename,
+        ),
+    )
 
     return True
