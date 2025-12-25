@@ -1,4 +1,5 @@
 import argparse
+import base64
 
 from blueness import module
 from blueness.argparse.generic import sys_exit
@@ -20,7 +21,7 @@ parser.add_argument(
     type=str,
 )
 parser.add_argument(
-    "--query",
+    "--encoded_query",
     type=str,
 )
 args = parser.parse_args()
@@ -29,7 +30,7 @@ success = False
 if args.task == "query":
     success, _ = query(
         object_name=args.object_name,
-        query=args.query,
+        query=base64.b64decode(args.encoded_query).decode("utf-8"),
     )
 else:
     success = None

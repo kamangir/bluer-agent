@@ -8,6 +8,7 @@ function bluer_agent_rag_query() {
     local corpus_object_name=$(bluer_ai_clarify_object $2 .)
 
     local query=${3:-void}
+    local encoded_query=$(printf '%s' "$query" | iconv -f UTF-8 -t UTF-8 | base64)
 
     [[ "$do_download" == 1 ]] &&
         bluer_objects_download - $corpus_object_name
@@ -16,6 +17,6 @@ function bluer_agent_rag_query() {
         python3 -m bluer_agent.rag \
         query \
         --object_name $corpus_object_name \
-        --query \"$query\" \
+        --encoded_query \"$encoded_query\" \
         "${@:4}"
 }

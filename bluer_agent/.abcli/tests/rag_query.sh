@@ -8,5 +8,5 @@ function test_bluer_agent_rag_query() {
         query \
         download \
         $BLUER_AGENT_RAG_TEST_CORPUS \
-        "درباره‌ی شرکت مهندسی کاربند چی می‌دونی؟"
+        \"درباره‌ی شرکت مهندسی کاربند چی می‌دونی؟\"
 }
