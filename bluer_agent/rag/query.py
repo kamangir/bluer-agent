@@ -85,8 +85,8 @@ def query(
     for chunk in chunks:
         logger.info(
             "{} #{} @ {:.2f}: {}".format(
-                chunk["chunk_id"],
                 chunk["url"],
+                chunk["chunk_id"],
                 chunk["score"],
                 chunk["text"][:300],
             )
@@ -108,8 +108,8 @@ def query(
         ]
         + [
             "{} #{} @ {:.2f}: {}".format(
-                chunk["chunk_id"],
                 chunk["url"],
+                chunk["chunk_id"],
                 chunk["score"],
                 chunk["text"][:300],
             )
