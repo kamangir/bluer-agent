@@ -24,6 +24,11 @@ parser.add_argument(
     "--encoded_query",
     type=str,
 )
+parser.add_argument(
+    "--top_k",
+    type=int,
+    default=5,
+)
 args = parser.parse_args()
 
 success = False
@@ -31,6 +36,7 @@ if args.task == "query":
     success, _ = query(
         object_name=args.object_name,
         query=base64.b64decode(args.encoded_query).decode("utf-8"),
+        top_k=args.top_k,
     )
 else:
     success = None
