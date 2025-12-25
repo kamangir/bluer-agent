@@ -3,6 +3,12 @@ docs = [
         "path": "../docs/rag",
     },
     {
-        "path": "../docs/rag/one.md",
+        "path": "../docs/rag/build/",
+    },
+    {
+        "path": "../docs/rag/build/one.md",
+    },
+    {
+        "path": "../docs/rag/query/",
     },
 ]

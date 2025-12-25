@@ -29,6 +29,6 @@ metadata:::get:::object_name:::corpus
 @upload public,zip .
 ```
 
-metadata:::get:::object_name:::crawl_collection
+metadata:::get:::object_name:::crawl
 
 object:::get:::object_name

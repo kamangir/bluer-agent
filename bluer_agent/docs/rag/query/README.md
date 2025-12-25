@@ -1,0 +1,3 @@
+# rag: query
+
+- validations: 

@@ -1,3 +1,4 @@
 title:::
 
-- validations: [one](./one.md)
+- [build](./build/)
+- [query](./query/)

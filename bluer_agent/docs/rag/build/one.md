@@ -1,4 +1,4 @@
-# rag: one
+# rag: build: one
 
 using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
 
@@ -16,7 +16,7 @@ corpus:
 - https://badkoobeh.com/
 - https://irannovin.net/
 - https://korosheh.com
-crawl_collection:
+crawl:
   https://badkoobeh.com/:
   - https://badkoobeh.com
   - https://badkoobeh.com/projects/

@@ -1,3 +1,4 @@
 # rag
 
-- validations: [one](./one.md)
+- [build](./build/)
+- [query](./query/)

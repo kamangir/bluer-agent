@@ -80,7 +80,7 @@ def collect(
     if object_name:
         collection_log = get_from_object(
             object_name,
-            "crawl_collection",
+            "crawl",
             {},
         )
 
@@ -88,7 +88,7 @@ def collect(
 
         if not post_to_object(
             object_name,
-            "crawl_collection",
+            "crawl",
             collection_log,
         ):
             return False
