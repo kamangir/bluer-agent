@@ -29,6 +29,8 @@ EOF
 @crawl review - .
 
 @metadata upload .
+
+@upload public,zip .
 ```
 
 ```yaml
@@ -52,3 +54,5 @@ https://korosheh.com:
 - https://korosheh.com/video-marketing
 
 ```
+
+[corpus-2025-12-25-12-52-52-m81i3e](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-2025-12-25-12-52-52-m81i3e.tar.gz)

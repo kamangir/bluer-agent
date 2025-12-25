@@ -25,6 +25,10 @@ metadata:::get:::object_name:::corpus
 @crawl review - .
 
 @metadata upload .
+
+@upload public,zip .
 ```
 
 metadata:::get:::object_name:::crawl_collection
+
+object:::get:::object_name
