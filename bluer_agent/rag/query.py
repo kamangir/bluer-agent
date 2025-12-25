@@ -59,34 +59,54 @@ def query(
     corpus_meta_file = objects.path_of(
         object_name=object_name, filename="corpus.meta.jsonl.gz"
     )
+    corpus_text_file = objects.path_of(
+        object_name=object_name, filename="corpus.jsonl.gz"
+    )
 
     candidates: List[Tuple[float, dict]] = []
 
-    with gzip.open(corpus_meta_file, "rt", encoding="utf-8") as f:
-        for i, line in enumerate(f):
-            meta = json.loads(line)
+    with gzip.open(corpus_meta_file, "rt", encoding="utf-8") as meta_f, gzip.open(
+        corpus_text_file, "rt", encoding="utf-8"
+    ) as text_f:
+        for i, (meta_line, text_line) in enumerate(zip(meta_f, text_f)):
+            meta = json.loads(meta_line)
             if meta.get("root") != best_root:
                 continue
+
+            record = json.loads(text_line)
             score = _cosine(q_vec, corpus_vec[i])
-            candidates.append((score, meta))
+
+            candidates.append(
+                (
+                    score,
+                    {
+                        "url": meta["url"],
+                        "chunk_id": meta["chunk_id"],
+                        "text": record["text"],
+                    },
+                )
+            )
 
     candidates.sort(key=lambda x: x[0], reverse=True)
     top = candidates[:top_k]
 
     chunks = [
         {
-            "url": meta["url"],
-            "chunk_id": meta["chunk_id"],
+            "url": item["url"],
+            "chunk_id": item["chunk_id"],
             "score": round(score, 4),
+            "text": item["text"],
         }
-        for score, meta in top
+        for score, item in top
     ]
+
     for chunk in chunks:
         logger.info(
-            "#{} - {}: {:.2f}".format(
+            "#{} - {}: {:.2f}\n{}".format(
                 chunk["chunk_id"],
                 chunk["url"],
                 chunk["score"],
+                chunk["text"][:300],
             )
         )
 
