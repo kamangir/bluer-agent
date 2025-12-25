@@ -344,7 +344,13 @@ def load_binary(path: str) -> Dict[str, str]:
     log_list(
         logger,
         f"loaded from {path}",
-        results.keys(),
+        [
+            "{}: {}".format(
+                key,
+                shorten_text(text.replace("\n", " ")),
+            )
+            for key, text in results.items()
+        ],
         "page(s)",
     )
 
