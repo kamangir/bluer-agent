@@ -11,7 +11,9 @@ function bluer_agent_rag_query() {
     local encoded_query=$(printf '%s' "$query" | iconv -f UTF-8 -t UTF-8 | base64)
 
     [[ "$do_download" == 1 ]] &&
-        bluer_objects_download - $corpus_object_name
+        bluer_objects_download \
+            policy=doesnt_exist \
+            $corpus_object_name
 
     bluer_ai_eval dryrun=$do_dryrun \
         python3 -m bluer_agent.rag \

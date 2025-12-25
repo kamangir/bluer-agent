@@ -16,10 +16,11 @@ def help_build_corpus(
             "@rag",
             "build_corpus",
             f"[{options}]",
-            "[.|<corpus-object-name>]",
+            "[.|<crawl-object-name>]",
+            "[-|<corpus-object-name>]",
         ]
         + args,
-        "build <corpus-object-name>.",
+        "build rag.",
         mono=mono,
     )
 
@@ -38,7 +39,7 @@ def help_query(
             "[.|<corpus-object-name>]",
             "<sentence>",
         ],
-        "query <sentence> against <corpus-object-name>.",
+        "query <sentence>.",
         mono=mono,
     )
 
