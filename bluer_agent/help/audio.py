@@ -12,7 +12,7 @@ def help_install(
             "@audio",
             "install",
         ],
-        "install.",
+        "install audio.",
         mono=mono,
     )
 
@@ -68,8 +68,23 @@ def help_record(
     )
 
 
+def help_test(
+    tokens: List[str],
+    mono: bool,
+) -> str:
+    return show_usage(
+        [
+            "@audio",
+            "test",
+        ],
+        "test audio.",
+        mono=mono,
+    )
+
+
 help_functions = {
     "install": help_install,
     "play": help_play,
     "record": help_record,
+    "test": help_test,
 }
