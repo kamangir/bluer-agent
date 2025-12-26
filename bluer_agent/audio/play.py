@@ -36,10 +36,10 @@ def play(
         (
             "ffmpeg -i {} -f wav - | aplay"
             if file.extension(filename) == "mp3"
-            else "aplay{}"
+            else "aplay {}"
         )
         if is_rpi()
-        else "afplay{}"
+        else "afplay {}"
     )
 
     return shell(
