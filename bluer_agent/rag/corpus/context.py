@@ -1,5 +1,4 @@
 from typing import Tuple, Dict, List
-
 import gzip
 import json
 import numpy as np
@@ -152,3 +151,22 @@ class Context:
         )
 
         return True, context
+
+    def understand_reply(reply: str) -> Tuple[bool, str]:
+        try:
+            reply_dict = json.loads(reply)
+        except Exception as e:
+            logger.error(e)
+            return False, ""
+
+        for field in [
+            "winner_root",
+            "argument_fa",
+        ]:
+            if field not in reply_dict:
+                logger.error(f"{field} not found.")
+                return False, ""
+
+        logger.info("🥇 winner is {}!".format(reply_dict["winner_root"]))
+
+        return True, reply_dict["argument_fa"]
