@@ -4,7 +4,7 @@ function bluer_agent_voice_generate() {
   local options=$1
   local do_play=$(bluer_ai_option_int "$options" play 1)
   local do_download=$(bluer_ai_option_int "$options" download $do_play)
-  local filename=$(bluer_ai_option "$options" filename voice.mp3)
+  local filename=$(bluer_ai_option "$options" filename voice-$(bluer_ai_string_timestamp).mp3)
 
   local object_name=$(bluer_ai_clarify_object $2 voice-$(bluer_ai_string_timestamp))
 
