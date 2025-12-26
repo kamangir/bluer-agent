@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
-from bluer_agent.voice.functions import generate_voice
+from bluer_agent.voice.functions import generate_voice, list_of_speakers
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -33,6 +33,24 @@ parser.add_argument(
     default=1,
     help="0 | 1",
 )
+parser.add_argument(
+    "--speaker",
+    type=str,
+    default="shahrzad",
+    help=" | ".join(list_of_speakers),
+)
+parser.add_argument(
+    "--speed",
+    type=float,
+    default=1.0,
+    help=">0",
+)
+parser.add_argument(
+    "--timestamp",
+    type=int,
+    default=0,
+    help="0 | 1",
+)
 args = parser.parse_args()
 
 success = False
@@ -42,6 +60,9 @@ if args.task == "generate":
         filename=args.filename,
         sentence=args.sentence,
         download=args.download == 1,
+        speaker=args.speaker,
+        speed=args.speed,
+        timestamp=args.timestamp == 1,
     )
 else:
     success = None

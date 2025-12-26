@@ -12,17 +12,41 @@ from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
 
+list_of_speakers = [
+    "kiani",
+    "nourai",
+    "dara",
+    "parviz",
+    "bahman",
+    "farhad",
+    "shahriyar",
+    "ariya",
+    "sara",
+    "pune",
+    "bahar",
+    "shahrzad",
+    "sheyda",
+    "shirin",
+]
 
+
+# https://api.ivira.ai/partai/avasho?type=document
 def generate_voice(
     object_name: str,
     sentence: str,
     filename: str = "voice.mp3",
     download: bool = True,
+    speaker: str = "shahrzad",
+    speed: float = 1.0,
+    timestamp: bool = False,
 ) -> Tuple[bool, str]:
     logger.info(
-        '{}.generate_voice: "{}" -{}> {}/{}'.format(
+        '{}.generate_voice({} @ {:.2f}X): "{}" -{}{}> {}/{}'.format(
             NAME,
+            speaker,
+            speed,
             sentence,
+            "timestamped-" if timestamp else "",
             "downloaded-" if download else "",
             object_name,
             filename,
