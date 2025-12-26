@@ -1,5 +1,8 @@
 docs = [
     {
-        "path": "../docs/voice.md",
+        "path": "../docs/voice",
+    },
+    {
+        "path": "../docs/voice/validation.md",
     },
 ]
