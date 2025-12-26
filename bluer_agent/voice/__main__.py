@@ -4,7 +4,11 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
-from bluer_agent.voice.functions import generate_voice, list_of_speakers
+from bluer_agent.voice.functions import (
+    generate_voice,
+    list_of_speakers,
+    default_speaker,
+)
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -36,7 +40,7 @@ parser.add_argument(
 parser.add_argument(
     "--speaker",
     type=str,
-    default="shahrzad",
+    default=default_speaker,
     help=" | ".join(list_of_speakers),
 )
 parser.add_argument(

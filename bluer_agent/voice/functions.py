@@ -12,6 +12,8 @@ from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
 
+default_speaker = "nourai"
+
 list_of_speakers = [
     "kiani",
     "nourai",
@@ -36,7 +38,7 @@ def generate_voice(
     sentence: str,
     filename: str = "voice.mp3",
     download: bool = True,
-    speaker: str = "shahrzad",
+    speaker: str = default_speaker,
     speed: float = 1.0,
     timestamp: bool = False,
 ) -> Tuple[bool, str]:
