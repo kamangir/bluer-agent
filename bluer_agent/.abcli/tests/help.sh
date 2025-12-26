@@ -27,6 +27,7 @@ function test_bluer_agent_help() {
         "@audio install" \
         "@audio play" \
         "@audio record" \
+        "@audio test" \
         \
         "@crawl" \
         "@crawl collect" \
@@ -35,6 +36,9 @@ function test_bluer_agent_help() {
         "@rag" \
         "@rag build_corpus" \
         "@rag query" \
+        \
+        "@voice" \
+        "@voice generate" \
         \
         "bluer_agent"; do
         bluer_ai_eval ,$options \

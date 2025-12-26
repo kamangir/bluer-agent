@@ -3,7 +3,7 @@
 ```bash
 @audio \
 	install
- . install.
+ . install audio.
 @audio \
 	play \
 	[download,filename=<audio.wav>] \
@@ -18,4 +18,7 @@
 	[--length <30>] \
 	[--rate <16000>]
  . record <object-name>/<audio.wav>.
+@audio \
+	test
+ . test audio.
 ```
