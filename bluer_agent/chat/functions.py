@@ -36,12 +36,16 @@ def chat(
         "temperature": env.BLUER_AGENT_CHAT_TEMPERATURE,
     }
 
-    response = requests.post(
-        "{}/chat/completions".format(env.BLUER_AGENT_CHAT_ENDPOINT),
-        headers=headers,
-        json=payload,
-        timeout=env.BLUER_AGENT_CHAT_TIMEOUT,
-    )
+    try:
+        response = requests.post(
+            "{}/chat/completions".format(env.BLUER_AGENT_CHAT_ENDPOINT),
+            headers=headers,
+            json=payload,
+            timeout=env.BLUER_AGENT_CHAT_TIMEOUT,
+        )
+    except Exception as e:
+        logger.error(f"failed to send request: {e}")
+        return False, ""
 
     success = True
     response_json = {}
