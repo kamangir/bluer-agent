@@ -36,6 +36,9 @@ function test_bluer_agent_help() {
         "@rag build_corpus" \
         "@rag query" \
         \
+        "@voice" \
+        "@voice validate" \
+        \
         "bluer_agent"; do
         bluer_ai_eval ,$options \
             bluer_ai_help $module

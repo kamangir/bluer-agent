@@ -5,3 +5,4 @@
 - [@crawl](./crawl.md)
 - [@rag](./rag.md)
 - [@transcribe](./transcribe.md)
+- [@voice](./voice.md)

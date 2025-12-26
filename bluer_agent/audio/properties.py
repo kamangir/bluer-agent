@@ -4,7 +4,7 @@ import argparse
 from bluer_options import string
 from bluer_options.host import is_rpi
 
-from bluer_agent import env
+from bluer_agent.audio import env
 
 
 class AudioProperties:

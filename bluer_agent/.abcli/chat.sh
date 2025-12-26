@@ -9,7 +9,7 @@ function bluer_agent_chat() {
         return
     fi
 
-    python3 -m bluer_agent "$@"
+    python3 -m bluer_agent.chat "$@"
 }
 
 bluer_ai_source_caller_suffix_path /chat
