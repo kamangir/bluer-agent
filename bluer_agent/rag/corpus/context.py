@@ -7,6 +7,7 @@ import numpy as np
 from blueness import module
 from bluer_objects import file, storage
 from bluer_objects import objects
+from bluer_objects.storage.policies import DownloadPolicy
 
 from bluer_agent import NAME
 from bluer_agent.rag.corpus.embed import embed_fn
@@ -28,7 +29,10 @@ class Context:
         self.object_name = object_name
 
         if download:
-            storage.download(self.object_name)
+            storage.download(
+                self.object_name,
+                policy=DownloadPolicy.DOESNT_EXIST,
+            )
 
         # --- load corpus embeddings ---
         self.corpus_vec = np.load(
