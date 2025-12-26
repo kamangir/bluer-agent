@@ -10,6 +10,4 @@
 ```
 
 
-[voice.wav](https://github.com/kamangir/assets/blob/main/TBA/voice.wav)
-
-🔥
+[voice.wav](https://github.com/kamangir/assets/blob/main/voice-2025-12-26-s4lj8i/voice.wav)
