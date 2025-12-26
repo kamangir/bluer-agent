@@ -1,7 +1,7 @@
 from bluer_objects.README.alias import list_of_aliases
 
 from bluer_agent import NAME
-from bluer_agent.README import aliases, audio, chat, crawl, rag, transcription
+from bluer_agent.README import aliases, audio, chat, crawl, rag, transcription, voice
 
 docs = (
     [
@@ -21,4 +21,5 @@ docs = (
     + crawl.docs
     + rag.docs
     + transcription.docs
+    + voice.docs
 )
