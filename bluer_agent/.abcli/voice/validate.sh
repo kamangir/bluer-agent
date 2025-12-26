@@ -6,11 +6,11 @@ function bluer_agent_voice_validate() {
 
     curl -X 'POST' \
         $BLUER_AGENT_VOICE_ENDPOINT \
-        -H f"gateway-token: $BLUER_AGENT_VOICE_TOKEN" \
+        -H "gateway-token: $BLUER_AGENT_VOICE_TOKEN" \
         -H 'accept: application/json' \
         -H 'Content-Type: application/json' \
         -d '{
-  "text": "وزیر بهداشت در گفت و گو با ایسنا، آزمون دستیاری در کمال سلامت برگزار شد. هزار نفر در آزمون دستیاری امسال پذیرفته می شوند.",
+  "text": "سلام، من رنگین هستم. چطور می‌تونم کمکتون کنم؟",
   "speaker": "shahrzad",
   "speed": 1,
   "timestamp": false
