@@ -60,9 +60,9 @@ def generate_voice(
 
     payload = {
         "text": sentence,
-        "speaker": "shahrzad",
-        "speed": 1,
-        "timestamp": False,
+        "speaker": speaker,
+        "speed": speed,
+        "timestamp": timestamp,
     }
 
     headers = {

@@ -3,9 +3,9 @@ title:::
 ```bash
 @select voice-$(@@timestamp)
 
-@voice generate - . \
+@voice generate filename=voice.mp3 . \
     "سلام، من رنگین هستم. چطور می‌تونم کمکتون کنم؟" \
-    --speaker shahriyar
+    --speaker nourai
 
 @assets publish extensions=mp3,push
 ```

@@ -1,6 +1,11 @@
 #! /usr/bin/env bash
 
 function test_bluer_agent_voice() {
+    if [[ "$abcli_is_github_workflow" == true ]]; then
+        bluer_ai_log "no access from outside! 😁"
+        return
+    fi
+
     local options=$1
 
     local object_name=test_bluer_agent_voice-$(bluer_ai_string_timestamp)
