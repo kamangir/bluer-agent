@@ -37,7 +37,7 @@ function test_bluer_agent_help() {
         "@rag query" \
         \
         "@voice" \
-        "@voice validate" \
+        "@voice generate" \
         \
         "bluer_agent"; do
         bluer_ai_eval ,$options \

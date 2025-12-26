@@ -3,23 +3,25 @@ from typing import List
 from bluer_options.terminal import show_usage, xtra
 
 
-def help_validate(
+def help_generate(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = xtra("~play", mono=mono)
+    options = xtra("~download,~play", mono=mono)
 
     return show_usage(
         [
             "@voice",
-            "validate",
+            "generate",
             f"[{options}]",
+            "[-|<object-name>]",
+            '"<sentence>"',
         ],
-        "validate voice generation.",
+        "generate voice.",
         mono=mono,
     )
 
 
 help_functions = {
-    "validate": help_validate,
+    "generate": help_generate,
 }

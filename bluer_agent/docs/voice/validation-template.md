@@ -3,9 +3,10 @@ title:::
 ```bash
 @select voice-$(@@timestamp)
 
-@voice validate
+@voice generate - . \
+    "سلام، من رنگین هستم. چطور می‌تونم کمکتون کنم؟"
 
-@assets publish extensions=wav,push
+@assets publish extensions=mp3,push
 ```
 
 set:::object_name TBA

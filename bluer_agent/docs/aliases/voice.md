@@ -2,7 +2,9 @@
 
 ```bash
 @voice \
-	validate \
-	[~play]
- . validate voice generation.
+	generate \
+	[~download,~play] \
+	[-|<object-name>] \
+	"<sentence>"
+ . generate voice.
 ```
