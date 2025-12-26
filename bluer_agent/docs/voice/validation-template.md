@@ -11,4 +11,4 @@ title:::
 
 set:::object_name voice-2025-12-26-s4lj8i
 
-assets:::get:::object_name/voice.wav
+assets:::get:::object_name/voice.mp3
