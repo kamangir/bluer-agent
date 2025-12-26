@@ -152,7 +152,7 @@ class Context:
 
         return True, context
 
-    def understand_reply(reply: str) -> Tuple[bool, str]:
+    def understand_reply(self, reply: str) -> Tuple[bool, str]:
         try:
             reply_dict = json.loads(reply)
         except Exception as e:
