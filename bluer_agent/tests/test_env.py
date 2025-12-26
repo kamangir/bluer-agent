@@ -31,7 +31,6 @@ def test_bluer_agent_env():
         #
         env.BLUER_AGENT_CHAT_ENDPOINT,
         env.BLUER_AGENT_CHAT_MODEL_NAME,
-        env.BLUER_AGENT_CHAT_TEST_OBJECT,
         #
         env.BLUER_AGENT_CRAWL_TEST_OBJECT,
         #
