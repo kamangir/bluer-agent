@@ -15,6 +15,7 @@ pip install bluer-agent
 - [crawl](./bluer_agent/docs/crawl)
 - [rag](./bluer_agent/docs/rag)
 - [transcription](./bluer_agent/docs/transcription)
+- [voice](./bluer_agent/docs/voice.md)
 
 # aliases
 
