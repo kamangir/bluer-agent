@@ -10,6 +10,6 @@ title:::
 @assets publish extensions=mp3,push
 ```
 
-set:::object_name TBA
+set:::object_name voice-2025-12-29-xys201
 
 assets:::get:::object_name/voice.mp3
