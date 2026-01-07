@@ -4,10 +4,7 @@ continues [three](./three.md).
 
 ```bash
 @select crawl-$(@timestamp)
-```
 
-
-```bash
 @crawl collect \
   root=https://badkoobeh.com/ . \
   --page-count 5 \
@@ -18,11 +15,22 @@ continues [three](./three.md).
 @metadata upload .
 
 @upload public,zip .
+
+@upload public,filename=badkoobeh_com.pkl.html .
 ```
+
 
 ```yaml
-{}
+crawl:
+  https://badkoobeh.com/:
+  - https://badkoobeh.com
+  - https://badkoobeh.com/projects/
+  - https://badkoobeh.com/services/
+  - https://badkoobeh.com/about-us/
+  - https://badkoobeh.com/clients/
 
 ```
 
-[TBA](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/TBA.tar.gz)
+[crawl-2026-01-07-22-04-24-fzxplo/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-07-22-04-24-fzxplo/badkoobeh_com.pkl.html.tar.gz)
+
+[crawl-2026-01-07-22-04-24-fzxplo](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-07-22-04-24-fzxplo.tar.gz)
