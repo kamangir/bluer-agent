@@ -21,37 +21,6 @@ using gzip-compressed pickle:
 """
 
 
-def save(
-    results: Dict[str, str],
-    filename: str,
-) -> bool:
-    if not results:
-        logger.warning("no pages collected; nothing to save.")
-        return True
-
-    payload = {
-        "format": "site_text_collector",
-        "version": 1,
-        "results": results,
-    }
-    try:
-        with gzip.open(filename, "wb") as f:
-            pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
-    except Exception as e:
-        logger.error(e)
-        return False
-
-    logger.info(
-        "{}.save: {} page(s) -> {} [{}]".format(
-            NAME,
-            len(results),
-            filename,
-            string.pretty_bytes(file.size(filename)),
-        )
-    )
-    return True
-
-
 def load(filename: str) -> Tuple[bool, Dict[str, str]]:
     try:
         with gzip.open(filename, "rb") as f:
@@ -87,3 +56,34 @@ def load(filename: str) -> Tuple[bool, Dict[str, str]]:
     )
 
     return True, results
+
+
+def save(
+    results: Dict[str, str],
+    filename: str,
+) -> bool:
+    if not results:
+        logger.warning("no pages collected; nothing to save.")
+        return True
+
+    payload = {
+        "format": "site_text_collector",
+        "version": 1,
+        "results": results,
+    }
+    try:
+        with gzip.open(filename, "wb") as f:
+            pickle.dump(payload, f, protocol=pickle.HIGHEST_PROTOCOL)
+    except Exception as e:
+        logger.error(e)
+        return False
+
+    logger.info(
+        "{}.save: {} page(s) -> {} [{}]".format(
+            NAME,
+            len(results),
+            filename,
+            string.pretty_bytes(file.size(filename)),
+        )
+    )
+    return True

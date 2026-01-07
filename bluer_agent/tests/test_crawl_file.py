@@ -18,17 +18,17 @@ def test_crawl_file(object_name: str):
         policy=DownloadPolicy.DOESNT_EXIST,
     )
 
-    success, content = file.load(
+    success, results = file.load(
         objects.path_of(
             object_name=object_name,
             filename="badkoobeh_com.pkl.gz",
         )
     )
     assert success
-    assert isinstance(content, dict)
+    assert isinstance(results, dict)
 
     key = "https://badkoobeh.com"
-    assert key in content
+    assert key in results
 
     test_object_name = objects.unique_object("test_crawl_file")
     test_filename = objects.path_of(
@@ -36,9 +36,9 @@ def test_crawl_file(object_name: str):
         filename="badkoobeh_com.pkl.gz",
     )
 
-    assert file.save(content, test_filename)
+    assert file.save(results, test_filename)
 
-    success, content_loaded = file.load(test_filename)
+    success, results_loaded = file.load(test_filename)
     assert success
 
-    assert content == content_loaded
+    assert results == results_loaded
