@@ -31,6 +31,6 @@ crawl:
 
 ```
 
-[crawl-2026-01-07-22-04-24-fzxplo/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-07-22-04-24-fzxplo/badkoobeh_com.pkl.html.tar.gz)
+[crawl-2026-01-07-22-04-24-fzxplo](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/badkoobeh_com.pkl.html)
 
 [crawl-2026-01-07-22-04-24-fzxplo](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-07-22-04-24-fzxplo.tar.gz)

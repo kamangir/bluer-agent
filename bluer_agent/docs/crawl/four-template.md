@@ -23,6 +23,6 @@ set:::object_name crawl-2026-01-07-22-04-24-fzxplo
 
 metadata:::get:::object_name
 
-object:::get:::object_name/badkoobeh_com.pkl.html
+object:::get:::object_name:::badkoobeh_com.pkl.html
 
 object:::get:::object_name
