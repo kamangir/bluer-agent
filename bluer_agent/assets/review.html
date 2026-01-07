@@ -16,6 +16,16 @@
             text-align: right;
         }
 
+        /* English page title */
+        .page-title {
+            direction: ltr;
+            unicode-bidi: embed;
+            text-align: left;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
         .container {
             max-width: 900px;
             margin: auto;
@@ -45,7 +55,6 @@
             display: none;
         }
 
-        /* Put arrow on the left (natural for LTR keys) */
         summary::before {
             content: "▸";
             display: inline-block;
@@ -57,7 +66,7 @@
             transform: rotate(90deg);
         }
 
-        /* VALUE (likely Farsi) */
+        /* VALUE (Farsi) */
         .value {
             direction: rtl;
             unicode-bidi: plaintext;
@@ -69,7 +78,7 @@
             color: #333;
         }
 
-        /* LTR islands inside values (URLs, numbers, code) */
+        /* LTR islands inside values */
         .ltr {
             direction: ltr;
             unicode-bidi: embed;
@@ -79,9 +88,13 @@
 </head>
 
 <body>
+
+    <h1 class="page-title">title:::</h1>
+
     <div class="container">
         content:::
     </div>
+
 </body>
 
 </html>
