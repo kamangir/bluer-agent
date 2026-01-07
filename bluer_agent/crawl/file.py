@@ -8,7 +8,8 @@ from bluer_options import string
 from bluer_options.logger.config import log_list, shorten_text
 from bluer_objects import file, path
 
-from bluer_agent import NAME
+from bluer_agent import NAME, ICON
+from bluer_agent.host import signature
 from bluer_agent.logger import logger
 
 
@@ -41,6 +42,12 @@ def export(
         line.replace(
             "title:::",
             path.name(file.path(filename)),
+        ).replace(
+            "signature:::",
+            "{} {}".format(
+                ICON,
+                " | ".join(signature()),
+            ),
         )
         for line in report
     ]
