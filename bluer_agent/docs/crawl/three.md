@@ -28,7 +28,7 @@ EOF
 
 @crawl review - .
 
-@metadata upload .
+@upload - .
 
 @upload public,zip .
 ```

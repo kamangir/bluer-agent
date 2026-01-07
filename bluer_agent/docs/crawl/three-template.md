@@ -24,7 +24,7 @@ metadata:::get:::object_name:::corpus
 
 @crawl review - .
 
-@metadata upload .
+@upload - .
 
 @upload public,zip .
 ```
