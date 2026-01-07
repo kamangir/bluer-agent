@@ -49,10 +49,10 @@ def export(
         lambda x, y: x + y,
         [
             [
-                '<div class="item">',
-                f'    <div class="key">{key}</div>'
-                f'    <div class="value">{value}</div>'
-                "</div>",
+                "<details>",
+                f"    <summary>{key}</summary>",
+                f'    <div class="value">{value}</div>',
+                "</details>",
             ]
             for key, value in results.items()
         ],

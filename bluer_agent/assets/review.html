@@ -8,7 +8,7 @@
 
     <style>
         body {
-            font-family: "Vazirmatn", "IRANSans", "Tahoma", "Segoe UI", sans-serif;
+            font-family: "Vazirmatn", "IRANSans", "Tahoma", sans-serif;
             margin: 2rem;
             background: #fafafa;
             color: #222;
@@ -21,40 +21,61 @@
             margin: auto;
         }
 
-        .item {
+        details {
             background: #fff;
             border: 1px solid #e0e0e0;
             border-radius: 10px;
-            padding: 1rem 1.25rem;
             margin-bottom: 1rem;
+            padding: 0.25rem 1rem;
         }
 
-        .key {
+        /* KEY (English) */
+        summary {
+            direction: ltr;
+            unicode-bidi: embed;
+            text-align: left;
+
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #111;
+            cursor: pointer;
+            padding: 0.75rem 0;
+            list-style: none;
         }
 
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Put arrow on the left (natural for LTR keys) */
+        summary::before {
+            content: "▸";
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        details[open] summary::before {
+            transform: rotate(90deg);
+        }
+
+        /* VALUE (likely Farsi) */
         .value {
+            direction: rtl;
+            unicode-bidi: plaintext;
+            text-align: right;
+
+            padding: 0.75rem 0 1rem 0;
             white-space: pre-wrap;
-            /* حفظ خط‌های جدید */
             line-height: 1.8;
             color: #333;
         }
 
-        /* Optional: numbers and URLs still LTR */
-        .value code,
+        /* LTR islands inside values (URLs, numbers, code) */
         .ltr {
             direction: ltr;
             unicode-bidi: embed;
             font-family: monospace;
         }
     </style>
-
-    <!-- Optional: modern Persian font -->
-    <!--
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-  -->
 </head>
 
 <body>
