@@ -50,8 +50,8 @@ def export(
         [
             [
                 "<details>",
-                f"    <summary>{key}</summary>",
-                f'    <div class="value">{value}</div>',
+                f'    <summary><a href="{key}">{key}</a></summary>',
+                '    <div class="value">{}</div>'.format(value.replace("\n", " ")),
                 "</details>",
             ]
             for key, value in results.items()
