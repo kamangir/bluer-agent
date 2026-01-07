@@ -6,8 +6,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 from bluer_options.logger.config import log_list
 from bluer_objects import objects
-from bluer_objects.file import list_of
-from bluer_objects.file import name as file_name
+from bluer_objects import file as file_
 from bluer_objects.metadata import get_from_object
 
 from bluer_agent import NAME
@@ -114,7 +113,7 @@ if args.task == "collect":
         )
 elif args.task == "review":
     list_of_filenames: List[str] = (
-        list_of(
+        file_.list_of(
             objects.path_of(
                 object_name=args.object_name,
                 filename="*.pkl.gz",
@@ -132,15 +131,21 @@ elif args.task == "review":
     log_list(
         logger,
         "reviewing",
-        [file_name(filename) for filename in list_of_filenames],
+        [file_.name(filename) for filename in list_of_filenames],
         "file(s)",
     )
 
     success = True
     for filename in tqdm(list_of_filenames):
-        success, _ = file.load(filename)
+        success, results = file.load(filename)
         if not success:
             break
+
+        success = file.export(results, filename)
+        if not success:
+            break
+
+
 else:
     success = None
 sys_exit(logger, NAME, args.task, success)

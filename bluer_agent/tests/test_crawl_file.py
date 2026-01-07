@@ -42,3 +42,6 @@ def test_crawl_file(object_name: str):
     assert success
 
     assert results == results_loaded
+
+    success = file.export(results, test_filename)
+    assert success
