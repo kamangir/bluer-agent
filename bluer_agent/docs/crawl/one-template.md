@@ -7,6 +7,7 @@ using [top advertising agencies in iran](https://trainomarketing.com/top-adverti
 
 python3 -m bluer_agent.crawl\
     collect \
+    --object_name $abcli_object_name \
     --root https://badkoobeh.com/ \
     --page-count 5 \
     --max-depth 2 \
@@ -24,7 +25,7 @@ python3 -m bluer_agent.crawl \
 @upload public,filename=badkoobeh_com.pkl.html .
 ```
 
-set:::object_name crawl-2026-01-08-12-27-51-pgc5yk
+set:::object_name crawl-2026-01-08-12-30-13-kv4ify
 
 object:::get:::object_name
 
