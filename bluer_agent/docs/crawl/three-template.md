@@ -32,7 +32,9 @@ set:::object_name env:::BLUER_AGENT_CRAWL_TEST_OBJECT
 object:::get:::object_name
 
 object:::get:::object_name:::badkoobeh_com.pkl.html
+
 object:::get:::object_name:::irannovin_net.pkl.html
+
 object:::get:::object_name:::korosheh_com.pkl.html
 
 metadata:::get:::object_name
