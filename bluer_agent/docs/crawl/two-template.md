@@ -2,7 +2,6 @@ title:::
 
 continues [one](./one.md).
 
-
 ```bash
 @select crawl-$(@timestamp)
 
@@ -20,7 +19,7 @@ continues [one](./one.md).
 @upload public,filename=badkoobeh_com.pkl.html .
 ```
 
-set:::object_name TBA
+set:::object_name crawl-2026-01-08-12-37-35-elxbeo
 
 object:::get:::object_name
 
