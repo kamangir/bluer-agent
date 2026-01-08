@@ -10,9 +10,8 @@ from blueness import module
 from bluer_options import string
 from bluer_options.logger.config import log_list
 from bluer_objects import objects
-from bluer_objects.file import list_of
-from bluer_objects.file import name as file_name
-from bluer_objects.file import size as file_size
+from bluer_objects import file as file_
+from bluer_objects.metadata import post_to_object
 
 from bluer_agent import NAME
 from bluer_agent.crawl import file
@@ -23,7 +22,7 @@ NAME = module.name(__file__, NAME)
 
 
 def _root_name(filename: str) -> str:
-    name = file_name(filename)
+    name = file_.name(filename)
     for suffix in [".pkl.gz", ".pkl"]:
         if name.endswith(suffix):
             name = name[: -len(suffix)]
@@ -57,7 +56,7 @@ def build(
 ) -> bool:
     logger.info(f"{NAME}.build: {crawl_object_name} -> {corpus_object_name}")
 
-    list_of_filenames = list_of(
+    list_of_filenames = file_.list_of(
         objects.path_of(
             object_name=crawl_object_name,
             filename="*.pkl.gz",
@@ -66,7 +65,7 @@ def build(
     log_list(
         logger,
         "processing",
-        [file_name(filename) for filename in list_of_filenames],
+        [file_.name(filename) for filename in list_of_filenames],
         "file(s)",
     )
 
@@ -84,7 +83,12 @@ def build(
     with gzip.open(corpus_filename, "wt", encoding="utf-8") as f:
         for filename in tqdm(list_of_filenames):
             root = _root_name(filename)
-            logger.info("processing {} -> {} ...".format(file_name(filename), root))
+            logger.info(
+                "processing {} -> {} ...".format(
+                    file_.name(filename),
+                    root,
+                )
+            )
 
             success, crawl = file.load(filename)
             if not success:
@@ -119,7 +123,7 @@ def build(
 
     logger.info(
         "corpus -{}-> {}".format(
-            string.pretty_bytes(file_size(corpus_filename)),
+            string.pretty_bytes(file_.size(corpus_filename)),
             corpus_filename,
         )
     )
@@ -128,9 +132,15 @@ def build(
         f.write(json.dumps(roots, ensure_ascii=False))
     logger.info(
         "roots -{}-> {}".format(
-            string.pretty_bytes(file_size(roots_filename)),
+            string.pretty_bytes(file_.size(roots_filename)),
             roots_filename,
         ),
     )
 
-    return True
+    return post_to_object(
+        corpus_object_name,
+        "crawl",
+        {
+            "source": crawl_object_name,
+        },
+    )

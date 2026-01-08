@@ -24,5 +24,9 @@ function bluer_agent_rag_build_corpus() {
     [[ "$do_upload" == 1 ]] &&
         bluer_objects_upload - $corpus_object_name
 
+    bluer_objects_mlflow_tags_set \
+        $corpus_object_name \
+        crawl=$crawl_object_name
+
     return $status
 }
