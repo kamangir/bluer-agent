@@ -28,11 +28,11 @@ EOF
 ```
 
 
-[crawl-2025-12-25-13-33-15-7s08w8.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2025-12-25-13-33-15-7s08w8.tar.gz)
+[crawl-2026-01-08-12-39-45-hflyuj.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-39-45-hflyuj.tar.gz)
 
-[crawl-2025-12-25-13-33-15-7s08w8/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2025-12-25-13-33-15-7s08w8/badkoobeh_com.pkl.html)
-[crawl-2025-12-25-13-33-15-7s08w8/irannovin_net.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2025-12-25-13-33-15-7s08w8/irannovin_net.pkl.html)
-[crawl-2025-12-25-13-33-15-7s08w8/korosheh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2025-12-25-13-33-15-7s08w8/korosheh_com.pkl.html)
+[crawl-2026-01-08-12-39-45-hflyuj/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-39-45-hflyuj/badkoobeh_com.pkl.html)
+[crawl-2026-01-08-12-39-45-hflyuj/irannovin_net.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-39-45-hflyuj/irannovin_net.pkl.html)
+[crawl-2026-01-08-12-39-45-hflyuj/korosheh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-39-45-hflyuj/korosheh_com.pkl.html)
 
 ```yaml
 corpus:
@@ -48,10 +48,11 @@ crawl:
   - https://badkoobeh.com/clients/
   https://irannovin.net/:
   - https://irannovin.net
+  - "https://irannovin.net/\u0646\u0645\u0648\u0646\u0647-\u06A9\u0627\u0631\u0647\
+    \u0627/"
   - https://irannovin.net/departments/
   - https://irannovin.net/clients
   - https://irannovin.net/blog/
-  - "https://irannovin.net/\u062A\u0645\u0627\u0633-\u0628\u0627-\u0645\u0627/"
   https://korosheh.com:
   - https://korosheh.com
   - https://korosheh.com/services

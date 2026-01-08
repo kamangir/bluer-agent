@@ -29,10 +29,11 @@ crawl:
   - https://badkoobeh.com/clients/
   https://irannovin.net/:
   - https://irannovin.net
+  - "https://irannovin.net/\u0646\u0645\u0648\u0646\u0647-\u06A9\u0627\u0631\u0647\
+    \u0627/"
   - https://irannovin.net/departments/
   - https://irannovin.net/clients
   - https://irannovin.net/blog/
-  - "https://irannovin.net/\u062A\u0645\u0627\u0633-\u0628\u0627-\u0645\u0627/"
   https://korosheh.com:
   - https://korosheh.com
   - https://korosheh.com/services
