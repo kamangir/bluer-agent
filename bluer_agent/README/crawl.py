@@ -10,6 +10,5 @@ docs = [
         "one",
         "two",
         "three",
-        "four",
     ]
 ]

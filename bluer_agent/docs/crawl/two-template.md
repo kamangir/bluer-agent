@@ -2,19 +2,28 @@ title:::
 
 continues [one](./one.md).
 
+
 ```bash
-@select corpus-$(@timestamp)
+@select crawl-$(@timestamp)
 
 @crawl collect \
     root=https://badkoobeh.com/ . \
     --page-count 5 \
     --max-depth 2
 
-@crawl review root=https://badkoobeh.com/ .
+@crawl review - .
 
-@metadata upload .
+@upload - .
+
+@upload public,zip .
+
+@upload public,filename=badkoobeh_com.pkl.html .
 ```
 
-set:::object_name corpus-2025-12-25-03-04-37-xfttjy
+set:::object_name TBA
 
-metadata:::get:::object_name:::crawl_collect
+object:::get:::object_name
+
+object:::get:::object_name:::badkoobeh_com.pkl.html
+
+metadata:::get:::object_name

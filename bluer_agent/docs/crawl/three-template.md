@@ -11,13 +11,7 @@ corpus:
   - https://irannovin.net/
   - https://korosheh.com
 EOF
-```
 
-set:::object_name env:::BLUER_AGENT_CRAWL_TEST_OBJECT
-
-metadata:::get:::object_name:::corpus
-
-```bash
 @crawl collect - . \
     --page-count 5 \
     --max-depth 2
@@ -27,8 +21,18 @@ metadata:::get:::object_name:::corpus
 @upload - .
 
 @upload public,zip .
+
+@upload public,filename=badkoobeh_com.pkl.html .
+@upload public,filename=irannovin_net.pkl.html .
+@upload public,filename=korosheh_com.pkl.html .
 ```
 
-metadata:::get:::object_name:::crawl
+set:::object_name env:::BLUER_AGENT_CRAWL_TEST_OBJECT
 
 object:::get:::object_name
+
+object:::get:::object_name:::badkoobeh_com.pkl.html
+object:::get:::object_name:::irannovin_net.pkl.html
+object:::get:::object_name:::korosheh_com.pkl.html
+
+metadata:::get:::object_name

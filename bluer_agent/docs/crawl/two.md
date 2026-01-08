@@ -2,25 +2,30 @@
 
 continues [one](./one.md).
 
+
 ```bash
-@select corpus-$(@timestamp)
+@select crawl-$(@timestamp)
 
 @crawl collect \
     root=https://badkoobeh.com/ . \
     --page-count 5 \
     --max-depth 2
 
-@crawl review root=https://badkoobeh.com/ .
+@crawl review - .
 
-@metadata upload .
+@upload - .
+
+@upload public,zip .
+
+@upload public,filename=badkoobeh_com.pkl.html .
 ```
 
 
+[TBA.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/TBA.tar.gz)
+
+[TBA/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/TBA/badkoobeh_com.pkl.html)
+
 ```yaml
-- https://badkoobeh.com
-- https://badkoobeh.com/projects/
-- https://badkoobeh.com/services/
-- https://badkoobeh.com/about-us/
-- https://badkoobeh.com/clients/
+{}
 
 ```
