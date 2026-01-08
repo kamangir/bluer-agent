@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import gzip
 import json
-from typing import Callable, List, Tuple
+from typing import Callable, List
 import requests
 import numpy as np
 from tqdm import tqdm
