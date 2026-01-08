@@ -1,17 +1,21 @@
 title:::
 
 using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
-
+ 
 ```bash
 @select crawl-$(@timestamp)
 
-python3 -m bluer_agent.crawl.collect \
+python3 -m bluer_agent.crawl\
+    collect \
     --root https://badkoobeh.com/ \
     --page-count 5 \
     --max-depth 2 \
-    --out site_text.pkl.gz
+    --out badkoobeh_com.pkl.gz
 
-python3 -m bluer_agent.crawl.review
+python3 -m bluer_agent.crawl \
+    review \
+    --object_name $abcli_object_name \
+    --root https://badkoobeh.com/
 
 @upload - .
 
@@ -20,7 +24,7 @@ python3 -m bluer_agent.crawl.review
 @upload public,filename=badkoobeh_com.pkl.html .
 ```
 
-set:::object_name TBA
+set:::object_name crawl-2026-01-08-12-27-51-pgc5yk
 
 object:::get:::object_name
 

@@ -1,17 +1,21 @@
 # crawl: one
 
 using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
-
+ 
 ```bash
 @select crawl-$(@timestamp)
 
-python3 -m bluer_agent.crawl.collect \
+python3 -m bluer_agent.crawl\
+    collect \
     --root https://badkoobeh.com/ \
     --page-count 5 \
     --max-depth 2 \
-    --out site_text.pkl.gz
+    --out badkoobeh_com.pkl.gz
 
-python3 -m bluer_agent.crawl.review
+python3 -m bluer_agent.crawl \
+    review \
+    --object_name $abcli_object_name \
+    --root https://badkoobeh.com/
 
 @upload - .
 
@@ -21,9 +25,9 @@ python3 -m bluer_agent.crawl.review
 ```
 
 
-[TBA.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/TBA.tar.gz)
+[crawl-2026-01-08-12-27-51-pgc5yk.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-27-51-pgc5yk.tar.gz)
 
-[TBA/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/TBA/badkoobeh_com.pkl.html)
+[crawl-2026-01-08-12-27-51-pgc5yk/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-27-51-pgc5yk/badkoobeh_com.pkl.html)
 
 ```yaml
 {}

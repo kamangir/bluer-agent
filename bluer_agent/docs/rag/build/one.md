@@ -8,6 +8,10 @@ uses [crawl/three](../crawl/three.md)
 @select $BLUER_AGENT_CRAWL_TEST_OBJECT
 
 @select corpus-$(@@timestamp)
+
+@rag build_corpus upload .. .
+
+@upload public,zip .
 ```
 
 
@@ -36,12 +40,6 @@ crawl:
   - https://korosheh.com/digital-marketing
   - https://korosheh.com/video-marketing
 
-```
-
-```bash
-@rag build_corpus upload .. .
-
-@upload public,zip .
 ```
 
 ```yaml
