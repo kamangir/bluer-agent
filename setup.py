@@ -18,6 +18,7 @@ setup(
         f"{NAME}.rag.corpus",
         f"{NAME}.README",
         f"{NAME}.transcription",
+        f"{NAME}.voice",
     ],
     include_package_data=True,
     package_data={
