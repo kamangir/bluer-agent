@@ -12,6 +12,8 @@ function test_bluer_agent_transcribe() {
 
     if [[ "$abcli_is_github_workflow" == false ]] &&
         [[ ",$what," == *",record,"* ]]; then
+        local object_name=test_bluer_agent_transcribe-$(bluer_ai_string_timestamp_short)
+
         bluer_ai_eval ,$options \
             bluer_agent_transcribe \
             filename=farsi.wav,language=fa,play=$do_play \

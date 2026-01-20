@@ -130,7 +130,7 @@ class SiteTextCollector:
                         f"Retryable HTTP {resp.status_code}", response=resp
                     )
                 return resp
-            except KeyboardInterrupt:
+            except KeyboardInterrupt:  # pylint: disable=W0706
                 # Respect immediate interrupts
                 raise
             except Exception as e:
