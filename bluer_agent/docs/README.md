@@ -5,4 +5,5 @@
 - [rag](./rag)
 - [transcription](./transcription)
 - [voice](./voice)
+- [other](./other.md)
 - [aliases](./aliases)

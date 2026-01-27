@@ -4,7 +4,7 @@ function test_bluer_agent_crawl() {
     local options=$1
 
     local object_name=test_bluer_agent_crawl-$(bluer_ai_string_timestamp)
-    local root=https://badkoobeh.com/
+    local root=https://irna.ir/
 
     bluer_ai_eval ,$options \
         bluer_agent_crawl \

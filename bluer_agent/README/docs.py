@@ -14,6 +14,9 @@ docs = (
         {
             "path": "../docs",
         },
+        {
+            "path": "../docs/other.md",
+        },
     ]
     + aliases.docs
     + audio.docs
