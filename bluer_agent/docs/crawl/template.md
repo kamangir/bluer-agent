@@ -1,3 +1,7 @@
 title:::
 
-- validations: [one](./one.md), [two](./two.md), [three](./three.md).
+validations:
+- python cli calls: [one](./one.md)
+- bash commands:
+    - single root: [two](./two.md)
+    - multiple roots: [three](./three.md)
