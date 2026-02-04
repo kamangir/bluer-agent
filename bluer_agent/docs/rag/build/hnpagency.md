@@ -126,6 +126,7 @@ crawl:
 </details>
 
 
+rag metadata
 ```yaml
 crawl:
   source: crawl-hnpagency-2026-02-04-17-17-32-d24z45

@@ -126,6 +126,7 @@ crawl:
 </details>
 
 
+rag metadata
 ```yaml
 crawl:
   source: crawl-badkoobeh-2026-02-04-17-17-42-by7jdk

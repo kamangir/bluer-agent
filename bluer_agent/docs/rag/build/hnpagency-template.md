@@ -19,6 +19,7 @@ details:::crawl metadata
 metadata:::get:::object_crawl_name
 details:::
 
+rag metadata
 metadata:::get:::object_corpus_name
 
 object:::get:::object_corpus_name
