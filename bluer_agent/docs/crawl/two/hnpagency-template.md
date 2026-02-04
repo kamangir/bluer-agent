@@ -1,10 +1,7 @@
 title:::
 
-repeats [two:a](./a.md).
+repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.com/).
 
-🔥
-
-# shorten the code
 ```bash
 @select crawl-hnpagency-$(@timestamp)
 
