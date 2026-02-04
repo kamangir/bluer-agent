@@ -1,6 +1,8 @@
 title:::
 
-continues [one](./one.md).
+repeats [two:a](./a.md).
+
+🔥
 
 ```bash
 @select crawl-$(@timestamp)

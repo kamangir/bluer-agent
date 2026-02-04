@@ -1,6 +1,6 @@
 # crawl: three
 
-continues [two](./two.md).
+continues [two](./two).
 
 ```bash
 @select crawl-$(@timestamp)

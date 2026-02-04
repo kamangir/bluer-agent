@@ -4,11 +4,13 @@ docs = [
     },
 ] + [
     {
-        "path": f"../docs/crawl/{name}.md",
+        "path": f"../docs/crawl/{name}",
     }
     for name in [
-        "one",
+        "one.md",
         "two",
-        "three",
+        "two/a.md",
+        "two/b.md",
+        "three.md",
     ]
 ]
