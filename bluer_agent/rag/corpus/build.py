@@ -141,10 +141,14 @@ def build(
         ),
     )
 
+    for root in roots:
+        del roots[root]["text"]
+
     return post_to_object(
         corpus_object_name,
         "crawl",
         {
+            "roots": roots,
             "source": crawl_object_name,
         },
     )

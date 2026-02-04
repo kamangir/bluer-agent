@@ -129,8 +129,13 @@ crawl:
 rag metadata
 ```yaml
 crawl:
+  roots:
+    hnpagency_com:
+      chunks: 148
+      pages: 100
+      root: hnpagency_com
   source: crawl-hnpagency-2026-02-04-17-17-32-d24z45
 
 ```
 
-[corpus-hnpagency-2026-02-04-63hokm.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-hnpagency-2026-02-04-63hokm.tar.gz)
+[corpus-hnpagency-2026-02-04-34rd2w.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-hnpagency-2026-02-04-34rd2w.tar.gz)

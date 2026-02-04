@@ -129,8 +129,13 @@ crawl:
 rag metadata
 ```yaml
 crawl:
+  roots:
+    badkoobeh_com:
+      chunks: 288
+      pages: 100
+      root: badkoobeh_com
   source: crawl-badkoobeh-2026-02-04-17-17-42-by7jdk
 
 ```
 
-[corpus-badkoobeh-2026-02-04-3attre.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-badkoobeh-2026-02-04-3attre.tar.gz)
+[corpus-badkoobeh-2026-02-04-h116nm.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-badkoobeh-2026-02-04-h116nm.tar.gz)

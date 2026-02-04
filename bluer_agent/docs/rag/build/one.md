@@ -44,8 +44,21 @@ crawl:
 
 ```yaml
 crawl:
+  roots:
+    badkoobeh_com:
+      chunks: 27
+      pages: 5
+      root: badkoobeh_com
+    irannovin_net:
+      chunks: 17
+      pages: 5
+      root: irannovin_net
+    korosheh_com:
+      chunks: 77
+      pages: 5
+      root: korosheh_com
   source: crawl-2026-01-08-12-39-45-hflyuj
 
 ```
 
-[corpus-2026-01-08-42ov53.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-2026-01-08-42ov53.tar.gz)
+[corpus-2026-02-04-k9njk5.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-2026-02-04-k9njk5.tar.gz)
