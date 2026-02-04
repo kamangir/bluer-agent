@@ -6,7 +6,7 @@ repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.co
 @select crawl-hnpagency-$(@timestamp)
 
 @crawl collect \
-    root=https://hnpagency.com/,review . \
+    root=https://hnpagency.com/,review,upload . \
     --page-count 100 \
     --max-depth 10
 
@@ -15,7 +15,7 @@ repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.co
 @upload public,filename=hnpagency_com.pkl.html .
 ```
 
-set:::object_name crawl-hnpagency-2026-02-04-17-09-29-xqfnva
+set:::object_name crawl-hnpagency-2026-02-04-17-17-32-d24z45
 
 object:::get:::object_name
 

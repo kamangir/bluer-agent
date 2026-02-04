@@ -6,7 +6,7 @@ repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.co
 @select crawl-hnpagency-$(@timestamp)
 
 @crawl collect \
-    root=https://hnpagency.com/,review . \
+    root=https://hnpagency.com/,review,upload . \
     --page-count 100 \
     --max-depth 10
 
@@ -16,9 +16,9 @@ repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.co
 ```
 
 
-[crawl-hnpagency-2026-02-04-17-09-29-xqfnva.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-hnpagency-2026-02-04-17-09-29-xqfnva.tar.gz)
+[crawl-hnpagency-2026-02-04-17-17-32-d24z45.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-hnpagency-2026-02-04-17-17-32-d24z45.tar.gz)
 
-[crawl-hnpagency-2026-02-04-17-09-29-xqfnva/hnpagency_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-hnpagency-2026-02-04-17-09-29-xqfnva/hnpagency_com.pkl.html)
+[crawl-hnpagency-2026-02-04-17-17-32-d24z45/hnpagency_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-hnpagency-2026-02-04-17-17-32-d24z45/hnpagency_com.pkl.html)
 
 
 <details>

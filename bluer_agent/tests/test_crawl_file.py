@@ -10,7 +10,10 @@ from bluer_agent.crawl import file
 
 @pytest.mark.parametrize(
     ["object_name"],
-    [[env.BLUER_AGENT_CRAWL_TEST_OBJECT]],
+    [
+        [env.BLUER_AGENT_CRAWL_TEST_OBJECT],
+        [env.BLUER_AGENT_CRAWL_SINGLE_ROOT_TEST_OBJECT],
+    ],
 )
 def test_crawl_file(object_name: str):
     assert storage.download(
