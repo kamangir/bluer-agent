@@ -1,8 +1,7 @@
 # rag: build: one
 
-using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
-
-uses [crawl/three](../../crawl/three.md)
+- using [top advertising agencies in iran](https://trainomarketing.com/top-advertising-agency-in-iran/).
+- uses [crawl/three](../../crawl/three.md)
 
 ```bash
 @select $BLUER_AGENT_CRAWL_TEST_OBJECT
