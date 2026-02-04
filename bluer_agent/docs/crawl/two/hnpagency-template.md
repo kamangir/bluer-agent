@@ -24,4 +24,6 @@ object:::get:::object_name
 
 object:::get:::object_name:::hnpagency_com.pkl.html
 
+details:::metadata
 metadata:::get:::object_name
+details:::

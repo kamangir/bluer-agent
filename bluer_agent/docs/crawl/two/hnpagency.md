@@ -23,6 +23,10 @@ repeats [two:a](./a.md).
 
 [crawl-hnpagency-2026-02-04-17-09-29-xqfnva/hnpagency_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-hnpagency-2026-02-04-17-09-29-xqfnva/hnpagency_com.pkl.html)
 
+
+<details>
+<summary>metadata</summary>
+
 ```yaml
 crawl:
   https://hnpagency.com/:
@@ -128,3 +132,6 @@ crawl:
   - https://hnpagency.com/boards/%d8%b9%d8%b1%d8%b4%d9%87-%d9%be%d9%84-kt1-%d8%a2%d8%b2%d8%a7%d8%af%d8%b1%d8%a7%d9%87-%d8%aa%d9%87%d8%b1%d8%a7%d9%86-%da%a9%d8%b1%d8%ac/02188882525
 
 ```
+
+</details>
+
