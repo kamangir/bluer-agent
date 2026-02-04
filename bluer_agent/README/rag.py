@@ -1,17 +1,14 @@
 docs = [
     {
-        "path": "../docs/rag",
-    },
-    {
-        "path": "../docs/rag/build/",
-    },
-    {
-        "path": "../docs/rag/build/one.md",
-    },
-    {
-        "path": "../docs/rag/query/",
-    },
-    {
-        "path": "../docs/rag/query/one.md",
-    },
+        "path": f"../docs/rag{suffix}"
+        for suffix in [
+            "",
+            "/build/",
+            "/build/one.md",
+            "/build/hnpagency.md",
+            "/build/badkoobeh.md",
+            "/query/",
+            "/query/one.md",
+        ]
+    }
 ]

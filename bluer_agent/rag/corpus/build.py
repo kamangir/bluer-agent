@@ -33,6 +33,10 @@ def _root_name(filename: str) -> str:
 def _normalize(text: str) -> str:
     text = text.replace("\u064a", "\u06cc")  # ي -> ی
     text = text.replace("\u0643", "\u06a9")  # ك -> ک
+    text = text.replace("\u200c", " ")
+    text = text.replace("\u200e", " ")
+    text = text.replace("\u200f", " ")
+    text = text.replace("\xad", " ")
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
