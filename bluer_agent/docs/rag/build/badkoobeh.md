@@ -2,8 +2,6 @@
 
 - uses [crawl/two/badkoobeh](../../crawl/two/badkoobeh.md)
 
-🔥
-
 ```bash
 @select $BLUER_AGENT_CRAWL_SINGLE_ROOT_TEST_OBJECT
 
