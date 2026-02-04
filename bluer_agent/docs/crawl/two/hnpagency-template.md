@@ -9,20 +9,16 @@ repeats [two:a](./a.md).
 @select crawl-hnpagency-$(@timestamp)
 
 @crawl collect \
-    root=https://hnpagency.com/ . \
-    --page-count 5 \
-    --max-depth 2
-
-@crawl review - .
-
-@upload - .
+    root=https://hnpagency.com/,review . \
+    --page-count 100 \
+    --max-depth 10
 
 @upload public,zip .
 
-@upload public,filename=xyz.pkl.html . # <- refactor, remove filename
+@upload public,filename=hnpagency_com.pkl.html .
 ```
 
-set:::object_name TBA
+set:::object_name crawl-hnpagency-2026-02-04-17-09-29-xqfnva
 
 object:::get:::object_name
 

@@ -262,8 +262,7 @@ class SiteTextCollector:
                 text = self._extract_text(html)
 
                 logger.info(
-                    "{}: {} -> {} of text".format(
-                        item.url,
+                    "html: {} -> text: {}".format(
                         string.pretty_bytes(len(html)),
                         string.pretty_bytes(len(text)),
                     )
