@@ -1,6 +1,7 @@
 # crawl: two: hnpagency
 
-repeats [two:badkoobeh](./badkoobeh.md) for [hnpagency.com](https://hnpagency.com/).
+- repeats [two:badkoobeh](./badkoobeh.md).
+- deeper run at[hnpagency.com](https://hnpagency.com/).
 
 ```bash
 @select crawl-hnpagency-$(@timestamp)

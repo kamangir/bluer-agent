@@ -1,6 +1,7 @@
 title:::
 
-continues [one](../one.md).
+- continues [one](../one.md).
+- deeper run at [badkoobeh.com/](https://badkoobeh.com/).
 
 ```bash
 @select crawl-badkoobeh-$(@timestamp)
