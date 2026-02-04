@@ -1,8 +1,6 @@
-# crawl: two: b
+# crawl: two: badkoobeh
 
-repeats [two:a](./a.md).
-
-🔥
+continues [one](../one.md).
 
 ```bash
 @select crawl-$(@timestamp)

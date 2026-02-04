@@ -9,8 +9,9 @@ docs = [
     for name in [
         "one.md",
         "two",
-        "two/a.md",
-        "two/b.md",
+        "two/badkoobeh.md",
+        "two/hnpagency.md",
+        "two/simaara.md",
         "three.md",
     ]
 ]
