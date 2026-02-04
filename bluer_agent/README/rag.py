@@ -10,5 +10,7 @@ docs = [
         "/build/badkoobeh.md",
         "/query/",
         "/query/one.md",
+        "/query/hnpagency.md",
+        "/query/badkoobeh.md",
     ]
 ]
