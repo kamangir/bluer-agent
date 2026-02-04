@@ -1,22 +1,22 @@
 title:::
 
-- repeats [one](./one.md).
-- deeper run at [badkoobeh.com/](https://badkoobeh.com/).
+- continues [one](../one.md).
+- uses bash.
 
 ```bash
 @select crawl-badkoobeh-$(@timestamp)
 
 @crawl collect \
     root=https://badkoobeh.com/,review,upload . \
-    --page-count 100 \
-    --max-depth 10
+    --page-count 10 \
+    --max-depth 2
 
 @upload public,zip .
 
 @upload public,filename=badkoobeh_com.pkl.html .
 ```
 
-set:::object_name env:::BLUER_AGENT_CRAWL_SINGLE_ROOT_TEST_OBJECT
+set:::object_name crawl-badkoobeh-2026-02-04-21-57-15-j8kyt5
 
 object:::get:::object_name
 

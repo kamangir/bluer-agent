@@ -1,7 +1,7 @@
 title:::
 
-- repeats [two:badkoobeh](./badkoobeh.md).
-- deeper run at[hnpagency.com](https://hnpagency.com/).
+- repeats [one](./one.md).
+- deeper run at [hnpagency.com](https://hnpagency.com/).
 
 ```bash
 @select crawl-hnpagency-$(@timestamp)

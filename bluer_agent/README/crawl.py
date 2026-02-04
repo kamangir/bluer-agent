@@ -1,16 +1,14 @@
 docs = [
     {
-        "path": "../docs/crawl",
-    },
-] + [
-    {
-        "path": f"../docs/crawl/{name}",
+        "path": f"../docs/crawl{suffix}",
     }
-    for name in [
-        "one.md",
-        "two",
-        "two/badkoobeh.md",
-        "two/hnpagency.md",
-        "three.md",
+    for suffix in [
+        "",
+        "/one.md",
+        "/two",
+        "/two/one.md",
+        "/two/badkoobeh.md",
+        "/two/hnpagency.md",
+        "/three.md",
     ]
 ]

@@ -4,6 +4,7 @@ import re
 
 from blueness import module
 from bluer_options.logger.config import log_list
+from bluer_objects.html_report import HTMLReport
 
 from bluer_agent import NAME
 from bluer_agent import env
@@ -16,10 +17,14 @@ NAME = module.name(__file__, NAME)
 def chat(
     messages: List[Dict],
     remove_thoughts: bool = True,
+    html_report: HTMLReport = HTMLReport(),
 ) -> Tuple[bool, str]:
     log_list(
         logger,
-        f"{NAME}.chat({env.BLUER_AGENT_CHAT_MODEL_NAME}):",
+        "{}.chat({}):".format(
+            NAME,
+            env.BLUER_AGENT_CHAT_MODEL_NAME,
+        ),
         [str(message) for message in messages],
         "message(s)",
     )

@@ -1,6 +1,6 @@
 # crawl: two: badkoobeh
 
-- continues [one](../one.md).
+- repeats [one](./one.md).
 - deeper run at [badkoobeh.com/](https://badkoobeh.com/).
 
 ```bash

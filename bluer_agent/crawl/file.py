@@ -7,6 +7,7 @@ from blueness import module
 from bluer_options import string
 from bluer_options.logger.config import log_list, shorten_text
 from bluer_objects import file, path
+from bluer_objects.html_report import HTMLReport
 
 from bluer_agent import NAME, ICON
 from bluer_agent.host import signature
@@ -29,50 +30,44 @@ def export(
 ) -> bool:
     filename = file.add_extension(filename, "html")
 
-    success, report = file.load_text(
-        file.absolute(
-            "../assets/review.html",
-            file.path(__file__),
-        )
-    )
-    if not success:
-        return success
-
-    report = [
-        line.replace(
-            "title:::",
-            path.name(file.path(filename)),
-        ).replace(
-            "signature:::",
-            "{} {}".format(
-                ICON,
-                " | ".join(signature()),
+    if not (
+        HTMLReport(
+            file.absolute(
+                "../assets/review.html",
+                file.path(__file__),
             ),
         )
-        for line in report
-    ]
-
-    content = reduce(
-        lambda x, y: x + y,
-        [
-            [
-                "<details>",
-                f'    <summary><a href="{key}">{key}</a></summary>',
-                '    <div class="value">{}</div>'.format(value.replace("\n", " ")),
-                "</details>",
-            ]
-            for key, value in results.items()
-        ],
-        [],
-    )
-
-    report = reduce(
-        lambda x, y: x + y,
-        [content if "content:::" in line else [line] for line in report],
-        [],
-    )
-
-    if not file.save_text(filename, report):
+        .replace(
+            {
+                "title:::": path.name(file.path(filename)),
+                "signature:::": "{} {}".format(
+                    ICON,
+                    " | ".join(signature()),
+                ),
+            }
+        )
+        .replace(
+            {
+                "content:::": reduce(
+                    lambda x, y: x + y,
+                    [
+                        [
+                            "<details>",
+                            f'    <summary><a href="{key}">{key}</a></summary>',
+                            '    <div class="value">{}</div>'.format(
+                                value.replace("\n", " ")
+                            ),
+                            "</details>",
+                        ]
+                        for key, value in results.items()
+                    ],
+                    [],
+                ),
+            },
+            contains=True,
+        )
+        .save(filename)
+    ):
         return False
 
     logger.info(
@@ -83,6 +78,7 @@ def export(
             string.pretty_bytes(file.size(filename)),
         )
     )
+
     return True
 
 
