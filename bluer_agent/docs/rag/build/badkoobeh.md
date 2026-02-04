@@ -15,6 +15,10 @@
 ```
 
 
+
+<details>
+<summary>crawl metadata</summary>
+
 ```yaml
 crawl:
   https://badkoobeh.com/:
@@ -120,6 +124,9 @@ crawl:
   - https://badkoobeh.com/clients/%d9%85%d8%af%d8%b1%d8%b3%d8%a7%d9%86-%d8%b4%d8%b1%db%8c%d9%81/
 
 ```
+
+</details>
+
 
 ```yaml
 crawl:
