@@ -2,8 +2,6 @@ title:::
 
 - uses [crawl/two/hnpagency](../../crawl/two/hnpagency.md)
 
-🔥
-
 ```bash
 @select crawl-hnpagency-2026-02-04-17-17-32-d24z45
 
