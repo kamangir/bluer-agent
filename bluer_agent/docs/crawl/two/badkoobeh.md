@@ -3,7 +3,7 @@
 continues [one](../one.md).
 
 ```bash
-@select crawl-$(@timestamp)
+@select crawl-badkoobeh-$(@timestamp)
 
 @crawl collect \
     root=https://badkoobeh.com/ . \

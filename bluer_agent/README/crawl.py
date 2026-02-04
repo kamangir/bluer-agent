@@ -11,7 +11,6 @@ docs = [
         "two",
         "two/badkoobeh.md",
         "two/hnpagency.md",
-        "two/simaara.md",
         "three.md",
     ]
 ]

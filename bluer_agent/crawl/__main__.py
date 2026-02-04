@@ -1,18 +1,15 @@
 import argparse
 from tqdm import tqdm
-from typing import List
 
 from blueness import module
 from blueness.argparse.generic import sys_exit
 from bluer_options.logger.config import log_list
-from bluer_objects import objects
-from bluer_objects import file as file_
 from bluer_objects.metadata import get_from_object
 
 from bluer_agent import NAME
 from bluer_agent.crawl import file
 from bluer_agent.crawl.collect import collect, CollectionProperties
-from bluer_agent.crawl.functions import url_to_filename
+from bluer_agent.crawl.review import review
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -112,40 +109,10 @@ if args.task == "collect":
             properties=properties,
         )
 elif args.task == "review":
-    list_of_filenames: List[str] = (
-        file_.list_of(
-            objects.path_of(
-                object_name=args.object_name,
-                filename="*.pkl.gz",
-            )
-        )
-        if args.root == "all"
-        else [
-            objects.path_of(
-                object_name=args.object_name,
-                filename="{}.pkl.gz".format(url_to_filename(args.root)),
-            )
-        ]
+    success = review(
+        object_name=args.object_name,
+        root=args.root,
     )
-
-    log_list(
-        logger,
-        "reviewing",
-        [file_.name(filename) for filename in list_of_filenames],
-        "file(s)",
-    )
-
-    success = True
-    for filename in tqdm(list_of_filenames):
-        success, results = file.load(filename)
-        if not success:
-            break
-
-        success = file.export(results, filename)
-        if not success:
-            break
-
-
 else:
     success = None
 sys_exit(logger, NAME, args.task, success)
