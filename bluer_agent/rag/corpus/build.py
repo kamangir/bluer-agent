@@ -60,16 +60,19 @@ def build(
 ) -> bool:
     logger.info(f"{NAME}.build: {crawl_object_name} -> {corpus_object_name}")
 
-    list_of_filenames = file_.list_of(
-        objects.path_of(
-            object_name=crawl_object_name,
-            filename="*.pkl.gz",
+    list_of_filenames = [
+        file_.name_and_extension(filename)
+        for filename in file_.list_of(
+            objects.path_of(
+                object_name=crawl_object_name,
+                filename="*.pkl.gz",
+            )
         )
-    )
+    ]
     log_list(
         logger,
         "processing",
-        [file_.name(filename) for filename in list_of_filenames],
+        list_of_filenames,
         "file(s)",
     )
 
@@ -89,12 +92,15 @@ def build(
             root = _root_name(filename)
             logger.info(
                 "processing {} -> {} ...".format(
-                    file_.name(filename),
+                    filename,
                     root,
                 )
             )
 
-            success, crawl = file.load(filename)
+            success, crawl = file.load(
+                object_name=crawl_object_name,
+                filename=filename,
+            )
             if not success:
                 return False
 
@@ -141,8 +147,8 @@ def build(
         ),
     )
 
-    for root in roots:
-        del roots[root]["text"]
+    for root_info in roots.values():
+        del root_info["text"]
 
     return post_to_object(
         corpus_object_name,

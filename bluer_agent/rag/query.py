@@ -17,7 +17,7 @@ NAME = module.name(__file__, NAME)
 
 
 def query(
-    object_name: str,
+    corpus_object_name: str,
     query: str,
     top_k: int = 5,
     html_report: HTMLReport = HTMLReport(),
@@ -25,12 +25,12 @@ def query(
     logger.info(
         '{}.query[{}]("{}")'.format(
             NAME,
-            object_name,
+            corpus_object_name,
             query,
         )
     )
 
-    context = Context(object_name)
+    context = Context(corpus_object_name)
 
     success, query_context = context.generate(
         query=query,
@@ -42,19 +42,14 @@ def query(
     html_report.replace(
         {
             "context_count:::": str(len(query_context["chunks"])),
-            "model:::": object_name,
+            "corpus_name:::": corpus_object_name,
             "query:::": query,
             "query_dir:::": "ltr",
             "query_lang:::": "fa",
-            "signature:::": " | ".join(
-                objects.signature(
-                    object_name="TBA",
-                    info="TBA",
-                )
-                + signature()
-            ),
+            "host_signature:::": " | ".join(signature()),
             "text_dir:::": "ltr",
             "text_lang:::": "fa",
+            "title:::": "rag query output",
         }
     ).replace(
         {

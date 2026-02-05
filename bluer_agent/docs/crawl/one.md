@@ -5,7 +5,7 @@ using [top advertising agencies in iran](https://trainomarketing.com/top-adverti
 ```bash
 @select crawl-$(@timestamp)
 
-python3 -m bluer_agent.crawl\
+python3 -m bluer_agent.crawl \
     collect \
     --object_name $abcli_object_name \
     --root https://badkoobeh.com/ \
@@ -26,9 +26,9 @@ python3 -m bluer_agent.crawl \
 ```
 
 
-[crawl-2026-01-08-12-30-13-kv4ify.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-30-13-kv4ify.tar.gz)
+[crawl-2026-02-05-13-10-43-62sfm5.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-02-05-13-10-43-62sfm5.tar.gz)
 
-[crawl-2026-01-08-12-30-13-kv4ify/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-01-08-12-30-13-kv4ify/badkoobeh_com.pkl.html)
+[crawl-2026-02-05-13-10-43-62sfm5/badkoobeh_com.pkl.html](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/crawl-2026-02-05-13-10-43-62sfm5/badkoobeh_com.pkl.html)
 
 ```yaml
 crawl:

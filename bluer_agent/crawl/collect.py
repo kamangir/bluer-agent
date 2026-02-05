@@ -65,15 +65,9 @@ def collect(
         logger.warning("Ctrl+C, saving partial results...")
 
     if not file.save(
-        results,
-        (
-            objects.path_of(
-                object_name=object_name,
-                filename="{}.pkl.gz".format(url_to_filename(root)),
-            )
-            if out == "auto"
-            else out
-        ),
+        results=results,
+        object_name=object_name,
+        filename="{}.pkl.gz".format(url_to_filename(root)) if out == "auto" else out,
     ):
         return False
 

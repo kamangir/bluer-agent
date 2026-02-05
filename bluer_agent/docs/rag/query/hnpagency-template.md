@@ -2,20 +2,16 @@ title:::
 
 uses [build/hnpagency](../build/hnpagency.md)
 
-set:::object_corpus_name corpus-hnpagency-2026-02-04-34rd2w
-
-🔥
-
 ```bash
-@select corpus-hnpagency-2026-02-04-34rd2w
-@rag query - . \
-	"چطور برای تبلیغات محلی تصمیم بگیرم؟"
+@select rag-query-$(@timestamp)
+
+@rag query - \
+	corpus-hnpagency-2026-02-04-34rd2w \
+	"چطور برای تبلیغات محلی تصمیم بگیرم؟" .
+
+@upload public,filename=query.html .
 ```
 
-```text
+set:::object_name rag-query-2026-02-05-13-35-37-16yog5
 
-```
-
-```json
-
-```
+object:::get:::object_name:::query.html

@@ -11,6 +11,7 @@
 	query \
 	[download] \
 	[.|<corpus-object-name>] \
-	<sentence>
- . query <sentence>.
+	<query> \
+	[-|<query-object-name>]
+ . query <query> on <corpus-object-name> -> <query-object-name>.
 ```

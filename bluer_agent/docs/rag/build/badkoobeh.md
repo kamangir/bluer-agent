@@ -40,8 +40,8 @@ crawl:
   - https://badkoobeh.com/projectcat/%d8%b1%d9%88%db%8c%d8%af%d8%a7%d8%af/
   - https://badkoobeh.com/projectcat/%d8%b3%d8%a7%db%8c%d8%b1/
   - https://badkoobeh.com/projectcat/%d9%85%d8%ad%db%8c%d8%b7%db%8c/
-  - https://badkoobeh.com/works/%d8%a2%d8%b1%db%8c%d9%86-%d9%85%d9%88%d8%aa%d9%88%d8%b1/
   - https://badkoobeh.com/works/%d8%a8%d8%b1%d9%86%d8%af-%d8%a7%da%a9%d8%aa%db%8c%d9%88%db%8c%d8%b4%d9%86-%d9%85%da%a9%d8%b1%d8%b1/
+  - https://badkoobeh.com/works/%d8%a2%d8%b1%db%8c%d9%86-%d9%85%d9%88%d8%aa%d9%88%d8%b1/
   - https://badkoobeh.com/works/%d8%a8%d8%a7-%da%af%d8%a7%d8%b2-%d8%af%d8%a7%d8%aa%db%8c%d8%b3-%d8%a8%d8%ac%d9%88%d8%b4%db%8c%d8%af/
   - https://badkoobeh.com/works/%d8%a7%d9%85%d8%aa%d8%ad%d8%a7%d9%86%d8%b4-%d8%b1%d9%88-%d9%be%d8%b3-%d8%af%d8%a7%d8%af%d9%87/
   - https://badkoobeh.com/works/%d8%b1%d9%88%d8%ba%d9%86-%d9%85%d9%88%d8%aa%d9%88%d8%b1-%d8%a8%d8%b1%d8%a7%db%8c-%d9%86%d8%b3%d9%84-%d8%ac%d8%af%db%8c%d8%af-%d8%ae%d9%88%d8%af%d8%b1%d9%88/
@@ -84,6 +84,10 @@ crawl:
   - https://badkoobeh.com/clients/%d9%86%d8%b3%d8%aa%d9%84%d9%87-%d9%be%db%8c%d9%88%d8%b1%d9%84%d8%a7%db%8c%d9%81/
   - https://badkoobeh.com/clients/%d9%81%d8%a7%d9%85%db%8c%d9%84%d8%a7/
   - https://badkoobeh.com/clients/%d8%a2%d8%b1%db%8c%d9%86-%d9%85%d9%88%d8%aa%d9%88%d8%b1/
+  - https://badkoobeh.com/works/5-%d9%81%d8%b1%d8%b5%d8%aa-%d9%87%d8%a7%db%8c-%d8%a8%d8%b1-%d8%a2%d8%a8-%d8%b1%d9%81%d8%aa%d9%87/
+  - https://badkoobeh.com/works/%d8%a8%d8%b1%d9%86%d8%af-%d9%81%d9%88%d9%84-%d8%aa%d8%a7%db%8c%d9%85-btl-%d9%be%d8%b1%d9%88%da%98%d9%87/
+  - https://badkoobeh.com/works/%d8%aa%d8%b9%d8%af%d8%a7%d8%af-%d9%85%d9%87%d9%85-%d9%86%db%8c%d8%b3%d8%aa%d8%8c-%d8%af%d8%b1%d8%ae%d8%b4%d9%86%d8%af%da%af%db%8c-%d9%85%d9%87%d9%85-%d8%a7%d8%b3%d8%aa/
+  - https://badkoobeh.com/works/%da%a9%db%8c-%d9%81%da%a9%d8%b1%d8%b4%d9%88-%d9%85%db%8c-%da%a9%d8%b1%d8%af%d8%9f-3/
   - https://badkoobeh.com/clients/%d9%87%d9%81%d8%aa-%d9%88-%d8%b3%db%8c/
   - https://badkoobeh.com/clients/%d9%85%d8%a8%db%8c%d9%86-%d9%86%d8%aa/
   - https://badkoobeh.com/clients/%da%af%d8%b1%d9%88%d9%87-%d8%aa%d8%b9%d8%a7%d9%88%d9%86%db%8c-%d9%be%db%8c%d8%b4%da%af%d8%a7%d9%85%d8%a7%d9%86/
@@ -116,10 +120,6 @@ crawl:
   - https://badkoobeh.com/clients/%d8%b5%d8%af%d8%a7-%d9%88-%d8%b3%db%8c%d9%85%d8%a7/
   - https://badkoobeh.com/clients/%d9%85%d9%88%d8%b3%d8%b3%d9%87-%d9%81%d8%b1%d9%87%d9%86%da%af%db%8c-%d9%87%d9%86%d8%b1%db%8c-%d8%b1%d9%88%d8%b2%da%af%d8%a7%d8%b1-%d8%b7%d8%b1%d9%81%d9%87/
   - https://badkoobeh.com/clients/%d8%b4%d8%b1%da%a9%d8%aa-%d9%85%d8%ae%d8%a7%d8%a8%d8%b1%d8%a7%d8%aa-%d8%a7%db%8c%d8%b1%d8%a7%d9%86/
-  - https://badkoobeh.com/clients/%db%8c%d9%88%d9%86%db%8c%d8%b3%d9%81-unicef/
-  - https://badkoobeh.com/clients/%d9%85%d9%88%d8%b3%d8%b3%d9%87-%d8%ae%db%8c%d8%b1%db%8c%d9%87-%d8%b2%d9%86%d8%ac%db%8c%d8%b1%d9%87-%d8%a7%d9%85%db%8c%d8%af/
-  - https://badkoobeh.com/clients/%d8%a7%d9%86%d8%aa%d8%b4%d8%a7%d8%b1%d8%a7%d8%aa-%d8%a8%db%8c%d9%86-%d8%a7%d9%84%d9%85%d9%84%d9%84%db%8c-%da%af%d8%a7%d8%ac/
-  - https://badkoobeh.com/clients/%d9%85%d8%af%d8%b1%d8%b3%d8%a7%d9%86-%d8%b4%d8%b1%db%8c%d9%81/
 
 ```
 
@@ -131,11 +131,11 @@ rag metadata
 crawl:
   roots:
     badkoobeh_com:
-      chunks: 288
+      chunks: 292
       pages: 100
       root: badkoobeh_com
-  source: crawl-badkoobeh-2026-02-04-17-17-42-by7jdk
+  source: crawl-badkoobeh-2026-02-05-13-13-07-5zdn2b
 
 ```
 
-[corpus-badkoobeh-2026-02-04-h116nm.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-badkoobeh-2026-02-04-h116nm.tar.gz)
+[corpus-badkoobeh-2026-02-05-hvu72u.tar.gz](https://kamangir-public.s3.ir-thr-at1.arvanstorage.ir/corpus-badkoobeh-2026-02-05-hvu72u.tar.gz)

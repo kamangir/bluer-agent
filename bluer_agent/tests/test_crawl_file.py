@@ -16,16 +16,16 @@ from bluer_agent.crawl import file
     ],
 )
 def test_crawl_file(object_name: str):
+    filename = "badkoobeh_com.pkl.gz"
+
     assert storage.download(
         object_name,
         policy=DownloadPolicy.DOESNT_EXIST,
     )
 
     success, results = file.load(
-        objects.path_of(
-            object_name=object_name,
-            filename="badkoobeh_com.pkl.gz",
-        )
+        object_name=object_name,
+        filename=filename,
     )
     assert success
     assert isinstance(results, dict)
@@ -34,17 +34,24 @@ def test_crawl_file(object_name: str):
     assert key in results
 
     test_object_name = objects.unique_object("test_crawl_file")
-    test_filename = objects.path_of(
+
+    assert file.save(
+        results=results,
         object_name=test_object_name,
-        filename="badkoobeh_com.pkl.gz",
+        filename=filename,
     )
 
-    assert file.save(results, test_filename)
-
-    success, results_loaded = file.load(test_filename)
+    success, results_loaded = file.load(
+        object_name=test_object_name,
+        filename=filename,
+    )
     assert success
 
     assert results == results_loaded
 
-    success = file.export(results, test_filename)
+    success = file.export(
+        results=results,
+        object_name=test_object_name,
+        filename=filename,
+    )
     assert success

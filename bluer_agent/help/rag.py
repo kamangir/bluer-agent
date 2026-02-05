@@ -37,9 +37,10 @@ def help_query(
             "query",
             f"[{options}]",
             "[.|<corpus-object-name>]",
-            "<sentence>",
+            "<query>",
+            "[-|<query-object-name>]",
         ],
-        "query <sentence>.",
+        "query <query> on <corpus-object-name> -> <query-object-name>.",
         mono=mono,
     )
 

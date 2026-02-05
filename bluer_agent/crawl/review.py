@@ -26,35 +26,45 @@ def review(
         )
     )
 
-    list_of_filenames: List[str] = (
-        file_.list_of(
-            objects.path_of(
-                object_name=object_name,
-                filename="*.pkl.gz",
+    list_of_filenames: List[str] = [
+        file_.name_and_extension(filename)
+        for filename in (
+            file_.list_of(
+                objects.path_of(
+                    object_name=object_name,
+                    filename="*.pkl.gz",
+                )
             )
+            if root == "all"
+            else [
+                objects.path_of(
+                    object_name=object_name,
+                    filename="{}.pkl.gz".format(url_to_filename(root)),
+                )
+            ]
         )
-        if root == "all"
-        else [
-            objects.path_of(
-                object_name=object_name,
-                filename="{}.pkl.gz".format(url_to_filename(root)),
-            )
-        ]
-    )
+    ]
 
     log_list(
         logger,
         "reviewing",
-        [file_.name(filename) for filename in list_of_filenames],
+        list_of_filenames,
         "file(s)",
     )
 
     for filename in tqdm(list_of_filenames):
-        success, results = file.load(filename)
+        success, results = file.load(
+            object_name=object_name,
+            filename=filename,
+        )
         if not success:
             return success
 
-        success = file.export(results, filename)
+        success = file.export(
+            results=results,
+            object_name=object_name,
+            filename=filename,
+        )
         if not success:
             return success
 
