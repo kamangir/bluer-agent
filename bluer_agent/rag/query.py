@@ -8,7 +8,7 @@ from bluer_objects.html_report import HTMLReport
 from bluer_agent import NAME
 from bluer_agent.host import signature
 from bluer_agent.rag.corpus.context import Context
-from bluer_agent.rag.prompt import build_prompt
+from bluer_agent.rag.prompt.multi_root import build_prompt
 from bluer_agent.chat.functions import chat
 from bluer_agent.logger import logger
 

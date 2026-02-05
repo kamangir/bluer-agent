@@ -1,6 +1,14 @@
 from __future__ import annotations
-
 from typing import Dict, List
+
+from blueness import module
+from bluer_options import string
+
+from bluer_agent import NAME
+from bluer_agent.logger import logger
+
+
+NAME = module.name(__file__, NAME)
 
 
 def build_prompt(
@@ -53,6 +61,16 @@ def build_prompt(
             "evidence:",
             evidence,
         ]
+    )
+
+    logger.info(
+        "{}.build_prompt({} query, {} context, top {}): {}".format(
+            NAME,
+            string.pretty_bytes(len(query)),
+            len(context),
+            top_n,
+            string.pretty_bytes(len(content)),
+        )
     )
 
     return [
