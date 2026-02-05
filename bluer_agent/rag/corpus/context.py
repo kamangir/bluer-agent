@@ -163,6 +163,9 @@ class Context:
         return True, context
 
     def understand_reply(self, reply: str) -> Tuple[bool, str]:
+        if len(self.list_of_roots) == 1:
+            return True, reply
+
         try:
             reply_dict = json.loads(reply)
         except Exception as e:
