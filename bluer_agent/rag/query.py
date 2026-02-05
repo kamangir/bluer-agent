@@ -41,8 +41,9 @@ def query(
 
     html_report.replace(
         {
-            "query:::": query,
+            "context_count:::": str(len(query_context["chunks"])),
             "model:::": object_name,
+            "query:::": query,
             "query_dir:::": "ltr",
             "query_lang:::": "fa",
             "text_dir:::": "ltr",
@@ -56,23 +57,14 @@ def query(
                     [
                         "<tr>",
                         '    <td dir="ltr">',
-                        '        <a href="{}" target="_blank" rel="noreferrer">{}</a>'.format(
+                        '        <a href="{}" target="_blank" rel="noreferrer" title="{}">{}#{}</a>'.format(
                             chunk["url"],
+                            chunk["text"],
                             chunk["root"],
+                            chunk["chunk_id"],
                         ),
                         "    </td>",
-                        '    <td dir="ltr" class="mono">#{}</td>'.format(
-                            chunk["chunk_id"]
-                        ),
                         '    <td class="mono">{:.2f}</td>'.format(chunk["score"]),
-                        "    <td>",
-                        '        <pre dir="ltr" lang="fa">{}</pre>'.format(
-                            shorten_text(
-                                chunk["text"],
-                                max_length=10,
-                            )
-                        ),
-                        "    </td>",
                         "</tr>",
                         "",
                     ]
