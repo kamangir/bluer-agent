@@ -42,11 +42,14 @@ args = parser.parse_args()
 success = False
 if args.task == "query":
     html_report = HTMLReport(
-        template=file.absolute(
-            "../assets/query.html",
-            file.path(__file__),
+        template=(
+            file.absolute(
+                "../assets/query.html",
+                file.path(__file__),
+            )
+            if args.generate_html == 1
+            else ""
         ),
-        dummy=args.generate_html == 0,
     )
 
     success, _ = query(
