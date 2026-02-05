@@ -38,6 +38,8 @@ import requests
 
 
 def embed_fn(texts):
+    texts = [line[:8192] for line in texts]
+
     logger.info("embed_fn({})".format(shorten_text(" ".join(texts))))
 
     r = requests.post(
@@ -53,6 +55,7 @@ def embed_fn(texts):
         timeout=60,
     )
     r.raise_for_status()
+
     data = r.json()
     return [item["embedding"] for item in data["data"]]
 

@@ -33,6 +33,10 @@ def _root_name(filename: str) -> str:
 def _normalize(text: str) -> str:
     text = text.replace("\u064a", "\u06cc")  # ي -> ی
     text = text.replace("\u0643", "\u06a9")  # ك -> ک
+    text = text.replace("\u200c", " ")
+    text = text.replace("\u200e", " ")
+    text = text.replace("\u200f", " ")
+    text = text.replace("\xad", " ")
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
@@ -56,16 +60,19 @@ def build(
 ) -> bool:
     logger.info(f"{NAME}.build: {crawl_object_name} -> {corpus_object_name}")
 
-    list_of_filenames = file_.list_of(
-        objects.path_of(
-            object_name=crawl_object_name,
-            filename="*.pkl.gz",
+    list_of_filenames = [
+        file_.name_and_extension(filename)
+        for filename in file_.list_of(
+            objects.path_of(
+                object_name=crawl_object_name,
+                filename="*.pkl.gz",
+            )
         )
-    )
+    ]
     log_list(
         logger,
         "processing",
-        [file_.name(filename) for filename in list_of_filenames],
+        list_of_filenames,
         "file(s)",
     )
 
@@ -85,12 +92,15 @@ def build(
             root = _root_name(filename)
             logger.info(
                 "processing {} -> {} ...".format(
-                    file_.name(filename),
+                    filename,
                     root,
                 )
             )
 
-            success, crawl = file.load(filename)
+            success, crawl = file.load(
+                object_name=crawl_object_name,
+                filename=filename,
+            )
             if not success:
                 return False
 
@@ -137,10 +147,14 @@ def build(
         ),
     )
 
+    for root_info in roots.values():
+        del root_info["text"]
+
     return post_to_object(
         corpus_object_name,
         "crawl",
         {
+            "roots": roots,
             "source": crawl_object_name,
         },
     )

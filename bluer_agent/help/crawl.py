@@ -11,7 +11,7 @@ def help_collect(
 ) -> str:
     options = "".join(
         [
-            xtra("download,", mono=mono),
+            xtra("download,~review,", mono=mono),
             "root=<url>|all",
             xtra(",upload", mono=mono),
         ]

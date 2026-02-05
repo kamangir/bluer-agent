@@ -25,6 +25,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from bluer_options.logger.config import shorten_text
+from bluer_options import string
 
 from bluer_agent.crawl.classes import CrawlItem, RetryPolicy
 from bluer_agent.logger import logger
@@ -259,6 +260,14 @@ class SiteTextCollector:
                 html = resp.text or ""
 
                 text = self._extract_text(html)
+
+                logger.info(
+                    "html: {} -> text: {}".format(
+                        string.pretty_bytes(len(html)),
+                        string.pretty_bytes(len(text)),
+                    )
+                )
+
                 if text:
                     logger.info(
                         "📜 += {}: {}".format(
@@ -267,6 +276,8 @@ class SiteTextCollector:
                         )
                     )
                     results[item_key] = text
+                else:
+                    logger.warning(f"no text in {item.url}.")
 
                 if item.depth < max_depth and not self._stop_requested:
                     for link in self._extract_links(html, base_url=item.url):

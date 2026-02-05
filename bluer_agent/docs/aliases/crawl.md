@@ -3,7 +3,7 @@
 ```bash
 @crawl \
 	collect \
-	[download,root=<url>|all,upload] \
+	[download,~review,root=<url>|all,upload] \
 	[-|<object-name>] \
 	[--page-count 25] \
 	[--max-depth 2] \
