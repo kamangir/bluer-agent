@@ -1,12 +1,9 @@
 from typing import Tuple
-from functools import reduce
 
 from blueness import module
-from bluer_objects import objects
 from bluer_objects.html_report import HTMLReport
 
 from bluer_agent import NAME
-from bluer_agent.host import signature
 from bluer_agent.rag.corpus.context import Context
 from bluer_agent.rag.prompt import multi_root, single_root
 from bluer_agent.chat.functions import chat
@@ -35,48 +32,10 @@ def query(
     success, query_context = context.generate(
         query=query,
         top_k=top_k,
+        html_report=html_report,
     )
     if not success:
         return success, ""
-
-    html_report.replace(
-        {
-            "context_count:::": str(len(query_context["chunks"])),
-            "corpus_name:::": corpus_object_name,
-            "query:::": query,
-            "query_dir:::": "ltr",
-            "query_lang:::": "fa",
-            "host_signature:::": " | ".join(signature()),
-            "text_dir:::": "ltr",
-            "text_lang:::": "fa",
-            "title:::": "rag query output",
-        }
-    ).replace(
-        {
-            "context:::": reduce(
-                lambda x, y: x + y,
-                [
-                    [
-                        "<tr>",
-                        '    <td dir="ltr">',
-                        '        <a href="{}" target="_blank" rel="noreferrer" title="{}">{}#{}</a>'.format(
-                            chunk["url"],
-                            chunk["text"],
-                            chunk["root"],
-                            chunk["chunk_id"],
-                        ),
-                        "    </td>",
-                        '    <td class="mono">{:.2f}</td>'.format(chunk["score"]),
-                        "</tr>",
-                        "",
-                    ]
-                    for chunk in query_context["chunks"]
-                ],
-                [],
-            ),
-        },
-        contains=True,
-    )
 
     return chat(
         messages=(
