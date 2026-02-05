@@ -12,6 +12,6 @@ uses [build/one](../build/one.md)
 @upload public,filename=query.html .
 ```
 
-set:::object_name rag-query-2026-02-05-13-35-04-zlld8c
+set:::object_name rag-query-2026-02-05-15-10-48-q3i648
 
 object:::get:::object_name:::query.html

@@ -12,6 +12,6 @@ uses [build/hnpagency](../build/hnpagency.md)
 @upload public,filename=query.html .
 ```
 
-set:::object_name rag-query-2026-02-05-13-35-37-16yog5
+set:::object_name rag-query-2026-02-05-15-10-39-q2ki73
 
 object:::get:::object_name:::query.html
