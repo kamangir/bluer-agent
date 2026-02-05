@@ -50,7 +50,7 @@ def query(
         }
     ).replace(
         {
-            "context": reduce(
+            "context:::": reduce(
                 lambda x, y: x + y,
                 [
                     [
@@ -61,15 +61,18 @@ def query(
                             chunk["root"],
                         ),
                         "    </td>",
-                        '    <td dir="ltr" class="mono">{}</td>'.format(
+                        '    <td dir="ltr" class="mono">#{}</td>'.format(
                             chunk["chunk_id"]
                         ),
                         '    <td class="mono">{:.2f}</td>'.format(chunk["score"]),
-                        # "    <td>",
-                        #'        <pre dir="ltr" lang="fa">{}</pre>'.format(
-                        #    shorten_text(chunk["text"])
-                        # ),
-                        # "    </td>",
+                        "    <td>",
+                        '        <pre dir="ltr" lang="fa">{}</pre>'.format(
+                            shorten_text(
+                                chunk["text"],
+                                max_length=10,
+                            )
+                        ),
+                        "    </td>",
                         "</tr>",
                         "",
                     ]
