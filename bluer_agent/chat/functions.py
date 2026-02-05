@@ -129,6 +129,13 @@ def chat(
 
     text = response_json["choices"][0].get("message", {}).get("content", "")
 
+    html_report.replace(
+        {
+            "thoughts:::": [text],
+        },
+        contains=True,
+    )
+
     if remove_thoughts and text:
         text = re.sub(
             r"<think>.*?</think>",
@@ -140,5 +147,12 @@ def chat(
     text = re.sub(r"\s+", " ", text).strip()
 
     logger.info(text)
+
+    html_report.replace(
+        {
+            "reply:::": [text],
+        },
+        contains=True,
+    )
 
     return success, text
