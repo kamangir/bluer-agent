@@ -16,6 +16,7 @@ setup(
         f"{NAME}.help",
         f"{NAME}.rag",
         f"{NAME}.rag.corpus",
+        f"{NAME}.rag.prompt",
         f"{NAME}.README",
         f"{NAME}.transcription",
         f"{NAME}.voice",

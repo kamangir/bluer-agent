@@ -4,6 +4,7 @@ import json
 import numpy as np
 
 from blueness import module
+from bluer_options.logger.config import log_list
 from bluer_objects import file, storage
 from bluer_objects import objects
 from bluer_objects.storage.policies import DownloadPolicy
@@ -25,6 +26,8 @@ class Context:
         object_name: str,
         download: bool = False,
     ):
+        self.list_of_roots: List[str] = []
+
         self.object_name = object_name
 
         if download:
@@ -76,6 +79,7 @@ class Context:
 
         candidates: List[Tuple[float, dict]] = []
 
+        self.list_of_roots = []
         with gzip.open(
             self.corpus_meta_file,
             "rt",
@@ -87,6 +91,9 @@ class Context:
         ) as text_f:
             for i, (meta_line, text_line) in enumerate(zip(meta_f, text_f)):
                 meta = json.loads(meta_line)
+
+                if meta["root"] not in self.list_of_roots:
+                    self.list_of_roots.append(meta["root"])
 
                 record = json.loads(text_line)
                 score = _cosine(q_vec, self.corpus_vec[i])
@@ -105,6 +112,8 @@ class Context:
 
         candidates.sort(key=lambda x: x[0], reverse=True)
         top = candidates[:top_k]
+
+        log_list(logger, "reviewed", self.list_of_roots, "root(s)")
 
         chunks = [
             {
@@ -128,6 +137,7 @@ class Context:
             "chunks": chunks,
         }
 
+        # TODO: change to HTMLReport - 2026-02-05 - nice to have.
         file.save_text(
             objects.path_of(
                 object_name=self.object_name,
