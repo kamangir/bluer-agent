@@ -10,6 +10,7 @@ setup(
     description=DESCRIPTION,
     packages=[
         NAME,
+        f"{NAME}.assets",
         f"{NAME}.audio",
         f"{NAME}.chat",
         f"{NAME}.crawl",
