@@ -2,11 +2,11 @@ from typing import Tuple
 from functools import reduce
 
 from blueness import module
-from bluer_options import string
-from bluer_options.logger.config import shorten_text
+from bluer_objects import objects
 from bluer_objects.html_report import HTMLReport
 
 from bluer_agent import NAME
+from bluer_agent.host import signature
 from bluer_agent.rag.corpus.context import Context
 from bluer_agent.rag.prompt import build_prompt
 from bluer_agent.chat.functions import chat
@@ -46,6 +46,13 @@ def query(
             "query:::": query,
             "query_dir:::": "ltr",
             "query_lang:::": "fa",
+            "signature:::": " | ".join(
+                objects.signature(
+                    object_name="TBA",
+                    info="TBA",
+                )
+                + signature()
+            ),
             "text_dir:::": "ltr",
             "text_lang:::": "fa",
         }
