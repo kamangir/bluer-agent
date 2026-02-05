@@ -2,14 +2,17 @@ from typing import Tuple, Dict, List
 import gzip
 import json
 import numpy as np
+from functools import reduce
 
 from blueness import module
 from bluer_options.logger.config import log_list
 from bluer_objects import file, storage
 from bluer_objects import objects
+from bluer_objects.html_report import HTMLReport
 from bluer_objects.storage.policies import DownloadPolicy
 
 from bluer_agent import NAME
+from bluer_agent.host import signature
 from bluer_agent.rag.corpus.embed import embed_fn
 from bluer_agent.logger import logger
 
@@ -65,6 +68,7 @@ class Context:
         self,
         query: str,
         top_k: int = 5,
+        html_report: HTMLReport = HTMLReport(),
     ) -> Tuple[bool, Dict]:
         logger.info(
             '{}[{}].generate("{}")'.format(
@@ -160,9 +164,51 @@ class Context:
             log=True,
         )
 
+        html_report.replace(
+            {
+                "context_count:::": str(len(context["chunks"])),
+                "corpus_name:::": self.object_name,
+                "query:::": query,
+                "query_dir:::": "ltr",
+                "query_lang:::": "fa",
+                "host_signature:::": " | ".join(signature()),
+                "text_dir:::": "ltr",
+                "text_lang:::": "fa",
+                "title:::": "rag query output",
+            }
+        ).replace(
+            {
+                "context:::": reduce(
+                    lambda x, y: x + y,
+                    [
+                        [
+                            "<tr>",
+                            '    <td dir="ltr">',
+                            '        <a href="{}" target="_blank" rel="noreferrer" title="{}">{}#{}</a>'.format(
+                                chunk["url"],
+                                chunk["text"],
+                                chunk["root"],
+                                chunk["chunk_id"],
+                            ),
+                            "    </td>",
+                            '    <td class="mono">{:.2f}</td>'.format(chunk["score"]),
+                            "</tr>",
+                            "",
+                        ]
+                        for chunk in context["chunks"]
+                    ],
+                    [],
+                ),
+            },
+            contains=True,
+        )
+
         return True, context
 
     def understand_reply(self, reply: str) -> Tuple[bool, str]:
+        if len(self.list_of_roots) == 1:
+            return True, reply
+
         try:
             reply_dict = json.loads(reply)
         except Exception as e:
