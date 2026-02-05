@@ -1,6 +1,7 @@
 from typing import List, Dict, Tuple
 import requests
 import re
+from functools import reduce
 
 from blueness import module
 from bluer_options.logger.config import log_list
@@ -27,6 +28,46 @@ def chat(
         ),
         [str(message) for message in messages],
         "message(s)",
+    )
+
+    html_report.replace(
+        {
+            "message_count:::": str(len(messages)),
+        }
+    ).replace(
+        {
+            "messages:::": reduce(
+                lambda x, y: x + y,
+                [
+                    [
+                        '<div class="card" style="margin-bottom:12px;">',
+                        '    <details class="section">',
+                        '        <summary class="header">',
+                        '            <div class="header-left">',
+                        '                <span class="chev">›</span>',
+                        '                <h2 class="mono" style="font-size:14px;">{}</h2>'.format(
+                            message["role"],
+                        ),
+                        "            </div>",
+                        f'            <div class="pill mono">#{index+1}</div>',
+                        "        </summary>",
+                        "",
+                        '        <div class="content">',
+                        '            <div class="block">',
+                        '                <pre dir="rtl" lang="fa">',
+                        message["content"],
+                        "                </pre>",
+                        "            </div>",
+                        "        </div>",
+                        "    </details>",
+                        "</div>",
+                    ]
+                    for index, message in enumerate(messages)
+                ],
+                [],
+            ),
+        },
+        contains=True,
     )
 
     headers = {
