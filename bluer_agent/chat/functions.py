@@ -33,6 +33,10 @@ def chat(
     html_report.replace(
         {
             "message_count:::": str(len(messages)),
+            "model_name:::": "{} @ {} deg".format(
+                env.BLUER_AGENT_CHAT_MODEL_NAME,
+                env.BLUER_AGENT_CHAT_TEMPERATURE,
+            ),
         }
     ).replace(
         {
