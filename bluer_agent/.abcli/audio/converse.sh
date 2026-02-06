@@ -5,7 +5,7 @@ function bluer_agent_audio_converse() {
     local do_download=$(bluer_ai_option_int "$options" download 1)
     local do_upload=$(bluer_ai_option_int "$options" upload 0)
 
-    local context_object_name=$(bluer_ai_clarify_object $2 .)
+    local context_object_name=$(bluer_ai_clarify_object $2 $BLUER_AGENT_RAG_CORPUS_SINGLE_ROOT_TEST_OBJECT)
 
     local object_name=$(bluer_ai_clarify_object $3 conversation-$(bluer_ai_string_timestamp))
 

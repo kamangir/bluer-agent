@@ -4,7 +4,7 @@
 @audio \
 	converse \
 	[~download,,upload] \
-	[.|<context-object-name>] \
+	[corpus-badkoobeh-2026-02-05-hvu72u | <context-object-name>] \
 	[-|<object-name>] \
 	[--audio_prompt "some text"] \
 	[--channels <1>] \

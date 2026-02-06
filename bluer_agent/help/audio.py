@@ -2,6 +2,7 @@ from typing import List
 
 from bluer_options.terminal import show_usage, xtra
 
+from bluer_agent import env
 from bluer_agent.transcription.functions import list_of_languages
 
 audio_properties_args = [
@@ -37,7 +38,9 @@ def help_converse(
             "@audio",
             "converse",
             f"[{options}]",
-            "[.|<context-object-name>]",
+            "[{} | <context-object-name>]".format(
+                env.BLUER_AGENT_RAG_CORPUS_SINGLE_ROOT_TEST_OBJECT
+            ),
             "[-|<object-name>]",
         ]
         + args,

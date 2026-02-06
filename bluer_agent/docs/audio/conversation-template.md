@@ -4,7 +4,7 @@ title:::
 ```bash
 @select conversation-$(@@timestamp)
 
-@audio conversation upload
+@audio converse upload
 ```
 
 set:::object_name TBA

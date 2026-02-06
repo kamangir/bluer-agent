@@ -4,7 +4,7 @@
 ```bash
 @select conversation-$(@@timestamp)
 
-@audio conversation upload
+@audio converse upload
 ```
 
 
