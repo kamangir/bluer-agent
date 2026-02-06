@@ -12,4 +12,4 @@
 ```
 
 
-[audio.wav](https://github.com/kamangir/assets/blob/main/audio-2025-12-22-4styuj/audio.wav)
+[audio.wav](../../../assets/audio-2025-12-22-4styuj/audio.wav)
