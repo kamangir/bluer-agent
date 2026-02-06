@@ -1,5 +1,10 @@
 docs = [
     {
-        "path": "../docs/audio.md",
-    },
+        "path": f"../docs/audio{suffix}",
+    }
+    for suffix in [
+        "",
+        "/basics.md",
+        "/conversation.md",
+    ]
 ]

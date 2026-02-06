@@ -1,4 +1,4 @@
-# audio
+# audio: basics
 
 
 ```bash
@@ -12,4 +12,4 @@
 ```
 
 
-[audio.wav](../../../assets/audio-2025-12-22-4styuj/audio.wav)
+[audio.wav](../../../../assets/audio-2025-12-22-4styuj/audio.wav)

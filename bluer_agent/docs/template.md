@@ -1,6 +1,6 @@
 title:::
 
-- [audio](./audio.md)
+- [audio](./audio)
 - [chat](./chat)
 - [rag](./rag)
 - [transcription](./transcription)

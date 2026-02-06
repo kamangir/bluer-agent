@@ -6,7 +6,7 @@
 	[-|<object-name>] \
 	[--channels <1>] \
 	[--crop_silence <0>] \
-	[--language en|fa] \
+	[--language fa | en] \
 	[--length <30>] \
 	[--rate <16000>] \
 	[--record 0]

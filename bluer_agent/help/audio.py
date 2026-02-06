@@ -2,6 +2,49 @@ from typing import List
 
 from bluer_options.terminal import show_usage, xtra
 
+from bluer_agent.transcription.functions import list_of_languages
+
+audio_properties_args = [
+    "[--channels <1>]",
+    "[--crop_silence <0>]",
+    "[--length <30>]",
+    "[--rate <16000>]",
+]
+
+
+def help_converse(
+    tokens: List[str],
+    mono: bool,
+) -> str:
+    options = "".join(
+        [
+            xtra("~download,", mono=mono),
+            "",
+            xtra(",upload", mono=mono),
+        ]
+    )
+
+    args = sorted(
+        [
+            '[--audio_prompt "some text"]',
+            "[--language {}]".format(" | ".join(list_of_languages)),
+        ]
+        + audio_properties_args
+    )
+
+    return show_usage(
+        [
+            "@audio",
+            "converse",
+            f"[{options}]",
+            "[.|<context-object-name>]",
+            "[-|<object-name>]",
+        ]
+        + args,
+        "have a conversation based on the context.",
+        mono=mono,
+    )
+
 
 def help_install(
     tokens: List[str],
@@ -35,14 +78,6 @@ def help_play(
     )
 
 
-record_args = [
-    "[--channels <1>]",
-    "[--crop_silence <0>]",
-    "[--length <30>]",
-    "[--rate <16000>]",
-]
-
-
 def help_record(
     tokens: List[str],
     mono: bool,
@@ -62,7 +97,7 @@ def help_record(
             f"[{options}]",
             "[-|<object-name>]",
         ]
-        + record_args,
+        + audio_properties_args,
         "record <object-name>/<audio.wav>.",
         mono=mono,
     )
@@ -83,6 +118,7 @@ def help_test(
 
 
 help_functions = {
+    "converse": help_converse,
     "install": help_install,
     "play": help_play,
     "record": help_record,

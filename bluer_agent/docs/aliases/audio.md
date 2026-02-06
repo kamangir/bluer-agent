@@ -2,6 +2,18 @@
 
 ```bash
 @audio \
+	converse \
+	[~download,,upload] \
+	[.|<context-object-name>] \
+	[-|<object-name>] \
+	[--audio_prompt "some text"] \
+	[--channels <1>] \
+	[--crop_silence <0>] \
+	[--language fa | en] \
+	[--length <30>] \
+	[--rate <16000>]
+ . have a conversation based on the context.
+@audio \
 	install
  . install audio.
 @audio \

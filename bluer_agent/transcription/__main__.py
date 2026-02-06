@@ -4,7 +4,7 @@ from blueness import module
 from blueness.argparse.generic import sys_exit
 
 from bluer_agent import NAME
-from bluer_agent.transcription.functions import transcribe
+from bluer_agent.transcription.functions import transcribe, list_of_languages
 from bluer_agent.audio.properties import AudioProperties
 from bluer_agent.logger import logger
 
@@ -27,8 +27,8 @@ parser.add_argument(
 parser.add_argument(
     "--language",
     type=str,
-    default="fa",
-    help="en | fa",
+    default=list_of_languages[0],
+    help=" | ".join(list_of_languages),
 )
 parser.add_argument(
     "--record",
