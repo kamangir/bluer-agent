@@ -24,7 +24,7 @@
 
 ```
 
-[farsi.wav](../../../../assets/ai-agent-speech-to-text-2025-12-18-r5hbwu/farsi.wav)
+[farsi.wav](https://github.com/kamangir/assets/blob/main/ai-agent-speech-to-text-2025-12-18-r5hbwu/farsi.wav)
 
 # english
 
@@ -41,7 +41,7 @@ Racism is how societies teach themselves to rot from the inside.
 
 ```
 
-[english.wav](../../../../assets/ai-agent-speech-to-text-2025-12-18-r5hbwu/english.wav)
+[english.wav](https://github.com/kamangir/assets/blob/main/ai-agent-speech-to-text-2025-12-18-r5hbwu/english.wav)
 
 ---
 
