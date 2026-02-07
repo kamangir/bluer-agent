@@ -40,7 +40,7 @@ parser.add_argument(
     help=" | ".join(list_of_languages),
 )
 parser.add_argument(
-    "--audio_prompt",
+    "--greeting",
     type=str,
     default=greeting,
 )
@@ -58,11 +58,12 @@ audio_properties = AudioProperties(
 success = False
 if args.task == "converse":
     success = converse(
-        audio_prompt=args.audio_prompt,
+        greeting=args.greeting,
         context=Context(args.context_object_name),
         object_name=args.object_name,
         language=args.language,
         audio_properties=audio_properties,
+        loop=True,
     )[0]
 elif args.task == "play":
     success = play(

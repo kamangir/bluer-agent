@@ -27,7 +27,7 @@ def help_converse(
 
     args = sorted(
         [
-            '[--audio_prompt "some text"]',
+            "[--greeting <str>]",
             "[--language {}]".format(" | ".join(list_of_languages)),
         ]
         + audio_properties_args

@@ -6,9 +6,9 @@
 	[~download,,upload] \
 	[corpus-badkoobeh-2026-02-05-hvu72u | <context-object-name>] \
 	[-|<object-name>] \
-	[--audio_prompt "some text"] \
 	[--channels <1>] \
 	[--crop_silence <0>] \
+	[--greeting <str>] \
 	[--language fa | en] \
 	[--length <30>] \
 	[--rate <16000>]
