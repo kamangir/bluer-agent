@@ -54,8 +54,11 @@ def converse(
 
     time.sleep(1)
 
+    filename = "{}.wav".format(string.timestamp())
+
     success, query = transcribe(
         object_name=object_name,
+        filename=filename,
         language=language,
         record=True,
         properties=audio_properties,
