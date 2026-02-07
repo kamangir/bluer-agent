@@ -2,7 +2,8 @@ from typing import List
 
 from bluer_options.terminal import show_usage, xtra
 
-from bluer_agent.help.audio import record_args
+from bluer_agent.help.audio import audio_properties_args
+from bluer_agent.transcription.functions import list_of_languages
 
 
 def help(
@@ -19,10 +20,10 @@ def help(
 
     args = sorted(
         [
-            "[--language en|fa]",
+            "[--language {}]".format(" | ".join(list_of_languages)),
             "[--record 0]",
         ]
-        + record_args
+        + audio_properties_args
     )
 
     return show_usage(

@@ -2,6 +2,18 @@
 
 ```bash
 @audio \
+	converse \
+	[~download,,upload] \
+	[corpus-badkoobeh-2026-02-05-hvu72u | <context-object-name>] \
+	[-|<object-name>] \
+	[--channels <1>] \
+	[--crop_silence <0>] \
+	[--greeting <str>] \
+	[--language fa | en] \
+	[--length <30>] \
+	[--rate <16000>]
+ . have a conversation based on the context.
+@audio \
 	install
  . install audio.
 @audio \

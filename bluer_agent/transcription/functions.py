@@ -16,6 +16,8 @@ from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
 
+list_of_languages = ["fa", "en"]
+
 
 def transcribe(
     object_name: str,
