@@ -13,53 +13,6 @@ app = Flask(__name__)
 app.secret_key = "change-me"  # required for sessions
 
 
-
-PAGE = """
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Mini Flask Chat</title>
-  <style>
-    body { font-family: system-ui, Arial; max-width: 800px; margin: 24px auto; padding: 0 12px; }
-    textarea { width: 100%; height: 110px; font-size: 16px; padding: 10px; }
-    .row { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
-    button { padding: 10px 14px; font-size: 14px; cursor: pointer; }
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-top: 12px; }
-    .muted { color: #666; font-size: 13px; }
-    pre { white-space: pre-wrap; word-break: break-word; margin: 8px 0 0; }
-  </style>
-</head>
-<body>
-  <h2>Mini Flask App</h2>
-
-  <form method="post" action="{{ url_for('submit') }}">
-    <label class="muted">Enter a sentence:</label>
-    <textarea name="text" placeholder="Type here..."></textarea>
-    <div class="row">
-      <button type="submit">Run</button>
-      <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif %}>Prev</button>
-      <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif %}>Next</button>
-      <button type="submit" formaction="{{ url_for('clear') }}">Clear</button>
-      <span class="muted">Showing {{ idx_display }}</span>
-    </div>
-  </form>
-
-  {% if item %}
-    <div class="card">
-      <div class="muted">Input</div>
-      <pre>{{ item["input"] }}</pre>
-      <div class="muted" style="margin-top:10px;">Reply</div>
-      <pre>{{ item["reply"] }}</pre>
-    </div>
-  {% else %}
-    <p class="muted">No interactions yet.</p>
-  {% endif %}
-</body>
-</html>
-"""
-
-
 @dataclass
 class Interaction:
     input: str
@@ -102,8 +55,17 @@ def index():
     else:
         idx_display = f"{i + 1} / {len(history)}"
 
+    success, template = file.load_text(
+        file.absolute(
+            "./app.html",
+            file.path(__file__),
+        )
+    )
+    if not success:
+        return "❗️ app.html not found."
+
     return render_template_string(
-        PAGE,
+        "\n".join(template),
         item=item,
         can_prev=can_prev,
         can_next=can_next,
