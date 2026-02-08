@@ -11,6 +11,7 @@ setup(
     packages=[
         NAME,
         f"{NAME}.assets",
+        f"{NAME}.assistant",
         f"{NAME}.audio",
         f"{NAME}.chat",
         f"{NAME}.crawl",

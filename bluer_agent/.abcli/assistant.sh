@@ -26,7 +26,7 @@ function bluer_agent_assistant() {
         bluer_ai_browse $url
 
     bluer_ai_eval - \
-        python3 -m bluer_agent.assistant.web.app \
+        python3 -m bluer_agent.assistant.app \
         --object_name $object_name \
         --port $port \
         "${@:3}"
