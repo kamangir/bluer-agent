@@ -9,6 +9,7 @@ from bluer_objects import file
 
 from bluer_agent import env
 from bluer_agent import ALIAS, ICON, NAME, VERSION
+from bluer_agent.chat.functions import chat
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -24,9 +25,16 @@ class Interaction:
 
 
 def process_text(text: str) -> str:
-    # TODO: replace this with your real processing
-    # Example: reverse + uppercase
-    return text[::-1].upper()
+    _, reply = chat(
+        messages=[
+            {
+                "role": "user",
+                "content": text,
+            }
+        ],
+        remove_thoughts=True,
+    )
+    return reply
 
 
 def _get_history() -> List[dict]:
@@ -119,16 +127,13 @@ def clear():
 
 
 if __name__ == "__main__":
-    logger.info(
-        "{} on host:{}, port:{}".format(
-            NAME,
-            "0.0.0.0",
-            env.BLUER_AGENT_ASSISTANT_PORT,
-        )
-    )
+    port: int = env.BLUER_AGENT_ASSISTANT_PORT
+    hostname: str = "0.0.0.0"
+
+    logger.info(f"{NAME} on host:{hostname}, port:{port}")
 
     app.run(
         debug=True,
-        host="0.0.0.0",
-        port=env.BLUER_AGENT_ASSISTANT_PORT,
+        host=hostname,
+        port=port,
     )
