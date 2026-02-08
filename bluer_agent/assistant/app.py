@@ -32,7 +32,7 @@ def process_text(text: str) -> str:
                 "content": text,
             }
         ],
-        remove_thoughts=True,
+        remove_thoughts=request.form.get("remove_thoughts", type=bool),
     )
     return reply
 

@@ -56,10 +56,11 @@
     <h2>{{ title }}</h2>
 
     <form method="post" action="{{ url_for('submit') }}">
-        <label class="muted">Enter a sentence:</label>
+        <label class="muted">❓ what is the question?</label>
         <textarea name="text" placeholder="Type here..."></textarea>
         <div class="row">
             <button type="submit">Run</button>
+            <label> <input type="checkbox" name="remove_thoughts" checked>🧠 remove thoughts</label>
             <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
                 %}>Prev</button>
             <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
