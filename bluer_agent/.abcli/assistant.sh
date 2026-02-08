@@ -14,7 +14,7 @@ function bluer_agent_assistant() {
     [[ "$do_download" == 1 ]] &&
         bluer_objects_download - $object_name
 
-    url="http://$BLUER_AI_IP:$port/"
+    url="http://$BLUER_AI_IP:$5100/"
 
     python3 -m bluer_objects.graphics \
         generate_qrcode \

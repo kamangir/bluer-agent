@@ -151,5 +151,5 @@ if __name__ == "__main__":
     app.run(
         debug=True,
         host="0.0.0.0",
-        port=5100,
+        port=env.BLUER_AGENT_ASSISTANT_PORT,
     )
