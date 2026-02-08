@@ -10,7 +10,7 @@ def help_assistant(
     mono: bool,
 ) -> str:
     options = xtra(
-        f"~download,~open,port=<{env.BLUER_AGENT_ASSISTANT_PORT}>,~upload",
+        f"download,~open,port=<{env.BLUER_AGENT_ASSISTANT_PORT}>,upload",
         mono=mono,
     )
 

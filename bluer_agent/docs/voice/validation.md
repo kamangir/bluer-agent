@@ -11,4 +11,4 @@
 ```
 
 
-[voice.mp3](https://github.com/kamangir/assets/blob/main/voice-2025-12-29-xys201/voice.mp3)
+[voice.mp3](../../../../assets/voice-2025-12-29-xys201/voice.mp3)

@@ -4,6 +4,9 @@ from dataclasses import dataclass, asdict
 from typing import List
 from flask import Flask, request, session, redirect, url_for, render_template_string
 
+from bluer_agent import env
+from bluer_agent.logger import logger
+
 app = Flask(__name__)
 app.secret_key = "change-me"  # required for sessions
 
@@ -145,4 +148,8 @@ def clear():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=5000)
+    app.run(
+        debug=True,
+        host="0.0.0.0",
+        port=5100,
+    )
