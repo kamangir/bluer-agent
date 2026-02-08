@@ -3,8 +3,11 @@
 function bluer_agent_assistant() {
     local options=$1
     local do_download=$(bluer_ai_option_int "$options" download 1)
+    local do_open=$(bluer_ai_option_int "$options" open 1)
     local do_upload=$(bluer_ai_option_int "$options" upload 1)
     local port=$(bluer_ai_option "$options" port $BLUER_AGENT_ASSISTANT_PORT)
+
+    bluer_ai_web_get_ip
 
     local object_name=$(bluer_ai_clarify_object $2 $BLUER_AGENT_ASSISTANT_OBJECT)
 

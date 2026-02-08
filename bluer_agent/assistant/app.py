@@ -129,7 +129,7 @@ def prev():
 
 
 @app.post("/next")
-def next_():
+def next():
     history = _get_history()
     i = _get_index()
     if 0 <= i < len(history) - 1:
