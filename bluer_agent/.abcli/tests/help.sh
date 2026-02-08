@@ -6,10 +6,12 @@ function test_bluer_agent_help() {
     local module
     for module in \
         "@agent" \
-        "@agent chat" \
         \
-        "@agent chat validate" \
+        "@agent chat" \
+        "@chat" \
+        \
         "@agent transcribe" \
+        "@transcribe" \
         \
         "@agent pypi" \
         "@agent pypi browse" \

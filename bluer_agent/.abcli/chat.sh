@@ -1,15 +1,20 @@
 #! /usr/bin/env bash
 
 function bluer_agent_chat() {
-    local task=$1
+    local options=$1
+    local do_upload=$(bluer_ai_option_int "$options" upload 0)
 
-    local function_name=bluer_agent_chat_$task
-    if [[ $(type -t $function_name) == "function" ]]; then
-        $function_name "${@:2}"
-        return
-    fi
+    local object_name=$(bluer_ai_clarify_object $2 chat-$(bluer_ai_string_timestamp))
 
-    python3 -m bluer_agent.chat "$@"
+    bluer_ai_eval - \
+        python3 -m bluer_agent.chat \
+        validate \
+        --object_name $object_name \
+        "${@:3}"
+    [[ $? -ne 0 ]] && return 1
+
+    [[ "$do_upload" == 1 ]] &&
+        bluer_objects_upload - $object_name
+
+    return 0
 }
-
-bluer_ai_source_caller_suffix_path /chat
