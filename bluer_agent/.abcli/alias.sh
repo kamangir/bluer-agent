@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+alias @assistant=bluer_agent_assistant
+
 alias @audio=bluer_agent_audio
 
 alias @chat=bluer_agent_chat

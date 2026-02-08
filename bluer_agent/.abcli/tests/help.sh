@@ -25,6 +25,8 @@ function test_bluer_agent_help() {
         \
         "@ai_agent" \
         \
+        "@assistant" \
+        \
         "@audio" \
         "@audio converse" \
         "@audio install" \

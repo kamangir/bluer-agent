@@ -23,6 +23,7 @@ def test_bluer_agent_env():
 
     assert are_positive_ints(
         [
+            env.BLUER_AGENT_ASSISTANT_PORT,
             env.BLUER_AGENT_CHAT_MAX_TOKENS,
             env.BLUER_AGENT_CHAT_TIMEOUT,
             env.BLUER_AGENT_TRANSCRIPTION_RETRIAL,
@@ -32,6 +33,8 @@ def test_bluer_agent_env():
     assert are_nonempty_strs(
         [
             env.BLUER_AGENT_API_KEY,
+            #
+            env.BLUER_AGENT_ASSISTANT_OBJECT,
             #
             env.BLUER_AGENT_AUDIO_TEST_OBJECT,
             #

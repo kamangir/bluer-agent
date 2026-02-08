@@ -1,5 +1,6 @@
 # aliases
 
+- [@assistant](./assistant.md)
 - [@audio](./audio.md)
 - [@chat](./chat.md)
 - [@crawl](./crawl.md)
