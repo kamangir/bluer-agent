@@ -4,11 +4,15 @@ from dataclasses import dataclass, asdict
 from typing import List
 from flask import Flask, request, session, redirect, url_for, render_template_string
 
+from bluer_objects import file
+
 from bluer_agent import env
 from bluer_agent.logger import logger
 
 app = Flask(__name__)
 app.secret_key = "change-me"  # required for sessions
+
+
 
 PAGE = """
 <!doctype html>
