@@ -4,10 +4,14 @@ from dataclasses import dataclass, asdict
 from typing import List
 from flask import Flask, request, session, redirect, url_for, render_template_string
 
+from blueness import module
 from bluer_objects import file
 
 from bluer_agent import env
+from bluer_agent import ALIAS, ICON, NAME, VERSION
 from bluer_agent.logger import logger
+
+NAME = module.name(__file__, NAME)
 
 app = Flask(__name__)
 app.secret_key = "change-me"  # required for sessions
@@ -70,6 +74,7 @@ def index():
         can_prev=can_prev,
         can_next=can_next,
         idx_display=idx_display,
+        title=f"{ICON} {ALIAS}-{VERSION}",
     )
 
 
@@ -114,6 +119,14 @@ def clear():
 
 
 if __name__ == "__main__":
+    logger.info(
+        "{} on host:{}, port:{}".format(
+            NAME,
+            "0.0.0.0",
+            env.BLUER_AGENT_ASSISTANT_PORT,
+        )
+    )
+
     app.run(
         debug=True,
         host="0.0.0.0",

@@ -22,8 +22,8 @@ function bluer_agent_assistant() {
         --object_name $object_name
     [[ $? -ne 0 ]] && return 1
 
-    bluer_ai_log "🧠 $url"
-    bluer_ai_badge save "🧠"
+    bluer_ai_log "👾 $url"
+    bluer_ai_badge save "👾"
 
     [[ "$do_open" == 1 ]] &&
         bluer_ai_browse $url

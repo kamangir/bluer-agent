@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mini Flask Chat</title>
+    <title>{{ title }}</title>
     <style>
         body {
             font-family: system-ui, Arial;
@@ -53,7 +53,7 @@
 </head>
 
 <body>
-    <h2>Mini Flask App</h2>
+    <h2>{{ title }}</h2>
 
     <form method="post" action="{{ url_for('submit') }}">
         <label class="muted">Enter a sentence:</label>
