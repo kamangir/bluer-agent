@@ -14,7 +14,10 @@ from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="static",
+)
 app.secret_key = "change-me"  # required for sessions
 
 
