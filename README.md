@@ -32,4 +32,4 @@ pip install bluer-agent
 
 [![pylint](https://github.com/kamangir/bluer-agent/actions/workflows/pylint.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/pylint.yml) [![pytest](https://github.com/kamangir/bluer-agent/actions/workflows/pytest.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/pytest.yml) [![bashtest](https://github.com/kamangir/bluer-agent/actions/workflows/bashtest.yml/badge.svg)](https://github.com/kamangir/bluer-agent/actions/workflows/bashtest.yml) [![PyPI version](https://img.shields.io/pypi/v/bluer-agent.svg)](https://pypi.org/project/bluer-agent/) [![PyPI - Downloads](https://img.shields.io/pypi/dd/bluer-agent)](https://pypistats.org/packages/bluer-agent)
 
-built by 🌀 [`bluer README`](../bluer-objects/bluer_objects/README), based on 👾 [`bluer_agent-5.312.1`](https://github.com/kamangir/bluer-agent).
+built by 🌀 [`bluer README`](../bluer-objects/bluer_objects/README), based on 👾 [`bluer_agent-5.313.1`](https://github.com/kamangir/bluer-agent).
