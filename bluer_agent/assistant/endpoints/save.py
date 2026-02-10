@@ -12,10 +12,7 @@ def save(object_name: str):
     assert convo.save(tag=False)
 
     archive = Archive()
-    for pair in archive.history:
-        if pair[0] == object_name:
-            pair[1] = convo.subject
-            break
+    archive.update(object_name, convo.subject)
     assert archive.save()
 
     return redirect(

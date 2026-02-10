@@ -15,7 +15,10 @@ def new(object_name: str):
     conversation.save()
 
     archive = Archive()
-    archive.history.append([object_name, conversation.subject])
+    archive.append(
+        object_name,
+        conversation.subject,
+    )
     archive.save()
 
     return redirect(

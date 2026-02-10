@@ -38,9 +38,16 @@ class Archive:
             logger.info("found {} object(s)".format(len(list_of_objects)))
 
             for object_name in tqdm(list_of_objects):
-                metadata = get_from_object(object_name, "convo", {})
+                metadata = get_from_object(
+                    object_name,
+                    "convo",
+                    {},
+                )
                 try:
-                    self.history.append([object_name, metadata["subject"]])
+                    self.append(
+                        object_name,
+                        metadata["subject"],
+                    )
                 except Exception as e:
                     logger.warning(e)
 
@@ -53,6 +60,24 @@ class Archive:
 
         if verb == "found":
             self.save()
+
+    def append(
+        self,
+        object_name: str,
+        subject: str,
+    ):
+        self.history.append(
+            [
+                object_name,
+                subject,
+            ]
+        )
+
+    def index(self, object_name: str) -> int:
+        for index, pair in enumerate(self.history):
+            if pair[0] == object_name:
+                return index
+        return -1
 
     def save(self) -> bool:
         logger.info(
@@ -70,3 +95,13 @@ class Archive:
                 "history": self.history,
             },
         )
+
+    def update(
+        self,
+        object_name: str,
+        subject: str,
+    ):
+        for pair in self.history:
+            if pair[0] == object_name:
+                pair[1] = subject
+                break
