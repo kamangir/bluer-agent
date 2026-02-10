@@ -42,3 +42,39 @@ pre {
     word-break: break-word;
     margin: 8px 0 0;
 }
+
+:root[data-theme="dark"] {
+    --bg: #0b0e14;
+    --card: #121827;
+    --text: #e6edf3;
+    --muted: #9aa4b2;
+    --line: #233045;
+}
+
+:root[data-theme="light"] {
+    --bg: #ffffff;
+    --card: #f4f6fa;
+    --text: #0b0e14;
+    --muted: #5f6b7a;
+    --line: #e0e6ed;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.card {
+    background: var(--card);
+}
+
+.muted {
+    color: var(--muted);
+}
+
+#theme-toggle {
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    cursor: pointer;
+}

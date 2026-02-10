@@ -7,8 +7,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
+<script src="{{ url_for('static', filename='theme.js') }}"></script>
+
 <body>
     <h2>{{ title }}</h2>
+
+    <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+        <button type="button" id="theme-toggle" title="Toggle day / night">
+            🌙
+        </button>
+    </div>
 
     <div class="row" style="margin-bottom:12px;">
         <input type="text" name="subject" id="subject" placeholder="Conversation subject…" style="flex:1; padding:8px;">
@@ -55,17 +63,6 @@
         </label>
     </div>
 
-    <script>
-        const textarea = document.getElementById("question-text");
-        const form = document.getElementById("main-form");
-
-        textarea.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                form.requestSubmit();
-            }
-        });
-    </script>
 </body>
 
 </html>
