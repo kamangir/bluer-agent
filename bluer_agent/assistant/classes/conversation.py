@@ -7,6 +7,7 @@ from bluer_objects import objects
 from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object, get_from_object
 
+from bluer_agent import env
 from bluer_agent.assistant.env import verbose
 from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, VERSION
@@ -106,7 +107,9 @@ class Conversation:
             can_next=can_next,
             idx_display=idx_display,
             object_name=convo.object_name,
-            signature=" | ".join(signature()),
+            signature=" | ".join(
+                [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"] + signature()
+            ),
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=convo.subject,
             # sidebar
