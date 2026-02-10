@@ -9,6 +9,9 @@ function bluer_agent_audio_converse() {
 
     local object_name=$(bluer_ai_clarify_object $3 conversation-$(bluer_ai_string_timestamp))
 
+    [[ "$do_download" == 1 ]] &&
+        bluer_objects_download - $object_name
+
     python3 -m bluer_agent.audio \
         converse \
         --context_object_name $context_object_name \
@@ -17,9 +20,7 @@ function bluer_agent_audio_converse() {
     [[ $? -ne 0 ]] && return 1
 
     [[ "$do_upload" == 1 ]] &&
-        bluer_objects_upload \
-            filename=$filename \
-            $object_name
+        bluer_objects_upload - $object_name
 
     return 0
 }
