@@ -10,6 +10,7 @@ from bluer_objects import objects
 from bluer_objects.metadata import post_to_object
 
 from bluer_agent import env
+from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, NAME, VERSION
 from bluer_agent.chat.functions import chat
 from bluer_agent.logger import logger
@@ -90,8 +91,9 @@ def index():
         can_prev=can_prev,
         can_next=can_next,
         idx_display=idx_display,
-        title=f"{ICON} {ALIAS}-{VERSION}",
         object_name=session["object_name"],
+        signature=" | ".join(signature()),
+        title=f"{ICON} {ALIAS}-{VERSION}",
     )
 
 
