@@ -7,6 +7,7 @@ from flask import Flask, request, session, redirect, url_for, render_template_st
 from blueness import module
 from bluer_objects import file
 from bluer_objects import objects
+from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object
 
 from bluer_agent import env
@@ -14,6 +15,8 @@ from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, NAME, VERSION
 from bluer_agent.chat.functions import chat
 from bluer_agent.logger import logger
+
+verbose: bool = False
 
 NAME = module.name(__file__, NAME)
 
@@ -133,12 +136,20 @@ def next():
 @app.post("/new")
 def new():
     # save history
+    object_name = session["object_name"]
+
     post_to_object(
-        object_name=session["object_name"],
+        object_name=object_name,
         key="convo",
         value={
             "history": session.get("history", []),
         },
+    )
+
+    set_tags(
+        object_name=object_name,
+        tags="convo",
+        verbose=verbose,
     )
 
     # clear history
