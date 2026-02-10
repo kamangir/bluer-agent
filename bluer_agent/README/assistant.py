@@ -1,17 +1,21 @@
 from bluer_objects.README.items import ImageItems
 from bluer_objects.README.consts import assets_url
 
-image_template = assets_url(
-    suffix="bluer-agent/assistant/{{}}",
-    volume=2,
-)
+
+def image_template(suffix):
+    return assets_url(
+        suffix=f"bluer-agent/assistant/{suffix}",
+        volume=2,
+        blob=True,
+    )
+
 
 docs = [
     {
         "path": f"../docs/assistant.md",
         "items": ImageItems(
             {
-                image_template.format("screenshot-2026-02-11-01-09-15.png"): "",
+                image_template("screenshot-2026-02-11-01-09-15.png"): "",
             }
         ),
     }
