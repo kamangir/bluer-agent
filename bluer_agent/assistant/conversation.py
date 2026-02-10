@@ -9,7 +9,7 @@ from bluer_objects.metadata import post_to_object, get_from_object
 from bluer_agent.assistant.consts import verbose
 from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, NAME, VERSION
-from bluer_agent.assistant import template
+from bluer_agent.assistant.functions import template
 from bluer_agent.logger import logger
 
 

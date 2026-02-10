@@ -9,6 +9,13 @@ from bluer_agent import NAME
 from bluer_agent.assistant.suffix import app
 from bluer_agent.logger import logger
 
+# needed, although seem unused :)
+from bluer_agent.assistant.suffix.home import home
+from bluer_agent.assistant.suffix.next import next
+from bluer_agent.assistant.suffix.new import new
+from bluer_agent.assistant.suffix.open import open_conversation
+from bluer_agent.assistant.suffix.prev import prev
+from bluer_agent.assistant.suffix.submit import submit
 
 NAME = module.name(__file__, NAME)
 
