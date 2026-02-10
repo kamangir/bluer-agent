@@ -9,7 +9,7 @@ from blueness import module
 from bluer_objects import file
 from bluer_objects import objects
 from bluer_objects.mlflow.tags import set_tags
-from bluer_objects.metadata import post_to_object
+from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent import env
 from bluer_agent.host import signature
@@ -48,34 +48,36 @@ def process_text(text: str) -> str:
 
 
 def _get_history() -> List[dict]:
-    return session.get("history", [])
+    return app.config.get("history", [])
 
 
 def _set_history(history: List[dict]) -> None:
-    session["history"] = history
+    app.config["history"] = history
 
 
 def _get_index() -> int:
-    return int(session.get("index", -1))
+    return int(app.config.get("index", -1))
 
 
 def _set_index(i: int) -> None:
-    session["index"] = i
+    app.config["index"] = i
 
 
 @app.get("/")
 def index():
     history = _get_history()
-    i = _get_index()
+    index = _get_index()
 
-    item = history[i] if 0 <= i < len(history) else None
-    can_prev = i > 0
-    can_next = 0 <= i < len(history) - 1
+    logger.info(f"index: {index}")
+
+    item = history[index] if 0 <= index < len(history) else None
+    can_prev = index > 0
+    can_next = 0 <= index < len(history) - 1
 
     if len(history) == 0:
         idx_display = "0 / 0"
     else:
-        idx_display = f"{i + 1} / {len(history)}"
+        idx_display = f"{index + 1} / {len(history)}"
 
     success, template = file.load_text(
         file.absolute(
@@ -140,7 +142,8 @@ def new():
         object_name=object_name,
         key="convo",
         value={
-            "history": session.get("history", []),
+            "history": _get_history(),
+            "index": _get_index(),
         },
     )
 
@@ -153,10 +156,6 @@ def new():
     # new object
     open_object()
 
-    # clear history
-    session.pop("history", None)
-    session.pop("index", None)
-
     return redirect(url_for("index"))
 
 
@@ -164,9 +163,20 @@ def open_object(object_name: str = ""):
     if not object_name:
         object_name = objects.unique_object("convo")
 
+    logger.info(f"opening {object_name}...")
+
     app.config["object_name"] = object_name
 
-    logger.info(f"opening {object_name}...")
+    metadata = get_from_object(object_name, "convo", {})
+    _set_history(metadata.get("history", []))
+    _set_index(metadata.get("index", len(_get_history()) - 1))
+
+    logger.info(
+        "history: {} interaction(s) - index: {}".format(
+            len(_get_history()),
+            _get_index(),
+        )
+    )
 
 
 if __name__ == "__main__":
