@@ -75,6 +75,12 @@ question: {}
         if not success:
             return success
 
+        archive = Archive()
+        archive.update(self.object_name, subject)
+        success = archive.save()
+        if not success:
+            return success
+
         self.subject = subject
         return self.save(tag=False)
 
@@ -86,7 +92,14 @@ question: {}
             "convo",
             {},
         )
-        assert isinstance(metadata, dict)
+        if not isinstance(metadata, dict):
+            logger.warning(
+                "{}.load: dict expected, {} received.".format(
+                    self.__class__.__name__,
+                    metadata.__class__.__name__,
+                )
+            )
+            metadata = {}
 
         self.history = metadata.get("history", [])
         self.subject = metadata.get("subject", "")

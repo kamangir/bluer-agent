@@ -14,7 +14,7 @@ def delete_convo(object_name: str):
     next_object_name: str = ""
 
     archive = Archive()
-    index: int = archive.index()
+    index: int = archive.index(object_name)
 
     if index == -1:
         logger.warning(f"{object_name} isn't in archive.")

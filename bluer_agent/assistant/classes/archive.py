@@ -25,15 +25,19 @@ class Archive:
             default={},
         )
 
-        assert isinstance(metadata, dict)
+        if not isinstance(metadata, dict):
+            logger.warning(
+                f"archive: dict expected, {metadata.__class__.__name__} received."
+            )
+            metadata = {}
+
         self.history: List[List[str, str]] = metadata.get("history", [])
 
         self.history = [pair for pair in self.history if pair[0]]
 
         if not self.history:
             verb = "found"
-            success, list_of_objects = search("convo")
-            assert success
+            _, list_of_objects = search("convo")
 
             logger.info("found {} object(s)".format(len(list_of_objects)))
 

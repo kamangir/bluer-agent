@@ -1,6 +1,7 @@
 from flask import redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
+from bluer_agent.assistant.classes.archive import Archive
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.logger import logger
 

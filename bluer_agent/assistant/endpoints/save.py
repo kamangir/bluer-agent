@@ -9,11 +9,11 @@ from bluer_agent.assistant.classes.conversation import Conversation
 def save(object_name: str):
     convo = Conversation(object_name)
     convo.subject = (request.form.get("subject") or "").strip()
-    assert convo.save(tag=False)
+    convo.save(tag=False)
 
     archive = Archive()
     archive.update(object_name, convo.subject)
-    assert archive.save()
+    archive.save()
 
     return redirect(
         url_for(
