@@ -1,4 +1,4 @@
-from flask import session, redirect, url_for
+from flask import redirect, url_for
 
 from bluer_objects import objects
 
@@ -14,8 +14,11 @@ def new(object_name: str):
     conversation = Conversation(object_name=object_name)
     conversation.save()
 
-    archive = Archive(session["archive"])
-    archive.list_of.append(object_name)
+    archive = Archive()
+    archive.append(
+        object_name,
+        conversation.subject,
+    )
     archive.save()
 
     return redirect(

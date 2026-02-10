@@ -10,6 +10,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 # needed, although seem unused :)
+from bluer_agent.assistant.endpoints.auto_generate_subject import auto_generate_subject
 from bluer_agent.assistant.endpoints.delete_convo import delete_convo
 from bluer_agent.assistant.endpoints.delete_interaction import delete_interaction
 from bluer_agent.assistant.endpoints.home import home
@@ -17,6 +18,7 @@ from bluer_agent.assistant.endpoints.next import next
 from bluer_agent.assistant.endpoints.new import new
 from bluer_agent.assistant.endpoints.open import open_conversation
 from bluer_agent.assistant.endpoints.prev import prev
+from bluer_agent.assistant.endpoints.save import save
 from bluer_agent.assistant.endpoints.submit import submit
 
 NAME = module.name(__file__, NAME)

@@ -12,6 +12,12 @@
 
         <!-- LEFT: conversations -->
         <aside class="sidebar">
+
+            <!-- TITLE -->
+            <div class="sidebar-title">
+                <h2>{{ title }}</h2>
+            </div>
+
             <div class="sidebar-header">
                 <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
@@ -27,10 +33,10 @@
 
             <div class="conversation-list">
                 {% if conversations %}
-                {% for object_name in conversations %}
-                <a class="conversation-item {% if object_name == active_object_name %}active{% endif %}"
-                    href="{{ url_for('open_conversation', object_name=object_name) }}" title="{{ object_name }}">
-                    <div class="conversation-title">{{ object_name }}</div>
+                {% for pair in conversations %}
+                <a class="conversation-item {% if pair[0] == active_object_name %}active{% endif %}"
+                    href="{{ url_for('open_conversation', object_name=pair[0]) }}" title="{{ pair[1] }}">
+                    <div class="conversation-title">{{ pair[1] }}</div>
                 </a>
                 {% endfor %}
                 {% else %}
@@ -41,7 +47,6 @@
 
         <!-- RIGHT: main UI -->
         <main class="main">
-            <h2>{{ title }}</h2>
 
             <div class="row subject-row">
 
@@ -52,6 +57,20 @@
                     </button>
                 </form>
 
+                <form method="post" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
+                    style="display:inline;">
+                    <button type="submit">
+                        🪄
+                    </button>
+                </form>
+
+                <form id="save-form" method="post" action="{{ url_for('save', object_name=object_name) }}"
+                    style="display:inline;" onsubmit="syncSubjectToSaveForm()">
+
+                    <input type="hidden" name="subject" id="save-subject">
+
+                    <button type="submit">💾</button>
+                </form>
 
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
@@ -74,19 +93,23 @@
                     </label>
 
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not can_prev
-                        %}disabled{% endif %}>⬅️ Prev</button>
+                        %}disabled{% endif %}>
+                        ⬅️ Prev
+                    </button>
 
                     <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
-                        %}disabled{% endif %}>Next ➡️</button>
+                        %}disabled{% endif %}>
+                        Next ➡️
+                    </button>
 
                     <span class="muted">{{ idx_display }}</span>
 
                     <button type="submit" class="danger"
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="post"
-                        onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');">
+                        onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not can_delete
+                        %}disabled{% endif %}>
                         🗑 Delete
                     </button>
-
                 </div>
             </form>
 

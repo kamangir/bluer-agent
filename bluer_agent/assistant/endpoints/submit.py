@@ -1,6 +1,7 @@
 from flask import session, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
+from bluer_agent.assistant.classes.conversation import Archive
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.chat.functions import chat
 
@@ -23,7 +24,12 @@ def submit(object_name: str):
     remove_thoughts = bool(request.form.get("remove_thoughts"))
 
     _, reply = chat(
-        messages=[{"role": "user", "content": text}],
+        messages=[
+            {
+                "role": "user",
+                "content": text,
+            }
+        ],
         remove_thoughts=remove_thoughts,
     )
 
@@ -34,9 +40,14 @@ def submit(object_name: str):
         }
     )
 
-    session["index"] = len(convo.history) - 1
+    index = len(convo.history) - 1
 
-    convo.save()
+    session["index"] = index
+
+    if index == 0:
+        convo.generate_subject()
+    else:
+        convo.save()
 
     return redirect(
         url_for(
