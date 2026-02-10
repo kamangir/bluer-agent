@@ -1,15 +1,119 @@
+/* Full-width foundation */
+html,
 body {
-    font-family: system-ui, Arial;
-    max-width: 800px;
-    margin: 24px auto;
-    padding: 0 12px;
+    height: 100%;
 }
 
+body {
+    font-family: system-ui, Arial;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Theme vars */
+:root[data-theme="dark"] {
+    --bg: #0b0e14;
+    --card: #121827;
+    --text: #e6edf3;
+    --muted: #9aa4b2;
+    --line: #233045;
+}
+
+:root[data-theme="light"] {
+    --bg: #ffffff;
+    --card: #f4f6fa;
+    --text: #0b0e14;
+    --muted: #5f6b7a;
+    --line: #e0e6ed;
+}
+
+/* Layout */
+.layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    flex: 0 0 280px;
+    border-right: 1px solid var(--line, #233045);
+    background: var(--card, #121827);
+    padding: 12px;
+    box-sizing: border-box;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.sidebar-new {
+    text-decoration: none;
+    font-size: 18px;
+    padding: 4px 8px;
+    border: 1px solid var(--line, #233045);
+    border-radius: 8px;
+    color: var(--text, #e6edf3);
+}
+
+.conversation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.conversation-item {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    border: 1px solid var(--line, #233045);
+    border-radius: 10px;
+    color: var(--text, #e6edf3);
+}
+
+.conversation-item:hover {
+    border-color: var(--accent, #5cc8ff);
+}
+
+.conversation-item.active {
+    outline: 2px solid var(--accent, #5cc8ff);
+}
+
+.conversation-title {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.sidebar-empty {
+    padding: 10px;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    min-width: 0;
+    /* important for long <pre> / content */
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+
+/* Form + elements */
 textarea {
     width: 100%;
     height: 110px;
     font-size: 16px;
     padding: 10px;
+    box-sizing: border-box;
 }
 
 .row {
@@ -19,21 +123,48 @@ textarea {
     margin-top: 10px;
 }
 
+.subject-row {
+    margin-bottom: 12px;
+}
+
+.subject-input {
+    flex: 1;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.subject-label {
+    margin-right: 8px;
+}
+
 button {
     padding: 10px 14px;
     font-size: 14px;
     cursor: pointer;
 }
 
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Card */
 .card {
-    border: 1px solid #ddd;
+    border: 1px solid var(--line, #233045);
     border-radius: 10px;
     padding: 12px;
     margin-top: 12px;
+    background: var(--card);
 }
 
+.reply-label {
+    margin-top: 10px;
+}
+
+/* Text helpers */
 .muted {
-    color: #666;
+    color: var(--muted);
     font-size: 13px;
 }
 
@@ -41,4 +172,37 @@ pre {
     white-space: pre-wrap;
     word-break: break-word;
     margin: 8px 0 0;
+}
+
+/* Optional: make it usable on narrow screens */
+@media (max-width: 860px) {
+    .sidebar {
+        width: 220px;
+        flex-basis: 220px;
+    }
+
+    .main {
+        padding: 16px;
+    }
+}
+
+.sidebar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-toggle {
+    border: 1px solid var(--line, #233045);
+    background: transparent;
+    color: var(--text, #e6edf3);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.sidebar-toggle:hover {
+    border-color: var(--accent, #5cc8ff);
 }

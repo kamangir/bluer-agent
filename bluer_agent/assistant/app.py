@@ -1,142 +1,59 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, asdict
-from typing import List
-from flask import Flask, request, session, redirect, url_for, render_template_string
+import argparse
 
 from blueness import module
-from bluer_objects import file
 
 from bluer_agent import env
-from bluer_agent import ALIAS, ICON, NAME, VERSION
-from bluer_agent.chat.functions import chat
+from bluer_agent import NAME
+from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
+
+# needed, although seem unused :)
+from bluer_agent.assistant.endpoints.delete_convo import delete_convo
+from bluer_agent.assistant.endpoints.delete_interaction import delete_interaction
+from bluer_agent.assistant.endpoints.home import home
+from bluer_agent.assistant.endpoints.next import next
+from bluer_agent.assistant.endpoints.new import new
+from bluer_agent.assistant.endpoints.open import open_conversation
+from bluer_agent.assistant.endpoints.prev import prev
+from bluer_agent.assistant.endpoints.submit import submit
 
 NAME = module.name(__file__, NAME)
 
-app = Flask(
-    __name__,
-    static_folder="static",
+
+parser = argparse.ArgumentParser(NAME)
+parser.add_argument(
+    "--port",
+    type=int,
+    default=env.BLUER_AGENT_ASSISTANT_PORT,
 )
-app.secret_key = "change-me"  # required for sessions
+parser.add_argument(
+    "--hostname",
+    type=str,
+    default="0.0.0.0",
+)
+parser.add_argument(
+    "--object_name",
+    type=str,
+)
+args = parser.parse_args()
 
-
-@dataclass
-class Interaction:
-    input: str
-    reply: str
-
-
-def process_text(text: str) -> str:
-    _, reply = chat(
-        messages=[
-            {
-                "role": "user",
-                "content": text,
-            }
-        ],
-        remove_thoughts=request.form.get("remove_thoughts", type=bool),
+logger.info(
+    "{} on host:{}, port:{} -> {}".format(
+        NAME,
+        args.hostname,
+        args.port,
+        args.object_name,
     )
-    return reply
+)
 
+# if provided, home (/) will redirect to this.
+if args.object_name:
+    app.config["object_name"] = args.object_name
 
-def _get_history() -> List[dict]:
-    return session.get("history", [])
-
-
-def _set_history(history: List[dict]) -> None:
-    session["history"] = history
-
-
-def _get_index() -> int:
-    return int(session.get("index", -1))
-
-
-def _set_index(i: int) -> None:
-    session["index"] = i
-
-
-@app.get("/")
-def index():
-    history = _get_history()
-    i = _get_index()
-
-    item = history[i] if 0 <= i < len(history) else None
-    can_prev = i > 0
-    can_next = 0 <= i < len(history) - 1
-
-    if len(history) == 0:
-        idx_display = "0 / 0"
-    else:
-        idx_display = f"{i + 1} / {len(history)}"
-
-    success, template = file.load_text(
-        file.absolute(
-            "./app.html",
-            file.path(__file__),
-        )
-    )
-    if not success:
-        return "❗️ app.html not found."
-
-    return render_template_string(
-        "\n".join(template),
-        item=item,
-        can_prev=can_prev,
-        can_next=can_next,
-        idx_display=idx_display,
-        title=f"{ICON} {ALIAS}-{VERSION}",
-    )
-
-
-@app.post("/submit")
-def submit():
-    text = (request.form.get("text") or "").strip()
-    if not text:
-        return redirect(url_for("index"))
-
-    reply = process_text(text)
-
-    history = _get_history()
-    history.append(asdict(Interaction(input=text, reply=reply)))
-    _set_history(history)
-    _set_index(len(history) - 1)
-
-    return redirect(url_for("index"))
-
-
-@app.post("/prev")
-def prev():
-    i = _get_index()
-    if i > 0:
-        _set_index(i - 1)
-    return redirect(url_for("index"))
-
-
-@app.post("/next")
-def next():
-    history = _get_history()
-    i = _get_index()
-    if 0 <= i < len(history) - 1:
-        _set_index(i + 1)
-    return redirect(url_for("index"))
-
-
-@app.post("/clear")
-def clear():
-    session.pop("history", None)
-    session.pop("index", None)
-    return redirect(url_for("index"))
-
-
-if __name__ == "__main__":
-    port: int = env.BLUER_AGENT_ASSISTANT_PORT
-    hostname: str = "0.0.0.0"
-
-    logger.info(f"{NAME} on host:{hostname}, port:{port}")
-
-    app.run(
-        debug=True,
-        host=hostname,
-        port=port,
-    )
+app.run(
+    debug=True,
+    host=args.hostname,
+    port=args.port,
+)

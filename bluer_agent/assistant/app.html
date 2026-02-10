@@ -8,33 +8,109 @@
 </head>
 
 <body>
-    <h2>{{ title }}</h2>
+    <div class="layout">
 
-    <form method="post" action="{{ url_for('submit') }}">
-        <label class="muted">❓ what is the question?</label>
-        <textarea name="text" placeholder="Type here..."></textarea>
-        <div class="row">
-            <button type="submit">Run</button>
-            <label> <input type="checkbox" name="remove_thoughts" checked>🧠 remove thoughts</label>
-            <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
-                %}>Prev</button>
-            <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
-                %}>Next</button>
-            <button type="submit" formaction="{{ url_for('clear') }}">Clear</button>
-            <span class="muted">Showing {{ idx_display }}</span>
-        </div>
-    </form>
+        <!-- LEFT: conversations -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
-    {% if item %}
-    <div class="card">
-        <div class="muted">Input</div>
-        <pre>{{ item["input"] }}</pre>
-        <div class="muted" style="margin-top:10px;">Reply</div>
-        <pre>{{ item["reply"] }}</pre>
+                <div class="sidebar-actions">
+                    <form method="post" action="{{ url_for('new', object_name=object_name) }}">
+                        <button type="submit" class="sidebar-new" title="New conversation">📜</button>
+                    </form>
+
+                    <button type="button" id="theme-toggle" class="sidebar-toggle"
+                        title="Toggle day / night">🌙</button>
+                </div>
+            </div>
+
+            <div class="conversation-list">
+                {% if conversations %}
+                {% for object_name in conversations %}
+                <a class="conversation-item {% if object_name == active_object_name %}active{% endif %}"
+                    href="{{ url_for('open_conversation', object_name=object_name) }}" title="{{ object_name }}">
+                    <div class="conversation-title">{{ object_name }}</div>
+                </a>
+                {% endfor %}
+                {% else %}
+                <div class="muted sidebar-empty">No conversations yet.</div>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- RIGHT: main UI -->
+        <main class="main">
+            <h2>{{ title }}</h2>
+
+            <div class="row subject-row">
+
+                <form method="post" action="{{ url_for('delete_convo', object_name=object_name) }}"
+                    onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
+                    <button type="submit" class="danger">
+                        🗑 Delete
+                    </button>
+                </form>
+
+
+                <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
+                    value="{{ subject or '' }}" form="main-form" class="subject-input">
+
+                <label class="muted subject-label" for="subject">
+                    {{ object_name }}
+                </label>
+            </div>
+
+            <form method="post" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
+                <label class="muted">❓ what is the question?</label>
+                <textarea name="text" placeholder="Type here..." id="question-text" rows="4"></textarea>
+
+                <div class="row">
+                    <button type="submit" id="submit-btn">Submit...</button>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="remove_thoughts" checked>
+                        <span class="muted">🧠 remove thoughts</span>
+                    </label>
+
+                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not can_prev
+                        %}disabled{% endif %}>⬅️ Prev</button>
+
+                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
+                        %}disabled{% endif %}>Next ➡️</button>
+
+                    <span class="muted">{{ idx_display }}</span>
+
+                    <button type="submit" class="danger"
+                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="post"
+                        onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');">
+                        🗑 Delete
+                    </button>
+
+                </div>
+            </form>
+
+            {% if item %}
+            <div class="card">
+                <div class="muted">Input</div>
+                <pre>{{ item["input"] }}</pre>
+                <div class="muted reply-label">Reply</div>
+                <pre>{{ item["reply"] }}</pre>
+            </div>
+            {% else %}
+            <p class="muted">No interactions yet.</p>
+            {% endif %}
+
+            <hr />
+
+            <div class="row footer-row">
+                <label class="muted">{{ signature }}</label>
+            </div>
+
+            <script src="{{ url_for('static', filename='theme.js') }}"></script>
+        </main>
+
     </div>
-    {% else %}
-    <p class="muted">No interactions yet.</p>
-    {% endif %}
 </body>
 
 </html>

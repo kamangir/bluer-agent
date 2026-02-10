@@ -18,7 +18,7 @@ def help_assistant(
         [
             "@assistant",
             f"[{options}]",
-            f"[{env.BLUER_AGENT_ASSISTANT_OBJECT}|<object-name>]",
+            "[-|<object-name>]",
         ],
         "start assistant.",
         mono=mono,
