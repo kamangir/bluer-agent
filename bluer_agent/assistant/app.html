@@ -10,12 +10,16 @@
 <body>
     <h2>{{ title }}</h2>
 
-    <form method="post" action="{{ url_for('submit') }}">
+    <form method="post" action="{{ url_for('submit') }}" id="main-form">
         <label class="muted">❓ what is the question?</label>
-        <textarea name="text" placeholder="Type here..."></textarea>
+        <textarea name="text" placeholder="Type here..." id="question-text" rows="4"></textarea>
+
         <div class="row">
-            <button type="submit">Submit...</button>
-            <label> <input type="checkbox" name="remove_thoughts" checked>🧠 remove thoughts</label>
+            <button type="submit" id="submit-btn">Submit...</button>
+            <label>
+                <input type="checkbox" name="remove_thoughts" checked>
+                🧠 remove thoughts
+            </label>
             <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
                 %}>Prev</button>
             <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
@@ -35,6 +39,18 @@
     {% else %}
     <p class="muted">No interactions yet.</p>
     {% endif %}
+
+    <script>
+        const textarea = document.getElementById("question-text");
+        const form = document.getElementById("main-form");
+
+        textarea.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                form.requestSubmit();
+            }
+        });
+    </script>
 </body>
 
 </html>
