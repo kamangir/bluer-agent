@@ -67,12 +67,10 @@ def submit(object_name: str):
     )
 
     convo.history.append(
-        [
-            {
-                "input": text,
-                "reply": reply,
-            }
-        ]
+        {
+            "input": text,
+            "reply": reply,
+        }
     )
 
     session["index"] = len(convo.history) - 1

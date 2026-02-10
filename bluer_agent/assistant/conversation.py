@@ -69,8 +69,9 @@ class Conversation:
             convo.index = len(convo.history) - 1
 
         logger.info(
-            "{} loaded from {}".format(
+            "{}: {} interaction(s) loaded from {}".format(
                 convo.__class__.__name__,
+                len(convo.history),
                 convo.object_name,
             )
         )
@@ -130,8 +131,9 @@ class Conversation:
         )
 
         logger.info(
-            "{} saved to {}".format(
+            "{}: {} interaction(s) saved to {}".format(
                 self.__class__.__name__,
+                len(self.history),
                 self.object_name,
             )
         )
