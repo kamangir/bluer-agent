@@ -26,3 +26,12 @@ toggleBtn.addEventListener("click", () => {
     const current = root.getAttribute("data-theme");
     setTheme(current === "dark" ? "light" : "dark");
 });
+
+function syncSubjectToSaveForm() {
+    const subjectInput = document.getElementById("subject");
+    const hiddenInput = document.getElementById("save-subject");
+
+    if (subjectInput && hiddenInput) {
+        hiddenInput.value = subjectInput.value;
+    }
+}

@@ -23,7 +23,12 @@ def submit(object_name: str):
     remove_thoughts = bool(request.form.get("remove_thoughts"))
 
     _, reply = chat(
-        messages=[{"role": "user", "content": text}],
+        messages=[
+            {
+                "role": "user",
+                "content": text,
+            }
+        ],
         remove_thoughts=remove_thoughts,
     )
 

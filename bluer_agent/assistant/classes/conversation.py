@@ -9,11 +9,12 @@ from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent import env
-from bluer_agent.assistant.env import verbose
-from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, VERSION
-from bluer_agent.assistant.functions import template
 from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.env import verbose
+from bluer_agent.assistant.functions import template
+from bluer_agent.chat.functions import chat
+from bluer_agent.host import signature
 from bluer_agent.logger import logger
 
 
@@ -48,6 +49,34 @@ class Conversation:
         idx_display = f"{index + 1} / {len(self.history)}"
 
         return item, can_prev, can_next, idx_display
+
+    def generate_subject(self) -> bool:
+        if not self.history:
+            return False
+
+        prompt = """
+This is the first question in a conversation. Generate a title for 
+this conversation in the same language of the question. Do not use 
+markdown symbols in the title. Do not start the title with "title:"
+
+question: {}
+"""
+
+        success, subject = chat(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt.format(
+                        self.history[0]["input"],
+                    ),
+                }
+            ],
+        )
+        if not success:
+            return success
+
+        self.subject = subject
+        return self.save(tag=False)
 
     def load(self, object_name: str):
         self.object_name = object_name
