@@ -1,5 +1,6 @@
 # 
 
+- [assistant](./assistant.md)
 - [audio](./audio)
 - [chat](./chat)
 - [rag](./rag)
