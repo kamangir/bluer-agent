@@ -10,6 +10,13 @@
 <body>
     <h2>{{ title }}</h2>
 
+    <div class="row" style="margin-bottom:12px;">
+        <label class="muted" for="subject" style="margin-right:8px;">
+            subject
+        </label>
+        <input type="text" name="subject" id="subject" placeholder="Conversation subject…" style="flex:1; padding:8px;">
+    </div>
+
     <form method="post" action="{{ url_for('submit') }}" id="main-form">
         <label class="muted">❓ what is the question?</label>
         <textarea name="text" placeholder="Type here..." id="question-text" rows="4"></textarea>
