@@ -70,7 +70,7 @@
                     <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
                         %}disabled{% endif %}>Next</button>
 
-                    <span class="muted">Showing {{ idx_display }}</span>
+                    <span class="muted">{{ idx_display }}</span>
 
                     <button type="submit" formaction="{{ url_for('new', object_name=object_name) }}">New...</button>
                 </div>

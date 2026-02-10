@@ -104,7 +104,7 @@ def prev(object_name: str):
 def next(object_name: str):
     convo = Conversation.load(object_name)
 
-    if session["index"] < len(convo.history) - 2:
+    if session["index"] < len(convo.history) - 1:
         session["index"] += 1
 
     return redirect(
@@ -146,6 +146,7 @@ if __name__ == "__main__":
         )
     )
 
+    # if provided, home (/) will redirect to this.
     if args.object_name:
         app.config["object_name"] = args.object_name
 
