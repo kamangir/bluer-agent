@@ -1,7 +1,7 @@
 from flask import session
 
 from bluer_agent.assistant.suffix import app
-from bluer_agent.assistant.conversation import Conversation
+from bluer_agent.assistant.classes.conversation import Conversation
 
 
 @app.get("/<object_name>")

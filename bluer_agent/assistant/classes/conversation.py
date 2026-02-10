@@ -3,12 +3,13 @@ from __future__ import annotations
 from typing import Any, List, Tuple
 from flask import render_template_string
 
+from bluer_options.logger.config import log_list
 from bluer_objects.mlflow.tags import set_tags, search
 from bluer_objects.metadata import post_to_object, get_from_object
 
-from bluer_agent.assistant.consts import verbose
+from bluer_agent.assistant.env import verbose
 from bluer_agent.host import signature
-from bluer_agent import ALIAS, ICON, NAME, VERSION
+from bluer_agent import ALIAS, ICON, VERSION
 from bluer_agent.assistant.functions import template
 from bluer_agent.logger import logger
 
@@ -63,11 +64,6 @@ class Conversation:
             )
             convo.history = []
 
-        try:
-            convo.index = int(convo.index)
-        except Exception:
-            convo.index = len(convo.history) - 1
-
         logger.info(
             "{}: {} interaction(s) loaded from {}".format(
                 convo.__class__.__name__,
@@ -80,7 +76,14 @@ class Conversation:
 
     @staticmethod
     def list_of() -> List[str]:
-        return search("convo")[1]
+        _, output = search("convo")
+        log_list(
+            logger,
+            "found",
+            output,
+            "conversation(s)",
+        )
+        return output
 
     @staticmethod
     def render(
