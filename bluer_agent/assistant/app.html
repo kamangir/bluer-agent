@@ -44,6 +44,15 @@
             <h2>{{ title }}</h2>
 
             <div class="row subject-row">
+
+                <form method="post" action="{{ url_for('delete_convo', object_name=object_name) }}"
+                    onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
+                    <button type="submit" class="danger">
+                        🗑 Delete
+                    </button>
+                </form>
+
+
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
@@ -65,17 +74,16 @@
                     </label>
 
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not can_prev
-                        %}disabled{% endif %}>Prev</button>
+                        %}disabled{% endif %}>⬅️ Prev</button>
 
                     <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
-                        %}disabled{% endif %}>Next</button>
+                        %}disabled{% endif %}>Next ➡️</button>
 
                     <span class="muted">{{ idx_display }}</span>
 
-                    <button type="submit" formaction="{{ url_for('delete_convo', object_name=object_name) }}"
-                        formmethod="post" onclick="return confirm('Really delete {{ object_name }}?');" class="danger">
-                        🗑 Delete
-                    </button>
+                    <button type="submit" formaction="{{ url_for('delete_interaction', object_name=object_name) }}"
+                        formmethod="post"> 🗑 Delete</button>
+
                 </div>
             </form>
 

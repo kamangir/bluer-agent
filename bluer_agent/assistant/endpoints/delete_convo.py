@@ -46,6 +46,8 @@ def delete_convo(object_name: str):
     if not next_object_name:
         next_object_name = objects.unique_object("convo")
 
+    logger.info(f"next_object_name: {next_object_name}")
+
     return redirect(
         url_for(
             "open_conversation",
