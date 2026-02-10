@@ -1,16 +1,17 @@
 from __future__ import annotations
 
 from typing import Any, List, Tuple
-from flask import render_template_string
+from flask import render_template_string, session
 
-from bluer_options.logger.config import log_list
-from bluer_objects.mlflow.tags import set_tags, search
+from bluer_objects import objects
+from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent.assistant.env import verbose
 from bluer_agent.host import signature
 from bluer_agent import ALIAS, ICON, VERSION
 from bluer_agent.assistant.functions import template
+from bluer_agent.assistant.classes.archive import Archive
 from bluer_agent.logger import logger
 
 
@@ -75,17 +76,6 @@ class Conversation:
         return convo
 
     @staticmethod
-    def list_of() -> List[str]:
-        _, output = search("convo")
-        log_list(
-            logger,
-            "found",
-            output,
-            "conversation(s)",
-        )
-        return output
-
-    @staticmethod
     def render(
         object_name: str,
         index: int,
@@ -94,14 +84,19 @@ class Conversation:
         if not template_text:
             return "❗️ app.html not found."
 
+        if "archive" not in session:
+            session["archive"] = objects.path_of(
+                object_name=object_name,
+                filename="archive.yaml",
+            )
+        archive = Archive(session["archive"])
+
         convo = Conversation.load(object_name)
 
         if index < 0 and convo.history:
             index = 0
 
         item, can_prev, can_next, idx_display = convo.compute_view_state(index)
-
-        conversations = Conversation.list_of()
 
         return render_template_string(
             template_text,
@@ -115,8 +110,8 @@ class Conversation:
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=convo.subject,
             # sidebar
-            conversations=conversations,
-            conversation_count=len(conversations),
+            conversations=archive.list_of,
+            conversation_count=len(archive.list_of),
             active_object_name=convo.object_name,
         )
 
