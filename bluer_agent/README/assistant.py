@@ -12,7 +12,7 @@ def image_template(suffix):
 
 docs = [
     {
-        "path": f"../docs/assistant.md",
+        "path": "../docs/assistant.md",
         "items": ImageItems(
             {
                 image_template("screenshot-2026-02-11-01-09-15.png"): "",
