@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any, List, Tuple
 from flask import render_template_string, session
 
+from bluer_options.timing import ElapsedTimer
 from bluer_objects import objects
 from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object, get_from_object
@@ -81,6 +82,8 @@ class Conversation:
         object_name: str,
         index: int,
     ) -> str:
+        elapsed_timer = ElapsedTimer()
+
         template_text = template.load()
         if not template_text:
             return "❗️ app.html not found."
@@ -108,7 +111,16 @@ class Conversation:
             idx_display=idx_display,
             object_name=convo.object_name,
             signature=" | ".join(
-                [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"] + signature()
+                [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
+                + signature()
+                + [
+                    "took {}".format(
+                        elapsed_timer.as_str(
+                            include_ms=True,
+                            short=True,
+                        ),
+                    )
+                ]
             ),
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=convo.subject,
