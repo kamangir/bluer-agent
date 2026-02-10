@@ -21,23 +21,20 @@ class Conversation:
         self.object_name = ""
 
         self.history: List[str] = []
-        self.index: int = -1
         self.subject: str = ""
 
         if object_name:
             self.load(object_name)
 
-    def compute_view_state(self) -> Tuple[Any, bool, bool, str]:
-        item = self.history[self.index] if 0 <= self.index < len(self.history) else None
+    def compute_view_state(self, index: int) -> Tuple[Any, bool, bool, str]:
+        item = self.history[index] if 0 <= index < len(self.history) else None
 
-        can_prev = self.index > 0
+        can_prev = index > 0
 
-        can_next = 0 <= self.index < len(self.history) - 1
+        can_next = 0 <= index < len(self.history) - 1
 
         idx_display = (
-            "0 / 0"
-            if len(self.history) == 0
-            else f"{self.index + 1} / {len(self.history)}"
+            "0 / 0" if len(self.history) == 0 else f"{index + 1} / {len(self.history)}"
         )
 
         return item, can_prev, can_next, idx_display
@@ -55,7 +52,6 @@ class Conversation:
         assert isinstance(metadata, dict)
 
         convo.history = metadata.get("history", [])
-        convo.index = metadata.get("index", len(convo.history) - 1)
         convo.subject = metadata.get("subject", "")
 
         # normalize
@@ -86,14 +82,20 @@ class Conversation:
         return search("convo")[1]
 
     @staticmethod
-    def render(object_name: str) -> str:
+    def render(
+        object_name: str,
+        index: int,
+    ) -> str:
         template_text = template.load()
         if not template_text:
             return "❗️ app.html not found."
 
         convo = Conversation.load(object_name)
 
-        item, can_prev, can_next, idx_display = convo.compute_view_state()
+        if index < 0 and convo.history:
+            index = 0
+
+        item, can_prev, can_next, idx_display = convo.compute_view_state(index)
 
         return render_template_string(
             template_text,
@@ -117,7 +119,6 @@ class Conversation:
             key="convo",
             value={
                 "history": self.history,
-                "index": int(self.index),
                 "subject": self.subject,
             },
         )

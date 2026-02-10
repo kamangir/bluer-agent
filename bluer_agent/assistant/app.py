@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from flask import Flask, request, redirect, url_for
+from flask import Flask, session, request, redirect, url_for
 
 from blueness import module
 from bluer_objects import objects
@@ -35,7 +35,13 @@ def home():
 
 @app.get("/<object_name>")
 def open_conversation(object_name: str):
-    return Conversation.render(object_name)
+    if session.get("index", -1) < 0:
+        session["index"] = 0
+
+    return Conversation.render(
+        object_name,
+        session["index"],
+    )
 
 
 @app.post("/<object_name>/submit")
@@ -69,7 +75,7 @@ def submit(object_name: str):
         ]
     )
 
-    convo.index = len(convo.history) - 1
+    session["index"] = len(convo.history) - 1
 
     convo.save()
 
@@ -83,12 +89,8 @@ def submit(object_name: str):
 
 @app.post("/<object_name>/prev")
 def prev(object_name: str):
-    convo = Conversation.load(object_name)
-
-    if convo.index > 0:
-        convo.index -= 1
-
-    convo.save()
+    if session["index"] > 0:
+        session["index"] -= 1
 
     return redirect(
         url_for(
@@ -102,10 +104,8 @@ def prev(object_name: str):
 def next(object_name: str):
     convo = Conversation.load(object_name)
 
-    if 0 <= convo.index < len(convo.history) - 1:
-        convo.index += 1
-
-    convo.save()
+    if session["index"] < len(convo.history) - 2:
+        session["index"] += 1
 
     return redirect(
         url_for(
@@ -146,7 +146,6 @@ if __name__ == "__main__":
         )
     )
 
-    # Optional: if provided, home (/) will redirect to this.
     if args.object_name:
         app.config["object_name"] = args.object_name
 
