@@ -101,6 +101,8 @@ class Conversation:
 
         item, can_prev, can_next, idx_display = convo.compute_view_state(index)
 
+        conversations = Conversation.list_of()
+
         return render_template_string(
             template_text,
             # main view
@@ -113,7 +115,8 @@ class Conversation:
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=convo.subject,
             # sidebar
-            conversations=Conversation.list_of(),
+            conversations=conversations,
+            conversation_count=len(conversations),
             active_object_name=convo.object_name,
         )
 

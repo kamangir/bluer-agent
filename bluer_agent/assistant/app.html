@@ -13,7 +13,7 @@
         <!-- LEFT: conversations -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <div class="muted">Conversations</div>
+                <div class="muted">{{ conversation_count }} Conversation(s)</div>
                 <!-- Opens a new /<object_name> -->
                 <a class="sidebar-new" href="{{ url_for('open_conversation', object_name='') }}">＋</a>
             </div>
@@ -71,8 +71,6 @@
                         %}disabled{% endif %}>Next</button>
 
                     <span class="muted">{{ idx_display }}</span>
-
-                    <button type="submit" formaction="{{ url_for('new', object_name=object_name) }}">New...</button>
                 </div>
             </form>
 
