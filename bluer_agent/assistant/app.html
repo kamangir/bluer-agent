@@ -16,8 +16,10 @@
                 <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
                 <div class="sidebar-actions">
-                    <a class="sidebar-new" href="{{ url_for('open_conversation', object_name='') }}"
-                        title="New conversation">📜</a>
+                    <form method="post" action="{{ url_for('new', object_name=object_name) }}">
+                        <button type="submit" class="sidebar-new" title="New conversation">📜</button>
+                    </form>
+
                     <button type="button" id="theme-toggle" class="sidebar-toggle"
                         title="Toggle day / night">🌙</button>
                 </div>
@@ -70,8 +72,8 @@
 
                     <span class="muted">{{ idx_display }}</span>
 
-                    <button type="submit" formaction="{{ url_for('delete', object_name=object_name) }}"
-                        formmethod="post" onclick="return confirm('Really delete this object?');" class="danger">
+                    <button type="submit" formaction="{{ url_for('delete_convo', object_name=object_name) }}"
+                        formmethod="post" onclick="return confirm('Really delete {{ object_name }}?');" class="danger">
                         🗑 Delete
                     </button>
                 </div>

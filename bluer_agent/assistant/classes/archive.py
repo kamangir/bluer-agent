@@ -37,6 +37,15 @@ class Archive:
             self.save()
 
     def save(self) -> bool:
+        logger.info(
+            "{}: saving {} conversation(s)".format(
+                self.__class__.__name__,
+                len(
+                    self.list_of,
+                ),
+            )
+        )
+
         return file.save_yaml(
             self.filename,
             {

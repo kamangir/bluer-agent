@@ -130,26 +130,33 @@ class Conversation:
             active_object_name=convo.object_name,
         )
 
-    def save(self):
-        post_to_object(
+    def save(self) -> bool:
+        success: bool = True
+
+        if not post_to_object(
             object_name=self.object_name,
             key="convo",
             value={
                 "history": self.history,
                 "subject": self.subject,
             },
-        )
+        ):
+            success = False
 
-        set_tags(
+        if not set_tags(
             object_name=self.object_name,
             tags="convo",
             verbose=verbose,
-        )
+        ):
+            success = False
 
-        logger.info(
-            "{}: {} interaction(s) saved to {}".format(
-                self.__class__.__name__,
-                len(self.history),
-                self.object_name,
+        if success:
+            logger.info(
+                "{}: {} interaction(s) saved to {}".format(
+                    self.__class__.__name__,
+                    len(self.history),
+                    self.object_name,
+                )
             )
-        )
+
+        return success

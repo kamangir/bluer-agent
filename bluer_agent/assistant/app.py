@@ -10,7 +10,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 # needed, although seem unused :)
-from bluer_agent.assistant.endpoints.delete import delete
+from bluer_agent.assistant.endpoints.delete_convo import delete
 from bluer_agent.assistant.endpoints.home import home
 from bluer_agent.assistant.endpoints.next import next
 from bluer_agent.assistant.endpoints.new import new
