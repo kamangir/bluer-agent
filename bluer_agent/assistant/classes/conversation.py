@@ -113,8 +113,8 @@ class Conversation:
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=convo.subject,
             # sidebar
-            # conversations=Conversation.list_of(),
-            active_conversation_id=convo.object_name,
+            conversations=Conversation.list_of(),
+            active_object_name=convo.object_name,
         )
 
     def save(self):

@@ -20,11 +20,11 @@
 
             <div class="conversation-list">
                 {% if conversations %}
-                {% for c in conversations %}
-                <a class="conversation-item {% if c['id'] == active_conversation_id %}active{% endif %}"
-                    href="{{ url_for('open_conversation', object_name=c) }}" title="{{ c.get('subject','') }}">
+                {% for object_name in conversations %}
+                <a class="conversation-item {% if object_name == active_object_name %}active{% endif %}"
+                    href="{{ url_for('open_conversation', object_name=object_name) }}" title="{{ object_name }}">
                     <div class="conversation-title">
-                        {{ c }}
+                        {{ object_name }}
                     </div>
                 </a>
                 {% endfor %}
