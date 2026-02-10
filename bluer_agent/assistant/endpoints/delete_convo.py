@@ -14,17 +14,17 @@ def delete_convo(object_name: str):
     next_object_name: str = ""
     archive = Archive(session["archive"])
 
-    if object_name not in archive.list_of:
+    index: int = -1
+    for index_, pair in enumerate(archive.history):
+        if pair[0] == object_name:
+            index = index_
+            break
+
+    if index == -1:
         logger.warning(f"{object_name} isn't in archive.")
     else:
-        index = archive.list_of.index(object_name)
-
         logger.info(f"removed {object_name}")
-        archive.list_of = [
-            object_name_
-            for object_name_ in archive.list_of
-            if object_name_ != object_name
-        ]
+        archive.history.pop(index)
         archive.save()
 
         tags.set_tags(
@@ -34,12 +34,12 @@ def delete_convo(object_name: str):
         )
 
         try:
-            next_object_name = archive.list_of[
+            next_object_name = archive.history[
                 min(
                     index,
-                    len(archive.list_of) - 1,
+                    len(archive.history) - 1,
                 )
-            ]
+            ][0]
         except:
             pass
 

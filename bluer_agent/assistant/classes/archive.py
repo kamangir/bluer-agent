@@ -1,6 +1,10 @@
+from typing import List, Tuple
+from tqdm import tqdm
+
 from bluer_options.logger.config import log_list
 from bluer_objects import file
 from bluer_objects.mlflow.tags import search
+from bluer_objects.metadata import get_from_object
 
 from bluer_agent.logger import logger
 
@@ -20,16 +24,28 @@ class Archive:
         )
 
         assert isinstance(metadata, dict)
-        self.list_of = metadata.get("list_of", [])
+        self.history: List[List[str, str]] = metadata.get("history", [])
 
-        if not self.list_of:
-            _, self.list_of = search("convo")
+        self.history = [pair for pair in self.history if pair[0]]
+
+        if not self.history:
             verb = "found"
+            success, list_of_objects = search("convo")
+            assert success
+
+            logger.info("found {} object(s)".format(len(list_of_objects)))
+
+            for object_name in tqdm(list_of_objects):
+                metadata = get_from_object(object_name, "convo", {})
+                try:
+                    self.history.append([object_name, metadata["subject"]])
+                except Exception as e:
+                    logger.warning(e)
 
         log_list(
             logger,
             f"{self.__class__.__name__}: {verb}",
-            self.list_of,
+            [pair[0] for pair in self.history],
             "conversation(s)",
         )
 
@@ -41,7 +57,7 @@ class Archive:
             "{}: saving {} conversation(s)".format(
                 self.__class__.__name__,
                 len(
-                    self.list_of,
+                    self.history,
                 ),
             )
         )
@@ -49,6 +65,6 @@ class Archive:
         return file.save_yaml(
             self.filename,
             {
-                "list_of": self.list_of,
+                "history": self.history,
             },
         )

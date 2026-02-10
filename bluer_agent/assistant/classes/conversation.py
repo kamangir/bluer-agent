@@ -149,8 +149,8 @@ question: {}
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=self.subject,
             # sidebar
-            conversations=archive.list_of,
-            conversation_count=len(archive.list_of),
+            conversations=archive.history,
+            conversation_count=len(archive.history),
             active_object_name=self.object_name,
         )
 

@@ -15,7 +15,7 @@ def new(object_name: str):
     conversation.save()
 
     archive = Archive(session["archive"])
-    archive.list_of.append(object_name)
+    archive.history.append([object_name, conversation.subject])
     archive.save()
 
     return redirect(
