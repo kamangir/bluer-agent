@@ -12,7 +12,7 @@ from bluer_agent.logger import logger
 @app.post("/<object_name>/delete_convo")
 def delete_convo(object_name: str):
     next_object_name: str = ""
-    archive = Archive(session["archive"])
+    archive = Archive()
 
     index: int = -1
     for index_, pair in enumerate(archive.history):

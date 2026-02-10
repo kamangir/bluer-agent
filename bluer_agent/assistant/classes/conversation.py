@@ -120,7 +120,8 @@ question: {}
                 object_name=self.object_name,
                 filename="archive.yaml",
             )
-        archive = Archive(session["archive"])
+
+        archive = Archive()
 
         item, can_prev, can_next, can_delete, idx_display = self.compute_view_state()
 

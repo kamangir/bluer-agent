@@ -1,5 +1,7 @@
-from typing import List, Tuple
+from typing import List
 from tqdm import tqdm
+from flask import session
+
 
 from bluer_options.logger.config import log_list
 from bluer_objects import file
@@ -12,13 +14,13 @@ from bluer_agent.logger import logger
 class Archive:
     def __init__(
         self,
-        filename: str,
+        filename: str = "",
     ):
-        self.filename = filename
+        self.filename = filename if filename else session["archive"]
 
         verb: str = "loaded"
         _, metadata = file.load_yaml(
-            filename,
+            self.filename,
             ignore_error=True,
             default={},
         )
