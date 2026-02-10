@@ -14,14 +14,14 @@
         <label class="muted">❓ what is the question?</label>
         <textarea name="text" placeholder="Type here..."></textarea>
         <div class="row">
-            <button type="submit">Run</button>
+            <button type="submit">Submit...</button>
             <label> <input type="checkbox" name="remove_thoughts" checked>🧠 remove thoughts</label>
             <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
                 %}>Prev</button>
             <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
                 %}>Next</button>
-            <button type="submit" formaction="{{ url_for('clear') }}">Clear</button>
             <span class="muted">Showing {{ idx_display }}</span>
+            <button type="submit" formaction="{{ url_for('clear') }}">New...</button>
         </div>
     </form>
 
