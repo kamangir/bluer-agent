@@ -18,7 +18,7 @@ def help_assistant(
         [
             "@assistant",
             f"[{options}]",
-            f"[-|<object-name>]",
+            "[-|<object-name>]",
         ],
         "start assistant.",
         mono=mono,
