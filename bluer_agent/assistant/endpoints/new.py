@@ -2,7 +2,7 @@ from flask import session, redirect, url_for
 
 from bluer_objects import objects
 
-from bluer_agent.assistant.suffix import app
+from bluer_agent.assistant.endpoints import app
 
 
 @app.post("/<object_name>/new")

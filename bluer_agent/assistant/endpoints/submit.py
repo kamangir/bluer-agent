@@ -1,6 +1,6 @@
 from flask import session, request, redirect, url_for
 
-from bluer_agent.assistant.suffix import app
+from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.chat.functions import chat
 

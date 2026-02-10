@@ -10,6 +10,8 @@ class Archive:
         self,
         filename: str,
     ):
+        self.filename = filename
+
         verb: str = "loaded"
         _, metadata = file.load_yaml(
             filename,
@@ -31,8 +33,12 @@ class Archive:
             "conversation(s)",
         )
 
-        file.save_yaml(
-            filename,
+        if verb == "found":
+            self.save()
+
+    def save(self) -> bool:
+        return file.save_yaml(
+            self.filename,
             {
                 "list_of": self.list_of,
             },

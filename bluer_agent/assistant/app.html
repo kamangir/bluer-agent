@@ -44,6 +44,7 @@
             <div class="row subject-row">
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
+
                 <label class="muted subject-label" for="subject">
                     {{ object_name }}
                 </label>
@@ -68,6 +69,11 @@
                         %}disabled{% endif %}>Next</button>
 
                     <span class="muted">{{ idx_display }}</span>
+
+                    <button type="submit" formaction="{{ url_for('delete', object_name=object_name) }}"
+                        formmethod="post" onclick="return confirm('Really delete this object?');" class="danger">
+                        🗑 Delete
+                    </button>
                 </div>
             </form>
 

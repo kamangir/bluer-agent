@@ -6,16 +6,17 @@ from blueness import module
 
 from bluer_agent import env
 from bluer_agent import NAME
-from bluer_agent.assistant.suffix import app
+from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 # needed, although seem unused :)
-from bluer_agent.assistant.suffix.home import home
-from bluer_agent.assistant.suffix.next import next
-from bluer_agent.assistant.suffix.new import new
-from bluer_agent.assistant.suffix.open import open_conversation
-from bluer_agent.assistant.suffix.prev import prev
-from bluer_agent.assistant.suffix.submit import submit
+from bluer_agent.assistant.endpoints.delete import delete
+from bluer_agent.assistant.endpoints.home import home
+from bluer_agent.assistant.endpoints.next import next
+from bluer_agent.assistant.endpoints.new import new
+from bluer_agent.assistant.endpoints.open import open_conversation
+from bluer_agent.assistant.endpoints.prev import prev
+from bluer_agent.assistant.endpoints.submit import submit
 
 NAME = module.name(__file__, NAME)
 
