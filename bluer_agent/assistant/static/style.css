@@ -106,18 +106,6 @@ body {
     box-sizing: border-box;
 }
 
-.topbar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 8px;
-}
-
-#theme-toggle {
-    border: none;
-    background: transparent;
-    font-size: 1.1rem;
-    cursor: pointer;
-}
 
 /* Form + elements */
 textarea {
@@ -196,4 +184,25 @@ pre {
     .main {
         padding: 16px;
     }
+}
+
+.sidebar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sidebar-toggle {
+    border: 1px solid var(--line, #233045);
+    background: transparent;
+    color: var(--text, #e6edf3);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.sidebar-toggle:hover {
+    border-color: var(--accent, #5cc8ff);
 }
