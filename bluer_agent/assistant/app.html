@@ -12,6 +12,12 @@
 
         <!-- LEFT: conversations -->
         <aside class="sidebar">
+
+            <!-- TITLE -->
+            <div class="sidebar-title">
+                <h2>{{ title }}</h2>
+            </div>
+
             <div class="sidebar-header">
                 <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
@@ -41,7 +47,6 @@
 
         <!-- RIGHT: main UI -->
         <main class="main">
-            <h2>{{ title }}</h2>
 
             <div class="row subject-row">
 
@@ -51,7 +56,6 @@
                         🗑 Delete
                     </button>
                 </form>
-
 
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
@@ -74,10 +78,14 @@
                     </label>
 
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not can_prev
-                        %}disabled{% endif %}>⬅️ Prev</button>
+                        %}disabled{% endif %}>
+                        ⬅️ Prev
+                    </button>
 
                     <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
-                        %}disabled{% endif %}>Next ➡️</button>
+                        %}disabled{% endif %}>
+                        Next ➡️
+                    </button>
 
                     <span class="muted">{{ idx_display }}</span>
 
@@ -86,7 +94,6 @@
                         onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');">
                         🗑 Delete
                     </button>
-
                 </div>
             </form>
 

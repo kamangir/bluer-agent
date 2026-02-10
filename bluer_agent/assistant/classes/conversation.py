@@ -30,16 +30,22 @@ class Conversation:
         if object_name:
             self.load(object_name)
 
-    def compute_view_state(self, index: int) -> Tuple[Any, bool, bool, str]:
+    def compute_view_state(self) -> Tuple[Any, bool, bool, str]:
+        if len(self.history) == 0:
+            session["index"] = -1
+            return "-"
+
+        index = session["index"]
+        index = max(min(index, len(self.history) - 1), 0)
+        session["index"] = index
+
         item = self.history[index] if 0 <= index < len(self.history) else None
 
         can_prev = index > 0
 
         can_next = 0 <= index < len(self.history) - 1
 
-        idx_display = (
-            "0 / 0" if len(self.history) == 0 else f"{index + 1} / {len(self.history)}"
-        )
+        idx_display = f"{index + 1} / {len(self.history)}"
 
         return item, can_prev, can_next, idx_display
 
@@ -73,7 +79,7 @@ class Conversation:
             )
         )
 
-    def render(self, index: int) -> str:
+    def render(self) -> str:
         elapsed_timer = ElapsedTimer()
 
         template_text = template.load()
@@ -87,10 +93,7 @@ class Conversation:
             )
         archive = Archive(session["archive"])
 
-        if index < 0 and self.history:
-            index = 0
-
-        item, can_prev, can_next, idx_display = self.compute_view_state(index)
+        item, can_prev, can_next, idx_display = self.compute_view_state()
 
         return render_template_string(
             template_text,

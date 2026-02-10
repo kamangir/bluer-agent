@@ -206,3 +206,13 @@ pre {
 .sidebar-toggle:hover {
     border-color: var(--accent, #5cc8ff);
 }
+
+.sidebar-title {
+    padding: 16px;
+    border-bottom: 1px solid var(--line);
+}
+
+.sidebar-title h2 {
+    margin: 0;
+    font-size: 1.1rem;
+}
