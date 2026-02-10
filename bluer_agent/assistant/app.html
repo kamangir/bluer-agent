@@ -23,13 +23,11 @@
                 {% for object_name in conversations %}
                 <a class="conversation-item {% if object_name == active_object_name %}active{% endif %}"
                     href="{{ url_for('open_conversation', object_name=object_name) }}" title="{{ object_name }}">
-                    <div class="conversation-title">
-                        {{ object_name }}
-                    </div>
+                    <div class="conversation-title">{{ object_name }}</div>
                 </a>
                 {% endfor %}
                 {% else %}
-                <div class="muted" style="padding:10px;">No conversations yet.</div>
+                <div class="muted sidebar-empty">No conversations yet.</div>
                 {% endif %}
             </div>
         </aside>
@@ -38,16 +36,14 @@
         <main class="main">
             <h2>{{ title }}</h2>
 
-            <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-                <button type="button" id="theme-toggle" title="Toggle day / night">
-                    🌙
-                </button>
+            <div class="topbar">
+                <button type="button" id="theme-toggle" title="Toggle day / night">🌙</button>
             </div>
 
-            <div class="row" style="margin-bottom:12px;">
+            <div class="row subject-row">
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
-                    style="flex:1; padding:8px;" value="{{ subject or '' }}" form="main-form">
-                <label class="muted" for="subject" style="margin-right:8px;">
+                    value="{{ subject or '' }}" form="main-form" class="subject-input">
+                <label class="muted subject-label" for="subject">
                     {{ object_name }}
                 </label>
             </div>
@@ -59,7 +55,7 @@
                 <div class="row">
                     <button type="submit" id="submit-btn">Submit...</button>
 
-                    <label>
+                    <label class="checkbox">
                         <input type="checkbox" name="remove_thoughts" checked>
                         <span class="muted">🧠 remove thoughts</span>
                     </label>
@@ -78,7 +74,7 @@
             <div class="card">
                 <div class="muted">Input</div>
                 <pre>{{ item["input"] }}</pre>
-                <div class="muted" style="margin-top:10px;">Reply</div>
+                <div class="muted reply-label">Reply</div>
                 <pre>{{ item["reply"] }}</pre>
             </div>
             {% else %}
@@ -87,10 +83,8 @@
 
             <hr />
 
-            <div class="row" style="margin-bottom:12px;">
-                <label class="muted" style="margin-right:8px;">
-                    {{ signature }}
-                </label>
+            <div class="row footer-row">
+                <label class="muted">{{ signature }}</label>
             </div>
 
             <script src="{{ url_for('static', filename='theme.js') }}"></script>
