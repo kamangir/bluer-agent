@@ -78,3 +78,69 @@ body {
     font-size: 1.1rem;
     cursor: pointer;
 }
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 280px;
+    border-right: 1px solid var(--line, #233045);
+    background: var(--card, #121827);
+    padding: 12px;
+}
+
+.main {
+    flex: 1;
+    padding: 24px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.sidebar-new {
+    text-decoration: none;
+    font-size: 18px;
+    padding: 4px 8px;
+    border: 1px solid var(--line, #233045);
+    border-radius: 8px;
+    color: var(--text, #e6edf3);
+}
+
+.conversation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.conversation-item {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    border: 1px solid var(--line, #233045);
+    border-radius: 10px;
+    color: var(--text, #e6edf3);
+}
+
+.conversation-item:hover {
+    border-color: var(--accent, #5cc8ff);
+}
+
+.conversation-item.active {
+    outline: 2px solid var(--accent, #5cc8ff);
+}
+
+.conversation-title {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.conversation-meta {
+    margin-top: 6px;
+    font-size: 0.85rem;
+}

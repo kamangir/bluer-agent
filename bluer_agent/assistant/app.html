@@ -8,60 +8,97 @@
 </head>
 
 <body>
-    <h2>{{ title }}</h2>
+    <div class="layout">
 
-    <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-        <button type="button" id="theme-toggle" title="Toggle day / night">
-            🌙
-        </button>
+        <!-- LEFT: conversations -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="muted">Conversations</div>
+                <!-- Opens a new /<object_name> -->
+                <a class="sidebar-new" href="{{ url_for('open_conversation', object_name='') }}">＋</a>
+            </div>
+
+            <div class="conversation-list">
+                {% if conversations %}
+                {% for c in conversations %}
+                <a class="conversation-item {% if c['id'] == active_conversation_id %}active{% endif %}"
+                    href="{{ url_for('open_conversation', object_name=c) }}" title="{{ c.get('subject','') }}">
+                    <div class="conversation-title">
+                        {{ c }}
+                    </div>
+                </a>
+                {% endfor %}
+                {% else %}
+                <div class="muted" style="padding:10px;">No conversations yet.</div>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- RIGHT: main UI -->
+        <main class="main">
+            <h2>{{ title }}</h2>
+
+            <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+                <button type="button" id="theme-toggle" title="Toggle day / night">
+                    🌙
+                </button>
+            </div>
+
+            <div class="row" style="margin-bottom:12px;">
+                <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
+                    style="flex:1; padding:8px;" value="{{ subject or '' }}" form="main-form">
+                <label class="muted" for="subject" style="margin-right:8px;">
+                    {{ object_name }}
+                </label>
+            </div>
+
+            <form method="post" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
+                <label class="muted">❓ what is the question?</label>
+                <textarea name="text" placeholder="Type here..." id="question-text" rows="4"></textarea>
+
+                <div class="row">
+                    <button type="submit" id="submit-btn">Submit...</button>
+
+                    <label>
+                        <input type="checkbox" name="remove_thoughts" checked>
+                        <span class="muted">🧠 remove thoughts</span>
+                    </label>
+
+                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not can_prev
+                        %}disabled{% endif %}>Prev</button>
+
+                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not can_next
+                        %}disabled{% endif %}>Next</button>
+
+                    <span class="muted">Showing {{ idx_display }}</span>
+
+                    <button type="submit" formaction="{{ url_for('new', object_name=object_name) }}">New...</button>
+                </div>
+            </form>
+
+            {% if item %}
+            <div class="card">
+                <div class="muted">Input</div>
+                <pre>{{ item["input"] }}</pre>
+                <div class="muted" style="margin-top:10px;">Reply</div>
+                <pre>{{ item["reply"] }}</pre>
+            </div>
+            {% else %}
+            <p class="muted">No interactions yet.</p>
+            {% endif %}
+
+            <hr />
+
+            <div class="row" style="margin-bottom:12px;">
+                <label class="muted" style="margin-right:8px;">
+                    {{ signature }}
+                </label>
+            </div>
+
+            <script src="{{ url_for('static', filename='theme.js') }}"></script>
+        </main>
+
     </div>
-
-    <div class="row" style="margin-bottom:12px;">
-        <input type="text" name="subject" id="subject" placeholder="Conversation subject…" style="flex:1; padding:8px;">
-        <label class="muted" for="subject" style="margin-right:8px;">
-            {{ object_name }}
-        </label>
-    </div>
-
-    <form method="post" action="{{ url_for('submit') }}" id="main-form">
-        <label class="muted">❓ what is the question?</label>
-        <textarea name="text" placeholder="Type here..." id="question-text" rows="4"></textarea>
-
-        <div class="row">
-            <button type="submit" id="submit-btn">Submit...</button>
-            <label>
-                <input type="checkbox" name="remove_thoughts" checked>
-                <span class="muted">🧠 remove thoughts</span>
-            </label>
-            <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
-                %}>Prev</button>
-            <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
-                %}>Next</button>
-            <span class="muted">Showing {{ idx_display }}</span>
-            <button type="submit" formaction="{{ url_for('new') }}">New...</button>
-        </div>
-    </form>
-
-    {% if item %}
-    <div class="card">
-        <div class="muted">Input</div>
-        <pre>{{ item["input"] }}</pre>
-        <div class="muted" style="margin-top:10px;">Reply</div>
-        <pre>{{ item["reply"] }}</pre>
-    </div>
-    {% else %}
-    <p class="muted">No interactions yet.</p>
-    {% endif %}
-
-    <hr />
-
-    <div class="row" style="margin-bottom:12px;">
-        <label class="muted" for="subject" style="margin-right:8px;">
-            {{ signature }}
-        </label>
-    </div>
-
-    <script src="{{ url_for('static', filename='theme.js') }}"></script>
 </body>
 
 </html>
