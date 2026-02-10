@@ -34,7 +34,7 @@ class Conversation:
     def compute_view_state(self) -> Tuple[Any, bool, bool, str]:
         if len(self.history) == 0:
             session["index"] = -1
-            return "-"
+            return None, False, False, False, "-"
 
         index = session["index"]
         index = max(min(index, len(self.history) - 1), 0)
@@ -48,7 +48,7 @@ class Conversation:
 
         idx_display = f"{index + 1} / {len(self.history)}"
 
-        return item, can_prev, can_next, idx_display
+        return item, can_prev, can_next, True, idx_display
 
     def generate_subject(self) -> bool:
         if not self.history:
@@ -122,7 +122,7 @@ question: {}
             )
         archive = Archive(session["archive"])
 
-        item, can_prev, can_next, idx_display = self.compute_view_state()
+        item, can_prev, can_next, can_delete, idx_display = self.compute_view_state()
 
         return render_template_string(
             template_text,
@@ -130,6 +130,7 @@ question: {}
             item=item,
             can_prev=can_prev,
             can_next=can_next,
+            can_delete=can_delete,
             idx_display=idx_display,
             index=session["index"],
             object_name=self.object_name,
