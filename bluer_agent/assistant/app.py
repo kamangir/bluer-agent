@@ -6,6 +6,8 @@ from flask import Flask, request, session, redirect, url_for, render_template_st
 
 from blueness import module
 from bluer_objects import file
+from bluer_objects import objects
+from bluer_objects.metadata import post_to_object
 
 from bluer_agent import env
 from bluer_agent import ALIAS, ICON, NAME, VERSION
@@ -58,6 +60,9 @@ def _set_index(i: int) -> None:
 
 @app.get("/")
 def index():
+    if "object_name" not in session:
+        start_a_new_object()
+
     history = _get_history()
     i = _get_index()
 
@@ -86,6 +91,7 @@ def index():
         can_next=can_next,
         idx_display=idx_display,
         title=f"{ICON} {ALIAS}-{VERSION}",
+        object_name=session["object_name"],
     )
 
 
@@ -124,9 +130,29 @@ def next():
 
 @app.post("/new")
 def new():
+    # save history
+    post_to_object(
+        object_name=session["object_name"],
+        key="convo",
+        value={
+            "history": session.get("history", []),
+        },
+    )
+
+    # clear history
     session.pop("history", None)
     session.pop("index", None)
+
+    start_a_new_object()
+
     return redirect(url_for("index"))
+
+
+def start_a_new_object():
+    object_name = objects.unique_object("convo")
+    session["object_name"] = object_name
+
+    logger.info(f"starting {object_name}...")
 
 
 if __name__ == "__main__":

@@ -11,10 +11,10 @@
     <h2>{{ title }}</h2>
 
     <div class="row" style="margin-bottom:12px;">
-        <label class="muted" for="subject" style="margin-right:8px;">
-            subject
-        </label>
         <input type="text" name="subject" id="subject" placeholder="Conversation subject…" style="flex:1; padding:8px;">
+        <label class="muted" for="subject" style="margin-right:8px;">
+            {{ object_name }}
+        </label>
     </div>
 
     <form method="post" action="{{ url_for('submit') }}" id="main-form">
@@ -25,7 +25,7 @@
             <button type="submit" id="submit-btn">Submit...</button>
             <label>
                 <input type="checkbox" name="remove_thoughts" checked>
-                🧠 remove thoughts
+                <span class="muted">🧠 remove thoughts</span>
             </label>
             <button type="submit" formaction="{{ url_for('prev') }}" {% if not can_prev %}disabled{% endif
                 %}>Prev</button>
