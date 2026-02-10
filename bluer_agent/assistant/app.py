@@ -13,24 +13,8 @@ from bluer_agent.chat.functions import chat
 from bluer_agent.assistant.conversation import Conversation
 from bluer_agent.logger import logger
 
-APP_NAME = module.name(__file__, NAME)
+NAME = module.name(__file__, NAME)
 
-app = Flask(__name__, static_folder="static")
-app.secret_key = "change-me"  # not strictly needed now, but fine to keep
-
-
-@app.get("/")
-def home():
-    object_name = app.config.get("object_name", "")
-    if not object_name:
-        object_name = objects.unique_object("convo")
-
-    return redirect(
-        url_for(
-            "open_conversation",
-            object_name=object_name,
-        ),
-    )
 
 
 @app.get("/<object_name>")
@@ -115,6 +99,7 @@ def next(object_name: str):
 
 @app.post("/<object_name>/new")
 def new(object_name: str):
+    object_name = objects.unique_object("convo")
     return redirect(
         url_for(
             "open_conversation",
@@ -129,7 +114,7 @@ def new(object_name: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(APP_NAME)
+    parser = argparse.ArgumentParser(NAME)
     parser.add_argument("--port", type=int, default=env.BLUER_AGENT_ASSISTANT_PORT)
     parser.add_argument("--hostname", type=str, default="0.0.0.0")
     parser.add_argument("--object_name", type=str)
@@ -137,7 +122,7 @@ if __name__ == "__main__":
 
     logger.info(
         "{} on host:{}, port:{} -> {}".format(
-            APP_NAME,
+            NAME,
             args.hostname,
             args.port,
             args.object_name,
