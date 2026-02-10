@@ -5,17 +5,26 @@ from bluer_objects import objects
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.env import verbose
-from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.logger import logger
 
 
 @app.post("/<object_name>/delete_interaction")
 def delete_interaction(object_name: str):
-    logger.info(
-        "🪄 will delete {}/index".format(
-            object_name,
-        )
+    index = session["index"]
+
+    conversation = Conversation(object_name)
+    conversation.history.pop(index)
+    conversation.save(tag=False)
+
+    logger.info(f"deleted {object_name}/{index}")
+
+    index = min(
+        index,
+        len(conversation.history) - 1,
     )
+    session["index"] = index
+    logger.info(f"index: {index}")
 
     return redirect(
         url_for(

@@ -43,10 +43,8 @@ class Conversation:
 
         return item, can_prev, can_next, idx_display
 
-    @staticmethod
-    def load(object_name: str) -> "Conversation":
-        convo = Conversation()
-        convo.object_name = object_name
+    def load(self, object_name: str):
+        self.object_name = object_name
 
         metadata = get_from_object(
             object_name,
@@ -55,33 +53,27 @@ class Conversation:
         )
         assert isinstance(metadata, dict)
 
-        convo.history = metadata.get("history", [])
-        convo.subject = metadata.get("subject", "")
+        self.history = metadata.get("history", [])
+        self.subject = metadata.get("subject", "")
 
         # normalize
-        if not isinstance(convo.history, list):
+        if not isinstance(self.history, list):
             logger.warning(
                 "history is expected to be a list, was a {}.".format(
-                    convo.history.__class__.__name__,
+                    self.history.__class__.__name__,
                 )
             )
-            convo.history = []
+            self.history = []
 
         logger.info(
             "{}: {} interaction(s) loaded from {}".format(
-                convo.__class__.__name__,
-                len(convo.history),
-                convo.object_name,
+                self.__class__.__name__,
+                len(self.history),
+                self.object_name,
             )
         )
 
-        return convo
-
-    @staticmethod
-    def render(
-        object_name: str,
-        index: int,
-    ) -> str:
+    def render(self, index: int) -> str:
         elapsed_timer = ElapsedTimer()
 
         template_text = template.load()
@@ -90,17 +82,15 @@ class Conversation:
 
         if "archive" not in session:
             session["archive"] = objects.path_of(
-                object_name=object_name,
+                object_name=self.object_name,
                 filename="archive.yaml",
             )
         archive = Archive(session["archive"])
 
-        convo = Conversation.load(object_name)
-
-        if index < 0 and convo.history:
+        if index < 0 and self.history:
             index = 0
 
-        item, can_prev, can_next, idx_display = convo.compute_view_state(index)
+        item, can_prev, can_next, idx_display = self.compute_view_state(index)
 
         return render_template_string(
             template_text,
@@ -109,7 +99,8 @@ class Conversation:
             can_prev=can_prev,
             can_next=can_next,
             idx_display=idx_display,
-            object_name=convo.object_name,
+            index=session["index"],
+            object_name=self.object_name,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
                 + signature()
@@ -123,14 +114,17 @@ class Conversation:
                 ]
             ),
             title=f"{ICON} {ALIAS}-{VERSION}",
-            subject=convo.subject,
+            subject=self.subject,
             # sidebar
             conversations=archive.list_of,
             conversation_count=len(archive.list_of),
-            active_object_name=convo.object_name,
+            active_object_name=self.object_name,
         )
 
-    def save(self) -> bool:
+    def save(
+        self,
+        tag: bool = True,
+    ) -> bool:
         success: bool = True
 
         if not post_to_object(
@@ -143,7 +137,7 @@ class Conversation:
         ):
             success = False
 
-        if not set_tags(
+        if tag and not set_tags(
             object_name=self.object_name,
             tags="convo",
             verbose=verbose,

@@ -6,7 +6,7 @@ from bluer_agent.assistant.classes.conversation import Conversation
 
 @app.post("/<object_name>/next")
 def next(object_name: str):
-    convo = Conversation.load(object_name)
+    convo = Conversation(object_name)
 
     if session["index"] < len(convo.history) - 1:
         session["index"] += 1

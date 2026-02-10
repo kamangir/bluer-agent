@@ -6,10 +6,9 @@ from bluer_agent.assistant.classes.conversation import Conversation
 
 @app.get("/<object_name>")
 def open_conversation(object_name: str):
-    if session.get("index", -1) < 0:
-        session["index"] = 0
-
-    return Conversation.render(
-        object_name,
-        session["index"],
+    return Conversation(object_name).render(
+        max(
+            0,
+            session.get("index", -1),
+        ),
     )

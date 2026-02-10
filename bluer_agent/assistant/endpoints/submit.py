@@ -17,7 +17,7 @@ def submit(object_name: str):
             ),
         )
 
-    convo = Conversation.load(object_name)
+    convo = Conversation(object_name)
     convo.subject = (request.form.get("subject") or "").strip()
 
     remove_thoughts = bool(request.form.get("remove_thoughts"))
