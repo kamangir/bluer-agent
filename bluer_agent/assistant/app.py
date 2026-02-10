@@ -122,8 +122,8 @@ def next():
     return redirect(url_for("index"))
 
 
-@app.post("/clear")
-def clear():
+@app.post("/new")
+def new():
     session.pop("history", None)
     session.pop("index", None)
     return redirect(url_for("index"))

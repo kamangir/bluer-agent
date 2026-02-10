@@ -25,7 +25,7 @@
             <button type="submit" formaction="{{ url_for('next') }}" {% if not can_next %}disabled{% endif
                 %}>Next</button>
             <span class="muted">Showing {{ idx_display }}</span>
-            <button type="submit" formaction="{{ url_for('clear') }}">New...</button>
+            <button type="submit" formaction="{{ url_for('new') }}">New...</button>
         </div>
     </form>
 
