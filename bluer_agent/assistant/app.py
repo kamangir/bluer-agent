@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 from dataclasses import dataclass, asdict
 from typing import List
 from flask import Flask, request, session, redirect, url_for, render_template_string
@@ -64,9 +65,6 @@ def _set_index(i: int) -> None:
 
 @app.get("/")
 def index():
-    if "object_name" not in session:
-        start_a_new_object()
-
     history = _get_history()
     i = _get_index()
 
@@ -94,7 +92,7 @@ def index():
         can_prev=can_prev,
         can_next=can_next,
         idx_display=idx_display,
-        object_name=session["object_name"],
+        object_name=app.config["object_name"],
         signature=" | ".join(signature()),
         title=f"{ICON} {ALIAS}-{VERSION}",
     )
@@ -135,8 +133,8 @@ def next():
 
 @app.post("/new")
 def new():
-    # save history
-    object_name = session["object_name"]
+    # save object
+    object_name = app.config["object_name"]
 
     post_to_object(
         object_name=object_name,
@@ -152,30 +150,56 @@ def new():
         verbose=verbose,
     )
 
+    # new object
+    open_object()
+
     # clear history
     session.pop("history", None)
     session.pop("index", None)
 
-    start_a_new_object()
-
     return redirect(url_for("index"))
 
 
-def start_a_new_object():
-    object_name = objects.unique_object("convo")
-    session["object_name"] = object_name
+def open_object(object_name: str = ""):
+    if not object_name:
+        object_name = objects.unique_object("convo")
 
-    logger.info(f"starting {object_name}...")
+    app.config["object_name"] = object_name
+
+    logger.info(f"opening {object_name}...")
 
 
 if __name__ == "__main__":
-    port: int = env.BLUER_AGENT_ASSISTANT_PORT
-    hostname: str = "0.0.0.0"
+    parser = argparse.ArgumentParser(NAME)
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=env.BLUER_AGENT_ASSISTANT_PORT,
+    )
+    parser.add_argument(
+        "--hostname",
+        type=str,
+        default="0.0.0.0",
+    )
+    parser.add_argument(
+        "--object_name",
+        type=str,
+    )
+    args = parser.parse_args()
 
-    logger.info(f"{NAME} on host:{hostname}, port:{port}")
+    logger.info(
+        "{} on host:{}, port:{} -> {}".format(
+            NAME,
+            args.hostname,
+            args.port,
+            args.object_name,
+        )
+    )
+
+    open_object(args.object_name)
 
     app.run(
         debug=True,
-        host=hostname,
-        port=port,
+        host=args.hostname,
+        port=args.port,
     )

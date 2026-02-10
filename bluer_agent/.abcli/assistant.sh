@@ -9,7 +9,7 @@ function bluer_agent_assistant() {
 
     bluer_ai_web_get_ip
 
-    local object_name=$(bluer_ai_clarify_object $2 $BLUER_AGENT_ASSISTANT_OBJECT)
+    local object_name=$(bluer_ai_clarify_object $2 convo-$(bluer_ai_string_timestamp))
 
     [[ "$do_download" == 1 ]] &&
         bluer_objects_download - $object_name
