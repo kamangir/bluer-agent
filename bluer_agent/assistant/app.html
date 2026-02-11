@@ -53,7 +53,7 @@
                 <form method="post" action="{{ url_for('delete_convo', object_name=object_name) }}"
                     onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
                     <button type="submit" class="danger">
-                        🗑 Delete
+                        🗑
                     </button>
                 </form>
 
@@ -108,14 +108,14 @@
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="post"
                         onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not can_delete
                         %}disabled{% endif %}>
-                        🗑 Delete
+                        🗑
                     </button>
                 </div>
             </form>
 
             {% if item %}
             <div class="card">
-                <div class="muted">Input</div>
+                <div class="muted">Question</div>
                 <pre>{{ item["input"] }}</pre>
                 <div class="muted reply-label">Reply</div>
                 <pre>{{ item["reply"] }}</pre>
