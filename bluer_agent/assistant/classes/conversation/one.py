@@ -38,6 +38,12 @@ class Conversation:
 
         self.subject: str = ""
 
+    @property
+    def icon(self) -> str:
+        return "({})".format(
+            "".join([interaction.icon for interaction in self.list_of_interactions])
+        )
+
     def get_gui_elements(
         self,
         index: int,

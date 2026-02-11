@@ -104,7 +104,7 @@
                         <div class="radio-content">
                             <div class="muted">Reply | <a
                                     href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                    reply.id }}</a></div>
+                                    reply.id }}</a> | {{ reply.icon }}</div>
                             <pre>{{ reply.content }}</pre>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
                 <div class="row">
-                    <button type="submit" id="submit-btn">Submit...</button>
+                    <button type="submit" id="submit-btn">➕</button>
 
                     <label class="checkbox">
                         <input type="checkbox" name="remove_thoughts" checked>
@@ -168,7 +168,7 @@
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
                                 href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
-                                reply_.id }}</a>
+                                reply_.id }}</a> | {{ reply_.icon }}
                         </div>
                         <pre>{{ reply_.content }}</pre>
                     </div>
