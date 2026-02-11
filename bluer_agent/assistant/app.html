@@ -85,6 +85,18 @@
                 <input type="hidden" name="index" value="{{ index }}">
                 <input type="hidden" name="reply" value="{{ reply_id }}">
 
+                {% if top_interaction %}
+                <div class="card">
+                    <!-- reply content -->
+                    <div class="radio-item">
+                        <div class="radio-content">
+                            <div class="muted">Question</div>
+                            <pre>{{ top_interaction.question }}</pre>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
                 {% if reply %}
                 <div class="card">
                     <!-- reply content -->
@@ -140,7 +152,6 @@
             {% if interaction %}
 
             <div class="card">
-
                 <!-- Question -->
                 <div class="radio-item">
                     <div class="radio-content">
@@ -148,9 +159,11 @@
                         <pre>{{ interaction.question }}</pre>
                     </div>
                 </div>
+            </div>
 
-                <!-- Replies -->
-                {% for reply_ in interaction.list_of_replies %}
+            <!-- Replies -->
+            {% for reply_ in interaction.list_of_replies %}
+            <div class="card">
                 <div class="radio-item">
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
@@ -160,8 +173,8 @@
                         <pre>{{ reply_.content }}</pre>
                     </div>
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
 
             {% else %}
             <p class="muted">No interactions yet.</p>

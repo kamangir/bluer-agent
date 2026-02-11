@@ -15,6 +15,7 @@ from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversat
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
+from bluer_agent.assistant.classes.conversation import get
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.host import signature
 from bluer_agent.logger import logger
@@ -112,64 +113,42 @@ question: {}
             .save()
         )
 
+    def get_top_interaction(
+        self,
+        reply_id: str = "top",
+    ) -> Union[Interaction, None]:
+        return get.get_top_interaction(
+            reply_id=reply_id,
+            list_of_interactions=self.list_of_interactions,
+        )
+
     def get_list_of_interactions(
         self,
         reply_id: str = "top",
     ) -> List[Interaction]:
-        if reply_id == "top":
-            return self.list_of_interactions
-
-        for interaction in self.list_of_interactions:
-            for reply in interaction.list_of_replies:
-                if reply.id == reply_id:
-                    return reply.list_of_interactions
-
-        return []
+        return get.get_list_of_interactions(
+            reply_id=reply_id,
+            list_of_interactions=self.list_of_interactions,
+        )
 
     def get_reply(
         self,
         reply_id: str = "top",
     ) -> Union[Reply, None]:
-        if reply_id == "top":
-            return None
-
-        for interaction in self.list_of_interactions:
-            for reply in interaction.list_of_replies:
-                if reply.id == reply_id:
-                    return reply
-
-        return None
+        return get.get_reply(
+            reply_id=reply_id,
+            list_of_interactions=self.list_of_interactions,
+        )
 
     def get_top_reply_id(
         self,
         reply_id: str,
     ) -> str:
-        return Conversation.get_top_reply_id_(
+        return get.get_top_reply_id(
             reply_id=reply_id,
             list_of_interactions=self.list_of_interactions,
             top_reply_id="top",
         )
-
-    @staticmethod
-    def get_top_reply_id_(
-        reply_id: str,
-        list_of_interactions: List[Interaction],
-        top_reply_id: str,
-    ) -> str:
-        for interaction in list_of_interactions:
-            for reply in interaction.list_of_replies:
-                if reply.id == reply_id:
-                    return top_reply_id
-
-                output = Conversation.get_top_reply_id_(
-                    reply_id=reply_id,
-                    list_of_interactions=reply.list_of_interactions,
-                    top_reply_id=reply.id,
-                )
-                if output:
-                    return output
-
-        return ""
 
     @staticmethod
     def load(
@@ -230,10 +209,13 @@ question: {}
 
         reply = self.get_reply(reply_id)
 
+        top_interaction = self.get_top_interaction(reply_id)
+
         return render_template_string(
             template_text,
             # main view
             interaction=interaction,
+            top_interaction=top_interaction,
             gui_elements=gui_elements,
             index=index + 1,
             object_name=self.object_name,
