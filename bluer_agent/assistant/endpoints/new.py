@@ -11,12 +11,12 @@ from bluer_agent.assistant.classes.conversation import Conversation
 def new(object_name: str):
     object_name = objects.unique_object("convo")
 
-    conversation = Conversation(object_name=object_name)
-    conversation.save()
+    convo = Conversation.load(object_name)
+    convo.save()
 
     List_of_Conversations().append(
         object_name,
-        conversation.subject,
+        convo.subject,
     ).save()
 
     return redirect(

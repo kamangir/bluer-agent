@@ -2,14 +2,15 @@ from flask import session, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.interaction import Interaction, Reply
 from bluer_agent.chat.functions import chat
 
 
 @app.post("/<object_name>/submit")
 def submit(object_name: str):
-    text = (request.form.get("text") or "").strip()
+    question = (request.form.get("question") or "").strip()
 
-    if not text:
+    if not question:
         return redirect(
             url_for(
                 "open_conversation",
@@ -17,7 +18,7 @@ def submit(object_name: str):
             ),
         )
 
-    convo = Conversation(object_name)
+    convo = Conversation.load(object_name)
     convo.subject = (request.form.get("subject") or "").strip()
 
     remove_thoughts = bool(request.form.get("remove_thoughts"))
@@ -26,22 +27,34 @@ def submit(object_name: str):
         messages=[
             {
                 "role": "user",
-                "content": text,
+                "content": question,
             }
         ],
         remove_thoughts=remove_thoughts,
     )
 
-    convo.history.append(
-        {
-            "input": text,
-            "reply": reply,
-        }
-    )
+    index = session["index"]
 
-    index = len(convo.history) - 1
-
-    session["index"] = index
+    if not convo.list_of_interactions:
+        convo.list_of_interactions.append(
+            Interaction(
+                question=question,
+                list_of_replies=[
+                    Reply(
+                        content=reply,
+                    )
+                ],
+            )
+        )
+    else:
+        interaction = convo.list_of_interactions[index]
+        assert isinstance(interaction, Interaction)
+        interaction.question = question
+        interaction.list_of_replies.append(
+            Reply(
+                content=reply,
+            )
+        )
 
     if index == 0:
         convo.generate_subject()

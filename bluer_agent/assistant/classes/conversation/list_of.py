@@ -11,7 +11,7 @@ from bluer_objects.metadata import get_from_object
 from bluer_agent.logger import logger
 
 
-@dataclass(frozen=True)
+@dataclass
 class Entry:
     object_name: str
     subject: str

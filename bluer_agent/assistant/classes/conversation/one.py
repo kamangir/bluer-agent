@@ -2,57 +2,70 @@ from __future__ import annotations
 
 from typing import Any, List, Tuple
 from flask import render_template_string, session
+from dataclasses import dataclass
 
+from bluer_options.timing import ElapsedTimer
 from bluer_objects import file
 from bluer_objects import objects
-from bluer_options.timing import ElapsedTimer
+from bluer_objects.metadata import get_from_object
 from bluer_objects.mlflow.tags import set_tags
-from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent import env
 from bluer_agent import ALIAS, ICON, VERSION
 from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversations
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
+from bluer_agent.assistant.classes.interaction import Interaction
 from bluer_agent.chat.functions import chat
 from bluer_agent.host import signature
 from bluer_agent.logger import logger
 
 
+@dataclass
+class GuiElements:
+    index_display: str = " - "
+    can_delete: bool = False
+    can_next: bool = False
+    can_prev: bool = False
+
+
 class Conversation:
-    def __init__(
-        self,
-        object_name: str = "",
-    ):
+    def __init__(self):
         self.object_name = ""
 
-        self.history: List[str] = []
+        self.list_of_interactions: List[Interaction] = []
+
         self.subject: str = ""
 
-        if object_name:
-            self.load(object_name)
-
-    def compute_view_state(self) -> Tuple[Any, bool, bool, str]:
-        if len(self.history) == 0:
+    def get_gui_elements(self) -> Tuple[Any, GuiElements]:
+        if len(self.list_of_interactions) == 0:
             session["index"] = -1
-            return None, False, False, False, "-"
+            return None, GuiElements()
+
+        gui_elements = GuiElements(
+            can_delete=True,
+        )
 
         index = session["index"]
-        index = max(min(index, len(self.history) - 1), 0)
+        index = max(min(index, len(self.list_of_interactions) - 1), 0)
         session["index"] = index
 
-        item = self.history[index] if 0 <= index < len(self.history) else None
+        interaction = (
+            self.list_of_interactions[index]
+            if 0 <= index < len(self.list_of_interactions)
+            else None
+        )
 
-        can_prev = index > 0
+        gui_elements.can_prev = index > 0
 
-        can_next = 0 <= index < len(self.history) - 1
+        gui_elements.can_next = 0 <= index < len(self.list_of_interactions) - 1
 
-        idx_display = f"{index + 1} / {len(self.history)}"
+        gui_elements.index_display = f"{index + 1} / {len(self.list_of_interactions)}"
 
-        return item, can_prev, can_next, True, idx_display
+        return interaction, gui_elements
 
     def generate_subject(self) -> bool:
-        if not self.history:
+        if not self.list_of_interactions:
             return False
 
         prompt = """
@@ -68,7 +81,7 @@ question: {}
                 {
                     "role": "user",
                     "content": prompt.format(
-                        self.history[0]["input"],
+                        self.list_of_interactions[0].question,
                     ),
                 }
             ],
@@ -89,44 +102,44 @@ question: {}
             .save()
         )
 
-    def load(self, object_name: str) -> "Conversation":
-        self.object_name = object_name
-
-        metadata = get_from_object(
-            object_name,
-            "convo",
-            {},
+    @staticmethod
+    def load(
+        object_name: str,
+    ) -> "Conversation":
+        filename = objects.path_of(
+            object_name=object_name,
+            filename="conversation.dat",
         )
-        if not isinstance(metadata, dict):
-            logger.warning(
-                "{}.load: dict expected, {} received.".format(
-                    self.__class__.__name__,
-                    metadata.__class__.__name__,
+
+        success, convo = file.load(
+            filename,
+            ignore_error=True,
+            default=Conversation(),
+        )
+
+        assert isinstance(convo, Conversation)
+        convo.object_name = object_name
+
+        if not success:
+            return convo
+
+        if not isinstance(convo, Conversation):
+            logger.error(
+                "Conversation expected, received {}.".format(
+                    convo.__class__.__name__,
                 )
             )
-            metadata = {}
-
-        self.history = metadata.get("history", [])
-        self.subject = metadata.get("subject", "")
-
-        # normalize
-        if not isinstance(self.history, list):
-            logger.warning(
-                "history is expected to be a list, was a {}.".format(
-                    self.history.__class__.__name__,
-                )
-            )
-            self.history = []
+            return Conversation()
 
         logger.info(
             "{}: {} interaction(s) loaded from {}".format(
-                self.__class__.__name__,
-                len(self.history),
-                self.object_name,
+                convo.__class__.__name__,
+                len(convo.list_of_interactions),
+                convo.object_name,
             )
         )
 
-        return self
+        return convo
 
     def render(self) -> str:
         elapsed_timer = ElapsedTimer()
@@ -137,16 +150,13 @@ question: {}
 
         list_of_conversations = List_of_Conversations()
 
-        item, can_prev, can_next, can_delete, idx_display = self.compute_view_state()
+        interaction, gui_elements = self.get_gui_elements()
 
         return render_template_string(
             template_text,
             # main view
-            item=item,
-            can_prev=can_prev,
-            can_next=can_next,
-            can_delete=can_delete,
-            idx_display=idx_display,
+            interaction=interaction,
+            gui_elements=gui_elements,
             index=session["index"],
             object_name=self.object_name,
             signature=" | ".join(
@@ -173,32 +183,31 @@ question: {}
         self,
         tag: bool = True,
     ) -> bool:
-        success: bool = True
-
-        if not post_to_object(
+        filename = objects.path_of(
             object_name=self.object_name,
-            key="convo",
-            value={
-                "history": self.history,
-                "subject": self.subject,
-            },
+            filename="conversation.dat",
+        )
+
+        if not file.save(
+            filename,
+            self,
+            log=True,
         ):
-            success = False
+            return False
 
         if tag and not set_tags(
             object_name=self.object_name,
             tags="convo",
             verbose=verbose,
         ):
-            success = False
+            return False
 
-        if success:
-            logger.info(
-                "{}: {} interaction(s) saved to {}".format(
-                    self.__class__.__name__,
-                    len(self.history),
-                    self.object_name,
-                )
+        logger.info(
+            "{}: {} interaction(s) saved to {}".format(
+                self.__class__.__name__,
+                len(self.list_of_interactions),
+                self.object_name,
             )
+        )
 
-        return success
+        return True

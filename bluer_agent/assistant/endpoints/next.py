@@ -6,9 +6,9 @@ from bluer_agent.assistant.classes.conversation import Conversation
 
 @app.post("/<object_name>/next")
 def next(object_name: str):
-    convo = Conversation(object_name)
+    convo = Conversation.load(object_name)
 
-    if session["index"] < len(convo.history) - 1:
+    if session["index"] < len(convo.list_of_interactions) - 1:
         session["index"] += 1
 
     return redirect(

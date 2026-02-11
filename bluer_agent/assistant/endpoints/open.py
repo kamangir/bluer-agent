@@ -6,4 +6,4 @@ from bluer_agent.assistant.classes.conversation import Conversation
 
 @app.get("/<object_name>")
 def open_conversation(object_name: str):
-    return Conversation(object_name).render()
+    return Conversation.load(object_name).render()
