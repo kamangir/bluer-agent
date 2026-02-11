@@ -10,7 +10,7 @@ from bluer_objects import objects
 from bluer_objects.mlflow.tags import set_tags
 
 from bluer_agent import env
-from bluer_agent import ALIAS, ICON, VERSION
+from bluer_agent import ICON
 from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversations
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
@@ -233,7 +233,7 @@ question: {}
                     )
                 ]
             ),
-            title=f"{ICON} {ALIAS}-{VERSION}",
+            title=f"{ICON} @assistant",
             subject=self.subject,
             # sidebar
             list_of_conversations=list_of_conversations.contents,
