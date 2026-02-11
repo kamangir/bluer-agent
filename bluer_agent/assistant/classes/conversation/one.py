@@ -39,29 +39,49 @@ class Conversation:
     def get_gui_elements(
         self,
         index: int,
+        reply_id: str,
     ) -> Tuple[Any, GuiElements]:
-        if len(self.list_of_interactions) == 0:
+        list_of_interactions = self.get_list_of_interactions(
+            reply_id=reply_id,
+        )
+
+        if len(list_of_interactions) == 0:
+            logger.warning(f"interaction not found: index={index}, reply={reply_id}")
             return None, GuiElements()
 
         gui_elements = GuiElements(
             can_delete=True,
         )
 
-        index = max(min(index, len(self.list_of_interactions) - 1), 0)
+        index = max(min(index, len(list_of_interactions) - 1), 0)
 
         interaction = (
-            self.list_of_interactions[index]
-            if 0 <= index < len(self.list_of_interactions)
+            list_of_interactions[index]
+            if 0 <= index < len(list_of_interactions)
             else None
         )
 
         gui_elements.can_prev = index > 0
 
-        gui_elements.can_next = 0 <= index < len(self.list_of_interactions) - 1
+        gui_elements.can_next = 0 <= index < len(list_of_interactions) - 1
 
-        gui_elements.index_display = f"{index + 1} / {len(self.list_of_interactions)}"
+        gui_elements.index_display = f"{index + 1} / {len(list_of_interactions)}"
 
         return interaction, gui_elements
+
+    def get_list_of_interactions(
+        self,
+        reply_id: str = "top",
+    ) -> List[Interaction]:
+        if reply_id == "top":
+            return self.list_of_interactions
+
+        for interaction in self.list_of_interactions:
+            for reply in interaction.list_of_replies:
+                if reply.id == reply_id:
+                    return reply.list_of_interactions
+
+        return []
 
     def generate_subject(self) -> bool:
         if not self.list_of_interactions:
@@ -147,13 +167,16 @@ question: {}
     ) -> str:
         elapsed_timer = ElapsedTimer()
 
+        list_of_conversations = List_of_Conversations()
+
         template_text = template.load()
         if not template_text:
             return "❗️ app.html not found."
 
-        list_of_conversations = List_of_Conversations()
-
-        interaction, gui_elements = self.get_gui_elements(index)
+        interaction, gui_elements = self.get_gui_elements(
+            index=index,
+            reply_id=reply_id,
+        )
 
         return render_template_string(
             template_text,

@@ -77,7 +77,7 @@
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
                 <label class="muted subject-label" for="subject">
-                    {{ object_name }} / {{ reply_id }} / {{ index}}
+                    {{ object_name }} | {{ reply_id }} | {{ index}}
                 </label>
             </div>
 
@@ -130,7 +130,10 @@
                 {% for reply in interaction.list_of_replies %}
                 <div class="radio-item">
                     <div class="radio-content">
-                        <div class="muted reply-label">Reply {{ loop.index }}</div>
+                        <div class="muted reply-label">Reply #{{ loop.index }} | <a
+                                href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
+                                reply.id }}</a>
+                        </div>
                         <pre>{{ reply.content }}</pre>
                     </div>
                 </div>
