@@ -19,7 +19,7 @@ def delete_convo(object_name: str):
     if index == -1:
         logger.warning(f"{object_name} isn't in the list of conversations.")
     else:
-        logger.info(f"removed {object_name}")
+        logger.info(f"removed {object_name} (#{index+1})")
         list_of_conversations.contents.pop(index)
         list_of_conversations.save()
 
@@ -48,5 +48,6 @@ def delete_convo(object_name: str):
         url_for(
             "open_conversation",
             object_name=next_object_name,
+            index=index + 1,
         )
     )

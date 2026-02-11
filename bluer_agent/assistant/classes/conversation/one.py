@@ -36,18 +36,18 @@ class Conversation:
 
         self.subject: str = ""
 
-    def get_gui_elements(self) -> Tuple[Any, GuiElements]:
+    def get_gui_elements(
+        self,
+        index: int,
+    ) -> Tuple[Any, GuiElements]:
         if len(self.list_of_interactions) == 0:
-            session["index"] = -1
             return None, GuiElements()
 
         gui_elements = GuiElements(
             can_delete=True,
         )
 
-        index = session["index"]
         index = max(min(index, len(self.list_of_interactions) - 1), 0)
-        session["index"] = index
 
         interaction = (
             self.list_of_interactions[index]
@@ -140,7 +140,10 @@ question: {}
 
         return convo
 
-    def render(self) -> str:
+    def render(
+        self,
+        index: int,
+    ) -> str:
         elapsed_timer = ElapsedTimer()
 
         template_text = template.load()
@@ -149,14 +152,14 @@ question: {}
 
         list_of_conversations = List_of_Conversations()
 
-        interaction, gui_elements = self.get_gui_elements()
+        interaction, gui_elements = self.get_gui_elements(index)
 
         return render_template_string(
             template_text,
             # main view
             interaction=interaction,
             gui_elements=gui_elements,
-            index=session["index"],
+            index=index + 1,
             object_name=self.object_name,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]

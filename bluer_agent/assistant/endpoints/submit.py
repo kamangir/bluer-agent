@@ -38,7 +38,7 @@ def submit(object_name: str):
         remove_thoughts=remove_thoughts,
     )
 
-    index = session["index"]
+    index = int(request.args.get("index", 1))
 
     interaction = Interaction(
         question=question,
@@ -55,9 +55,9 @@ def submit(object_name: str):
     else:
         if selected_item == "question":
             convo.list_of_interactions = (
-                convo.list_of_interactions[: index + 1]
+                convo.list_of_interactions[:index]
                 + [interaction]
-                + convo.list_of_interactions[index + 1 :]
+                + convo.list_of_interactions[index:]
             )
         else:  # reply_{reply_index}
             match = re.fullmatch(r"reply_(\d+)", selected_item)
@@ -75,7 +75,7 @@ def submit(object_name: str):
             reply_index = int(match.group(1))
             logger.info(f"reply_index: {reply_index}")
 
-            selected_interaction = convo.list_of_interactions[index]
+            selected_interaction = convo.list_of_interactions[index - 1]
             assert isinstance(selected_interaction, Interaction)
 
             selected_interaction.list_of_replies[
