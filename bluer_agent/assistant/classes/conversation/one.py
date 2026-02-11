@@ -143,6 +143,7 @@ question: {}
     def render(
         self,
         index: int,
+        reply_id: str,
     ) -> str:
         elapsed_timer = ElapsedTimer()
 
@@ -161,6 +162,7 @@ question: {}
             gui_elements=gui_elements,
             index=index + 1,
             object_name=self.object_name,
+            reply_id=reply_id,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
                 + signature()
