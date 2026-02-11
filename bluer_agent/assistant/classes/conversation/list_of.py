@@ -1,7 +1,7 @@
 from typing import List
 from tqdm import tqdm
 from flask import session
-
+from dataclasses import dataclass
 
 from bluer_options.logger.config import log_list
 from bluer_objects import file
@@ -9,6 +9,12 @@ from bluer_objects.mlflow.tags import search
 from bluer_objects.metadata import get_from_object
 
 from bluer_agent.logger import logger
+
+
+@dataclass(frozen=True)
+class Entry:
+    object_name: str
+    subject: str
 
 
 class List_of_Conversations:
@@ -22,13 +28,13 @@ class List_of_Conversations:
                 session["list_of_conversations"] = file.auxiliary(
                     object_name="auxiliary",
                     nickname="list_of_conversations",
-                    extension="yaml",
+                    extension="dat",
                 )
 
             self.filename = session["list_of_conversations"]
 
         verb: str = "loaded"
-        _, metadata = file.load_yaml(
+        _, metadata = file.load(
             self.filename,
             ignore_error=True,
             default={},
@@ -43,11 +49,11 @@ class List_of_Conversations:
             )
             metadata = {}
 
-        self.history: List[List[str, str]] = metadata.get("history", [])
+        self.contents: List[Entry] = metadata.get("contents", [])
 
-        self.history = [pair for pair in self.history if pair[0]]
+        self.contents = [entry for entry in self.contents if entry.object_name]
 
-        if not self.history:
+        if not self.contents:
             verb = "found"
             _, list_of_objects = search("convo")
 
@@ -70,7 +76,7 @@ class List_of_Conversations:
         log_list(
             logger,
             f"{self.__class__.__name__}: {verb}",
-            [pair[0] for pair in self.history],
+            [entry.object_name for entry in self.contents],
             "conversation(s)",
         )
 
@@ -82,18 +88,18 @@ class List_of_Conversations:
         object_name: str,
         subject: str,
     ) -> "List_of_Conversations":
-        self.history.append(
-            [
-                object_name,
-                subject,
-            ]
+        self.contents.append(
+            Entry(
+                object_name=object_name,
+                subject=subject,
+            )
         )
 
         return self
 
     def index(self, object_name: str) -> int:
-        for index, pair in enumerate(self.history):
-            if pair[0] == object_name:
+        for index, entry in enumerate(self.contents):
+            if entry.object_name == object_name:
                 return index
         return -1
 
@@ -102,15 +108,15 @@ class List_of_Conversations:
             "{}: saving {} conversation(s)".format(
                 self.__class__.__name__,
                 len(
-                    self.history,
+                    self.contents,
                 ),
             )
         )
 
-        return file.save_yaml(
+        return file.save(
             self.filename,
             {
-                "history": self.history,
+                "contents": self.contents,
             },
         )
 
@@ -119,9 +125,9 @@ class List_of_Conversations:
         object_name: str,
         subject: str,
     ) -> "List_of_Conversations":
-        for pair in self.history:
-            if pair[0] == object_name:
-                pair[1] = subject
+        for entry in self.contents:
+            if entry.object_name == object_name:
+                entry.subject = subject
                 break
 
         return self

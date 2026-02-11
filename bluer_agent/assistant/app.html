@@ -33,10 +33,11 @@
 
             <div class="conversation-list">
                 {% if list_of_conversations %}
-                {% for pair in list_of_conversations %}
-                <a class="conversation-item {% if pair[0] == active_object_name %}active{% endif %}"
-                    href="{{ url_for('open_conversation', object_name=pair[0]) }}" title="{{ pair[1] }}">
-                    <div class="conversation-title">{{ pair[1] }}</div>
+                {% for entry in list_of_conversations %}
+                <a class="conversation-item {% if entry.object_name == active_object_name %}active{% endif %}"
+                    href="{{ url_for('open_conversation', object_name=entry.object_name) }}"
+                    title="{{ entry.subject }}">
+                    <div class="conversation-title">{{ entry.subject }}</div>
                 </a>
                 {% endfor %}
                 {% else %}

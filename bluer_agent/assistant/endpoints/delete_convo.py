@@ -20,7 +20,7 @@ def delete_convo(object_name: str):
         logger.warning(f"{object_name} isn't in the list of conversations.")
     else:
         logger.info(f"removed {object_name}")
-        list_of_conversations.history.pop(index)
+        list_of_conversations.contents.pop(index)
         list_of_conversations.save()
 
         tags.set_tags(
@@ -30,10 +30,10 @@ def delete_convo(object_name: str):
         )
 
         try:
-            next_object_name = list_of_conversations.history[
+            next_object_name = list_of_conversations.contents[
                 min(
                     index,
-                    len(list_of_conversations.history) - 1,
+                    len(list_of_conversations.contents) - 1,
                 )
             ][0]
         except:

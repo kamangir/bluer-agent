@@ -164,8 +164,8 @@ question: {}
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=self.subject,
             # sidebar
-            list_of_conversations=list_of_conversations.history,
-            conversation_count=len(list_of_conversations.history),
+            list_of_conversations=list_of_conversations.contents,
+            conversation_count=len(list_of_conversations.contents),
             active_object_name=self.object_name,
         )
 
