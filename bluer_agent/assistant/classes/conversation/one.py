@@ -235,7 +235,6 @@ question: {}
             ),
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=self.subject,
-            selected_item="question",
             # sidebar
             list_of_conversations=list_of_conversations.contents,
             conversation_count=len(list_of_conversations.contents),

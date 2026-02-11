@@ -5,10 +5,10 @@ from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.classes.conversation import Conversation
 
 
-@app.post("/<object_name>/save")
+@app.get("/<object_name>/save")
 def save(object_name: str):
     convo = Conversation.load(object_name)
-    convo.subject = (request.form.get("subject") or "").strip()
+    convo.subject = (request.args.get("subject") or "").strip()
     convo.save(tag=False)
 
     List_of_Conversations().update(

@@ -22,7 +22,7 @@
                 <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
                 <div class="sidebar-actions">
-                    <form method="post" action="{{ url_for('new', object_name=object_name) }}">
+                    <form method="get" action="{{ url_for('new', object_name=object_name) }}">
                         <button type="submit" class="sidebar-new" title="New conversation">📜</button>
                     </form>
 
@@ -51,14 +51,14 @@
 
             <div class="row subject-row">
 
-                <form method="post" action="{{ url_for('delete_convo', object_name=object_name) }}"
+                <form method="get" action="{{ url_for('delete_convo', object_name=object_name) }}"
                     onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
                     <button type="submit" class="danger">
                         🗑
                     </button>
                 </form>
 
-                <form id="save-form" method="post" action="{{ url_for('save', object_name=object_name) }}"
+                <form id="save-form" method="get" action="{{ url_for('save', object_name=object_name) }}"
                     style="display:inline;" onsubmit="syncSubjectToSaveForm()">
 
                     <input type="hidden" name="subject" id="save-subject">
@@ -66,7 +66,7 @@
                     <button type="submit">💾</button>
                 </form>
 
-                <form method="post" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
+                <form method="get" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
                     style="display:inline;">
                     <button type="submit">
                         🪄
@@ -141,7 +141,7 @@
                     <span class="muted">{{ gui_elements.index_display }}</span>
 
                     <button type="submit" class="danger"
-                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="post"
+                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
                         onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not
                         gui_elements.can_delete %}disabled{% endif %}>
                         🗑
