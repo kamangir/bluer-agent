@@ -11,12 +11,12 @@ from bluer_objects.metadata import get_from_object
 from bluer_agent.logger import logger
 
 
-class Archive:
+class List_of_Conversations:
     def __init__(
         self,
         filename: str = "",
     ):
-        self.filename = filename if filename else session["archive"]
+        self.filename = filename if filename else session["list_of_conversations"]
 
         verb: str = "loaded"
         _, metadata = file.load_yaml(
@@ -27,7 +27,10 @@ class Archive:
 
         if not isinstance(metadata, dict):
             logger.warning(
-                f"archive: dict expected, {metadata.__class__.__name__} received."
+                "{}: dict expected, {} received.".format(
+                    self.__class__.__name__,
+                    metadata.__class__.__name__,
+                )
             )
             metadata = {}
 
@@ -69,13 +72,15 @@ class Archive:
         self,
         object_name: str,
         subject: str,
-    ):
+    ) -> "List_of_Conversations":
         self.history.append(
             [
                 object_name,
                 subject,
             ]
         )
+
+        return self
 
     def index(self, object_name: str) -> int:
         for index, pair in enumerate(self.history):
@@ -104,8 +109,10 @@ class Archive:
         self,
         object_name: str,
         subject: str,
-    ):
+    ) -> "List_of_Conversations":
         for pair in self.history:
             if pair[0] == object_name:
                 pair[1] = subject
                 break
+
+        return self

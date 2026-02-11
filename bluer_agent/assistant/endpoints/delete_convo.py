@@ -1,11 +1,11 @@
-from flask import session, redirect, url_for
+from flask import redirect, url_for
 
 from bluer_objects.mlflow import tags
 from bluer_objects import objects
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.env import verbose
-from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.logger import logger
 
 
@@ -13,15 +13,15 @@ from bluer_agent.logger import logger
 def delete_convo(object_name: str):
     next_object_name: str = ""
 
-    archive = Archive()
-    index: int = archive.index(object_name)
+    list_of_conversations = List_of_Conversations()
+    index: int = list_of_conversations.index(object_name)
 
     if index == -1:
-        logger.warning(f"{object_name} isn't in archive.")
+        logger.warning(f"{object_name} isn't in the list of conversations.")
     else:
         logger.info(f"removed {object_name}")
-        archive.history.pop(index)
-        archive.save()
+        list_of_conversations.history.pop(index)
+        list_of_conversations.save()
 
         tags.set_tags(
             object_name=object_name,
@@ -30,10 +30,10 @@ def delete_convo(object_name: str):
         )
 
         try:
-            next_object_name = archive.history[
+            next_object_name = list_of_conversations.history[
                 min(
                     index,
-                    len(archive.history) - 1,
+                    len(list_of_conversations.history) - 1,
                 )
             ][0]
         except:

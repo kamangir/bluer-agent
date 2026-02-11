@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.classes.conversation import Conversation
 
 
@@ -11,9 +11,10 @@ def save(object_name: str):
     convo.subject = (request.form.get("subject") or "").strip()
     convo.save(tag=False)
 
-    archive = Archive()
-    archive.update(object_name, convo.subject)
-    archive.save()
+    List_of_Conversations().update(
+        object_name,
+        convo.subject,
+    ).save()
 
     return redirect(
         url_for(

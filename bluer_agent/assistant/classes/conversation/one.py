@@ -10,7 +10,7 @@ from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent import env
 from bluer_agent import ALIAS, ICON, VERSION
-from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversations
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
 from bluer_agent.chat.functions import chat
@@ -75,16 +75,20 @@ question: {}
         if not success:
             return success
 
-        archive = Archive()
-        archive.update(self.object_name, subject)
-        success = archive.save()
-        if not success:
-            return success
-
         self.subject = subject
-        return self.save(tag=False)
+        if not self.save(tag=False):
+            return False
 
-    def load(self, object_name: str):
+        return (
+            List_of_Conversations()
+            .update(
+                self.object_name,
+                subject,
+            )
+            .save()
+        )
+
+    def load(self, object_name: str) -> "Conversation":
         self.object_name = object_name
 
         metadata = get_from_object(
@@ -121,6 +125,8 @@ question: {}
             )
         )
 
+        return self
+
     def render(self) -> str:
         elapsed_timer = ElapsedTimer()
 
@@ -128,13 +134,13 @@ question: {}
         if not template_text:
             return "❗️ app.html not found."
 
-        if "archive" not in session:
-            session["archive"] = objects.path_of(
+        if "list_of_conversations" not in session:
+            session["list_of_conversations"] = objects.path_of(
                 object_name=self.object_name,
-                filename="archive.yaml",
+                filename="list_of_conversations.yaml",
             )
 
-        archive = Archive()
+        list_of_conversations = List_of_Conversations()
 
         item, can_prev, can_next, can_delete, idx_display = self.compute_view_state()
 
@@ -163,8 +169,8 @@ question: {}
             title=f"{ICON} {ALIAS}-{VERSION}",
             subject=self.subject,
             # sidebar
-            conversations=archive.history,
-            conversation_count=len(archive.history),
+            list_of_conversations=list_of_conversations.history,
+            conversation_count=len(list_of_conversations.history),
             active_object_name=self.object_name,
         )
 
