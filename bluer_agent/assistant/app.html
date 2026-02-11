@@ -57,19 +57,19 @@
                     </button>
                 </form>
 
-                <form method="post" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
-                    style="display:inline;">
-                    <button type="submit">
-                        🪄
-                    </button>
-                </form>
-
                 <form id="save-form" method="post" action="{{ url_for('save', object_name=object_name) }}"
                     style="display:inline;" onsubmit="syncSubjectToSaveForm()">
 
                     <input type="hidden" name="subject" id="save-subject">
 
                     <button type="submit">💾</button>
+                </form>
+
+                <form method="post" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
+                    style="display:inline;">
+                    <button type="submit">
+                        🪄
+                    </button>
                 </form>
 
                 <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
