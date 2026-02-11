@@ -16,7 +16,16 @@ class List_of_Conversations:
         self,
         filename: str = "",
     ):
-        self.filename = filename if filename else session["list_of_conversations"]
+        self.filename = filename
+        if not self.filename:
+            if "list_of_conversations" not in session:
+                session["list_of_conversations"] = file.auxiliary(
+                    object_name="auxiliary",
+                    nickname="list_of_conversations",
+                    extension="yaml",
+                )
+
+            self.filename = session["list_of_conversations"]
 
         verb: str = "loaded"
         _, metadata = file.load_yaml(

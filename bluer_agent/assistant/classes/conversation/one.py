@@ -3,8 +3,9 @@ from __future__ import annotations
 from typing import Any, List, Tuple
 from flask import render_template_string, session
 
-from bluer_options.timing import ElapsedTimer
+from bluer_objects import file
 from bluer_objects import objects
+from bluer_options.timing import ElapsedTimer
 from bluer_objects.mlflow.tags import set_tags
 from bluer_objects.metadata import post_to_object, get_from_object
 
@@ -133,12 +134,6 @@ question: {}
         template_text = template.load()
         if not template_text:
             return "❗️ app.html not found."
-
-        if "list_of_conversations" not in session:
-            session["list_of_conversations"] = objects.path_of(
-                object_name=self.object_name,
-                filename="list_of_conversations.yaml",
-            )
 
         list_of_conversations = List_of_Conversations()
 
