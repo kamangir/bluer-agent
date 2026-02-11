@@ -4,7 +4,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 
-@app.post("/<object_name>/prev")
+@app.get("/<object_name>/prev")
 def prev(object_name: str):
     index = int(request.args.get("index", 1)) - 1
     reply_id = request.args.get("reply", "top")

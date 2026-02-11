@@ -77,11 +77,14 @@
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
                 <label class="muted subject-label" for="subject">
-                    {{ object_name }} | {{ reply_id }} | {{ index}}
+                    {{ object_name }} | {{ reply }} | {{ index}}
                 </label>
             </div>
 
-            <form method="post" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
+            <form method="get" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
+                <input type="hidden" name="index" value="{{ index }}">
+                <input type="hidden" name="reply" value="{{ reply }}">
+
                 <label class="muted">❓ what is the question?</label>
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
@@ -95,12 +98,18 @@
 
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
                         gui_elements.can_prev %}disabled{% endif %}>
-                        ⬅️ Prev
+                        ⬅️
                     </button>
+
+                    <button type="submit" formaction="{{ url_for('up', object_name=object_name) }}" {% if not
+                        gui_elements.can_up %}disabled{% endif %}>
+                        ⬆️
+                    </button>
+
 
                     <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not
                         gui_elements.can_next %}disabled{% endif %}>
-                        Next ➡️
+                        ➡️
                     </button>
 
                     <span class="muted">{{ gui_elements.index_display }}</span>
@@ -127,14 +136,14 @@
                 </div>
 
                 <!-- Replies -->
-                {% for reply in interaction.list_of_replies %}
+                {% for reply_ in interaction.list_of_replies %}
                 <div class="radio-item">
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
-                                href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                reply.id }}</a>
+                                href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
+                                reply_.id }}</a>
                         </div>
-                        <pre>{{ reply.content }}</pre>
+                        <pre>{{ reply_.content }}</pre>
                     </div>
                 </div>
                 {% endfor %}

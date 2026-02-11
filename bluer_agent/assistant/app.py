@@ -20,6 +20,7 @@ from bluer_agent.assistant.endpoints.open import open_conversation
 from bluer_agent.assistant.endpoints.prev import prev
 from bluer_agent.assistant.endpoints.save import save
 from bluer_agent.assistant.endpoints.submit import submit
+from bluer_agent.assistant.endpoints.up import up
 
 NAME = module.name(__file__, NAME)
 

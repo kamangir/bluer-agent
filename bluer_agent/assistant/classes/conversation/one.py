@@ -26,6 +26,7 @@ class GuiElements:
     can_delete: bool = False
     can_next: bool = False
     can_prev: bool = False
+    can_up: bool = False
 
 
 class Conversation:
@@ -41,17 +42,21 @@ class Conversation:
         index: int,
         reply_id: str,
     ) -> Tuple[Any, GuiElements]:
+        logger.info(f"generating gui elements for reply={reply_id}, index={index}")
+
         list_of_interactions = self.get_list_of_interactions(
             reply_id=reply_id,
         )
 
+        gui_elements = GuiElements()
+
+        gui_elements.can_up = reply_id != "top"
+
         if len(list_of_interactions) == 0:
             logger.warning(f"interaction not found: index={index}, reply={reply_id}")
-            return None, GuiElements()
+            return None, gui_elements
 
-        gui_elements = GuiElements(
-            can_delete=True,
-        )
+        gui_elements.can_delete = True
 
         index = max(min(index, len(list_of_interactions) - 1), 0)
 
@@ -68,20 +73,6 @@ class Conversation:
         gui_elements.index_display = f"{index + 1} / {len(list_of_interactions)}"
 
         return interaction, gui_elements
-
-    def get_list_of_interactions(
-        self,
-        reply_id: str = "top",
-    ) -> List[Interaction]:
-        if reply_id == "top":
-            return self.list_of_interactions
-
-        for interaction in self.list_of_interactions:
-            for reply in interaction.list_of_replies:
-                if reply.id == reply_id:
-                    return reply.list_of_interactions
-
-        return []
 
     def generate_subject(self) -> bool:
         if not self.list_of_interactions:
@@ -120,6 +111,51 @@ question: {}
             )
             .save()
         )
+
+    def get_list_of_interactions(
+        self,
+        reply_id: str = "top",
+    ) -> List[Interaction]:
+        if reply_id == "top":
+            return self.list_of_interactions
+
+        for interaction in self.list_of_interactions:
+            for reply in interaction.list_of_replies:
+                if reply.id == reply_id:
+                    return reply.list_of_interactions
+
+        return []
+
+    def get_top_reply_id(
+        self,
+        reply_id: str,
+    ) -> str:
+        return Conversation.get_top_reply_id_(
+            reply_id=reply_id,
+            list_of_interactions=self.list_of_interactions,
+            top_reply_id="top",
+        )
+
+    @staticmethod
+    def get_top_reply_id_(
+        reply_id: str,
+        list_of_interactions: List[Interaction],
+        top_reply_id: str,
+    ) -> str:
+        for interaction in list_of_interactions:
+            for reply in interaction.list_of_replies:
+                if reply.id == reply_id:
+                    return top_reply_id
+
+                output = Conversation.get_top_reply_id_(
+                    reply_id=reply_id,
+                    list_of_interactions=reply.list_of_interactions,
+                    top_reply_id=reply.id,
+                )
+                if output:
+                    return output
+
+        return ""
 
     @staticmethod
     def load(
@@ -185,7 +221,7 @@ question: {}
             gui_elements=gui_elements,
             index=index + 1,
             object_name=self.object_name,
-            reply_id=reply_id,
+            reply=reply_id,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
                 + signature()

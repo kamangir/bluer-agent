@@ -7,7 +7,8 @@ from bluer_agent.logger import logger
 
 @app.post("/<object_name>/delete_interaction")
 def delete_interaction(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    # TODO: add reply_id
+    index = int(request.values.get("index", 1)) - 1
 
     convo = Conversation.load(object_name)
     convo.list_of_interactions.pop(index)
