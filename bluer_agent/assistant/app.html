@@ -116,43 +116,31 @@
 
             {% if interaction %}
 
-            <form method="post" action="{{ url_for('select_interaction', object_name=object_name) }}">
-                <div class="card">
-                    <div class="muted">Select one:</div>
+            <div class="card">
+                <div class="muted">Selected interaction:</div>
 
-                    <!-- Question -->
-                    <label class="radio-item">
-                        <input type="radio" name="selected_item" value="question" form="main-form" {% if
-                            selected_item=='question' %}checked{% endif %}>
-                        <div class="radio-content">
-                            <div class="muted">Question</div>
-                            <pre>{{ interaction.question }}</pre>
-                        </div>
-                    </label>
-
-                    <!-- Replies -->
-                    {% for reply in interaction.list_of_replies %}
-                    <label class="radio-item">
-                        <input type="radio" name="selected_item" value="reply_{{ loop.index0 }}" form="main-form" {% if
-                            selected_item=='reply_' ~ loop.index0 %}checked{% endif %}>
-                        <div class="radio-content">
-                            <div class="muted reply-label">Reply {{ loop.index }}</div>
-                            <pre>{{ reply.content }}</pre>
-                        </div>
-                    </label>
-                    {% endfor %}
-
+                <!-- Question -->
+                <div class="radio-item">
+                    <div class="radio-content">
+                        <div class="muted">Question</div>
+                        <pre>{{ interaction.question }}</pre>
+                    </div>
                 </div>
 
-                <div class="row" style="margin-top:10px;">
-                    <button type="submit">Apply</button>
+                <!-- Replies -->
+                {% for reply in interaction.list_of_replies %}
+                <div class="radio-item">
+                    <div class="radio-content">
+                        <div class="muted reply-label">Reply {{ loop.index }}</div>
+                        <pre>{{ reply.content }}</pre>
+                    </div>
                 </div>
-            </form>
+                {% endfor %}
+            </div>
 
             {% else %}
             <p class="muted">No interactions yet.</p>
             {% endif %}
-
 
             <hr />
 
