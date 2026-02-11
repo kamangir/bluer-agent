@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from bluer_options.timing import ElapsedTimer
 from bluer_objects import file
 from bluer_objects import objects
-from bluer_objects.metadata import get_from_object
 from bluer_objects.mlflow.tags import set_tags
 
 from bluer_agent import env
@@ -16,7 +15,7 @@ from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversat
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
 from bluer_agent.assistant.classes.interaction import Interaction
-from bluer_agent.chat.functions import chat
+from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.host import signature
 from bluer_agent.logger import logger
 

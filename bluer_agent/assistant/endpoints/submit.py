@@ -3,12 +3,16 @@ from flask import session, request, redirect, url_for
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
-from bluer_agent.chat.functions import chat
+from bluer_agent.assistant.functions.chat import chat
+from bluer_agent.logger import logger
 
 
 @app.post("/<object_name>/submit")
 def submit(object_name: str):
     question = (request.form.get("question") or "").strip()
+
+    selected_item = request.form.get("selected_item", "new-question")
+    logger.info(f"selected_item: {selected_item}")
 
     if not question:
         return redirect(
