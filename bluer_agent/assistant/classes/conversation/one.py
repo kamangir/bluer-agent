@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, List, Tuple
-from flask import render_template_string, session
+from typing import Any, List, Tuple, Union
+from flask import render_template_string
 from dataclasses import dataclass
 
 from bluer_options.timing import ElapsedTimer
@@ -14,7 +14,7 @@ from bluer_agent import ALIAS, ICON, VERSION
 from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversations
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
-from bluer_agent.assistant.classes.interaction import Interaction
+from bluer_agent.assistant.classes.interaction import Interaction, Reply
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.host import signature
 from bluer_agent.logger import logger
@@ -126,6 +126,20 @@ question: {}
 
         return []
 
+    def get_reply(
+        self,
+        reply_id: str = "top",
+    ) -> Union[Reply, None]:
+        if reply_id == "top":
+            return None
+
+        for interaction in self.list_of_interactions:
+            for reply in interaction.list_of_replies:
+                if reply.id == reply_id:
+                    return reply
+
+        return None
+
     def get_top_reply_id(
         self,
         reply_id: str,
@@ -214,6 +228,8 @@ question: {}
             reply_id=reply_id,
         )
 
+        reply = self.get_reply(reply_id)
+
         return render_template_string(
             template_text,
             # main view
@@ -221,7 +237,8 @@ question: {}
             gui_elements=gui_elements,
             index=index + 1,
             object_name=self.object_name,
-            reply=reply_id,
+            reply=reply,
+            reply_id=reply_id,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
                 + signature()

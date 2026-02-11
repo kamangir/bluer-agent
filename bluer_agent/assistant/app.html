@@ -77,13 +77,25 @@
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
                 <label class="muted subject-label" for="subject">
-                    {{ object_name }} | {{ reply }} | {{ index}}
+                    {{ object_name }} | {{ reply_id }} | {{ index}}
                 </label>
             </div>
 
             <form method="get" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
                 <input type="hidden" name="index" value="{{ index }}">
-                <input type="hidden" name="reply" value="{{ reply }}">
+                <input type="hidden" name="reply" value="{{ reply_id }}">
+
+                {% if reply %}
+                <div class="card">
+                    <!-- reply content -->
+                    <div class="radio-item">
+                        <div class="radio-content">
+                            <div class="muted">Reply</div>
+                            <pre>{{ reply.content }}</pre>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
                 <label class="muted">❓ what is the question?</label>
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
