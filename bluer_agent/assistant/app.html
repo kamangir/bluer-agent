@@ -90,7 +90,9 @@
                     <!-- reply content -->
                     <div class="radio-item">
                         <div class="radio-content">
-                            <div class="muted">Reply</div>
+                            <div class="muted">Reply | <a
+                                    href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
+                                    reply.id }}</a></div>
                             <pre>{{ reply.content }}</pre>
                         </div>
                     </div>
