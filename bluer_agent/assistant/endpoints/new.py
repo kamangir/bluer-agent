@@ -3,7 +3,7 @@ from flask import redirect, url_for
 from bluer_objects import objects
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.archive import Archive
+from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.classes.conversation import Conversation
 
 
@@ -11,15 +11,13 @@ from bluer_agent.assistant.classes.conversation import Conversation
 def new(object_name: str):
     object_name = objects.unique_object("convo")
 
-    conversation = Conversation(object_name=object_name)
-    conversation.save()
+    convo = Conversation.load(object_name)
+    convo.save()
 
-    archive = Archive()
-    archive.append(
+    List_of_Conversations().append(
         object_name,
-        conversation.subject,
-    )
-    archive.save()
+        convo.subject,
+    ).save()
 
     return redirect(
         url_for(

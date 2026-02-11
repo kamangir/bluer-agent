@@ -1,7 +1,7 @@
 from typing import List
 from tqdm import tqdm
 from flask import session
-
+from dataclasses import dataclass
 
 from bluer_options.logger.config import log_list
 from bluer_objects import file
@@ -11,15 +11,30 @@ from bluer_objects.metadata import get_from_object
 from bluer_agent.logger import logger
 
 
-class Archive:
+@dataclass
+class Entry:
+    object_name: str
+    subject: str
+
+
+class List_of_Conversations:
     def __init__(
         self,
         filename: str = "",
     ):
-        self.filename = filename if filename else session["archive"]
+        self.filename = filename
+        if not self.filename:
+            if "list_of_conversations" not in session:
+                session["list_of_conversations"] = file.auxiliary(
+                    object_name="auxiliary",
+                    nickname="list_of_conversations",
+                    extension="dat",
+                )
+
+            self.filename = session["list_of_conversations"]
 
         verb: str = "loaded"
-        _, metadata = file.load_yaml(
+        _, metadata = file.load(
             self.filename,
             ignore_error=True,
             default={},
@@ -27,15 +42,18 @@ class Archive:
 
         if not isinstance(metadata, dict):
             logger.warning(
-                f"archive: dict expected, {metadata.__class__.__name__} received."
+                "{}: dict expected, {} received.".format(
+                    self.__class__.__name__,
+                    metadata.__class__.__name__,
+                )
             )
             metadata = {}
 
-        self.history: List[List[str, str]] = metadata.get("history", [])
+        self.contents: List[Entry] = metadata.get("contents", [])
 
-        self.history = [pair for pair in self.history if pair[0]]
+        self.contents = [entry for entry in self.contents if entry.object_name]
 
-        if not self.history:
+        if not self.contents:
             verb = "found"
             _, list_of_objects = search("convo")
 
@@ -58,7 +76,7 @@ class Archive:
         log_list(
             logger,
             f"{self.__class__.__name__}: {verb}",
-            [pair[0] for pair in self.history],
+            [entry.object_name for entry in self.contents],
             "conversation(s)",
         )
 
@@ -69,17 +87,19 @@ class Archive:
         self,
         object_name: str,
         subject: str,
-    ):
-        self.history.append(
-            [
-                object_name,
-                subject,
-            ]
+    ) -> "List_of_Conversations":
+        self.contents.append(
+            Entry(
+                object_name=object_name,
+                subject=subject,
+            )
         )
 
+        return self
+
     def index(self, object_name: str) -> int:
-        for index, pair in enumerate(self.history):
-            if pair[0] == object_name:
+        for index, entry in enumerate(self.contents):
+            if entry.object_name == object_name:
                 return index
         return -1
 
@@ -88,15 +108,15 @@ class Archive:
             "{}: saving {} conversation(s)".format(
                 self.__class__.__name__,
                 len(
-                    self.history,
+                    self.contents,
                 ),
             )
         )
 
-        return file.save_yaml(
+        return file.save(
             self.filename,
             {
-                "history": self.history,
+                "contents": self.contents,
             },
         )
 
@@ -104,8 +124,10 @@ class Archive:
         self,
         object_name: str,
         subject: str,
-    ):
-        for pair in self.history:
-            if pair[0] == object_name:
-                pair[1] = subject
+    ) -> "List_of_Conversations":
+        for entry in self.contents:
+            if entry.object_name == object_name:
+                entry.subject = subject
                 break
+
+        return self

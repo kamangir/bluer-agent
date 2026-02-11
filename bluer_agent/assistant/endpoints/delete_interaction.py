@@ -1,34 +1,31 @@
-from flask import session, redirect, url_for
-
-from bluer_objects.mlflow import tags
-from bluer_objects import objects
+from flask import request, session, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.logger import logger
 
 
 @app.post("/<object_name>/delete_interaction")
 def delete_interaction(object_name: str):
-    index = session["index"]
+    # TODO: add reply_id
+    index = int(request.values.get("index", 1)) - 1
 
-    conversation = Conversation(object_name)
-    conversation.history.pop(index)
-    conversation.save(tag=False)
+    convo = Conversation.load(object_name)
+    convo.list_of_interactions.pop(index)
+    convo.save(tag=False)
 
-    logger.info(f"deleted {object_name}/{index}")
+    logger.info(f"deleted {object_name}/{index+1}")
 
     index = min(
         index,
-        len(conversation.history) - 1,
+        len(convo.list_of_interactions) - 1,
     )
-    session["index"] = index
-    logger.info(f"index: {index}")
+    logger.info(f"index: {index+1}")
 
     return redirect(
         url_for(
             "open_conversation",
             object_name=object_name,
+            index=index + 1,
         )
     )

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 from typing import Dict
-import argparse
 
 from blueness import module
-from bluer_objects import objects
 from bluer_objects.metadata import post_to_object, get_from_object
 
 from bluer_agent import NAME
