@@ -1,6 +1,8 @@
 from typing import List
 import copy
 
+from bluer_options import string
+
 
 class Reply:
     def __init__(
@@ -8,6 +10,8 @@ class Reply:
         content: str = "",
         list_of_interactions: List["Interaction"] = [],
     ):
+        self.id = string.random()
+
         self.content = content
         self.list_of_interactions = copy.deepcopy(list_of_interactions)
 
@@ -18,5 +22,7 @@ class Interaction:
         question: str = "",
         list_of_replies: List[Reply] = [],
     ):
+        self.id = string.random()
+
         self.question = question
         self.list_of_replies = copy.deepcopy(list_of_replies)

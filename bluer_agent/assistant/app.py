@@ -19,6 +19,7 @@ from bluer_agent.assistant.endpoints.new import new
 from bluer_agent.assistant.endpoints.open import open_conversation
 from bluer_agent.assistant.endpoints.prev import prev
 from bluer_agent.assistant.endpoints.save import save
+from bluer_agent.assistant.endpoints.select_interaction import select_interaction
 from bluer_agent.assistant.endpoints.submit import submit
 
 NAME = module.name(__file__, NAME)
