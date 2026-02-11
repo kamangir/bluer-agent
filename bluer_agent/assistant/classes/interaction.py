@@ -22,7 +22,5 @@ class Interaction:
         question: str = "",
         list_of_replies: List[Reply] = [],
     ):
-        self.id = string.random()
-
         self.question = question
         self.list_of_replies = copy.deepcopy(list_of_replies)
