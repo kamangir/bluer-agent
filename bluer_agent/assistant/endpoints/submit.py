@@ -1,4 +1,5 @@
 from flask import session, request, redirect, url_for
+import re
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
@@ -39,30 +40,48 @@ def submit(object_name: str):
 
     index = session["index"]
 
-    if not convo.list_of_interactions:
-        convo.list_of_interactions.append(
-            Interaction(
-                question=question,
-                list_of_replies=[
-                    Reply(
-                        content=reply,
-                    )
-                ],
-            )
-        )
-    else:
-        interaction = convo.list_of_interactions[index]
-        assert isinstance(interaction, Interaction)
-        interaction.question = question
-        interaction.list_of_replies.append(
+    interaction = Interaction(
+        question=question,
+        list_of_replies=[
             Reply(
                 content=reply,
             )
-        )
+        ],
+    )
 
-    if index == 0:
+    if not convo.list_of_interactions:
+        convo.list_of_interactions.append(interaction)
         convo.generate_subject()
     else:
+        if selected_item == "question":
+            convo.list_of_interactions = (
+                convo.list_of_interactions[: index + 1]
+                + [interaction]
+                + convo.list_of_interactions[index + 1 :]
+            )
+        else:  # reply_{reply_index}
+            match = re.fullmatch(r"reply_(\d+)", selected_item)
+            if not match:
+                logger.warning(
+                    f"bad selected_item: {selected_item}, expected reply_<reply_index>"
+                )
+                return redirect(
+                    url_for(
+                        "open_conversation",
+                        object_name=object_name,
+                    ),
+                )
+
+            reply_index = int(match.group(1))
+            logger.info(f"reply_index: {reply_index}")
+
+            selected_interaction = convo.list_of_interactions[index]
+            assert isinstance(selected_interaction, Interaction)
+
+            selected_interaction.list_of_replies[
+                reply_index
+            ].list_of_interactions.append(interaction)
+
         convo.save()
 
     return redirect(

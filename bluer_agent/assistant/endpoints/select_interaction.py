@@ -4,7 +4,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 
-@app.post("/<object_name>/select")
+@app.post("/<object_name>/select_interaction")
 def select_interaction(object_name: str):
     selected_item = request.form.get("selected_item", "question")
 
