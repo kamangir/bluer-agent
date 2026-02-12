@@ -144,8 +144,8 @@
 
                     <button type="submit" class="danger"
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
-                        onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not
-                        gui_elements.can_delete %}disabled{% endif %}>
+                        onclick="return confirm('Really delete {{ object_name }}/{{ reply_id }}/{{ index }}?');" {% if
+                        not gui_elements.can_delete %}disabled{% endif %}>
                         🗑
                     </button>
                 </div>

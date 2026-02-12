@@ -12,7 +12,7 @@ def save(object_name: str):
 
     convo = Conversation.load(object_name)
     convo.subject = (request.args.get("subject") or "").strip()
-    convo.save(tag=False)
+    convo.save()
 
     List_of_Conversations().update(
         object_name,

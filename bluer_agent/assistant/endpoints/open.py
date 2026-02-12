@@ -10,7 +10,7 @@ def open_conversation(object_name: str):
     index = int(request.args.get("index", 1)) - 1
     reply_id = request.args.get("reply", "top")
 
-    logger.info(f"open: reply={reply_id}, index={index}")
+    logger.info(f"/open: reply={reply_id}, index={index}")
 
     return Conversation.load(object_name).render(
         index,

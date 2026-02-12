@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, List, Tuple, Union
+from typing import Any, List, Tuple, Union, Dict
 from flask import render_template_string
 from dataclasses import dataclass
 
@@ -30,13 +30,20 @@ class GuiElements:
     can_up: bool = False
 
 
+latest_version: str = "2.00"
+
+
 class Conversation:
     def __init__(self):
-        self.object_name = ""
+        self.version = latest_version
+
+        self.object_name: str = ""
 
         self.list_of_interactions: List[Interaction] = []
 
         self.subject: str = ""
+
+        self.metadata: Dict[str, Any] = {}
 
     @property
     def icon(self) -> str:
@@ -107,7 +114,7 @@ question: {}
             return success
 
         self.subject = subject
-        if not self.save(tag=False):
+        if not self.save():
             return False
 
         return (
@@ -185,6 +192,9 @@ question: {}
             )
             return Conversation()
 
+        if not convo.migrate():
+            return Conversation()
+
         logger.info(
             "{}: {} interaction(s) loaded from {}".format(
                 convo.__class__.__name__,
@@ -194,6 +204,17 @@ question: {}
         )
 
         return convo
+
+    def migrate(self) -> bool:
+        if not hasattr(self, "version"):
+            self.version = latest_version
+            logger.info(f"{self.__class__.__name__}.migrate: += version")
+
+        if not hasattr(self, "metadata"):
+            logger.info(f"{self.__class__.__name__}.migrate: += metadata")
+            self.metadata = {}
+
+        return True
 
     def render(
         self,
@@ -247,10 +268,7 @@ question: {}
             active_object_name=self.object_name,
         )
 
-    def save(
-        self,
-        tag: bool = True,
-    ) -> bool:
+    def save(self) -> bool:
         filename = objects.path_of(
             object_name=self.object_name,
             filename="conversation.dat",
@@ -259,22 +277,28 @@ question: {}
         if not file.save(
             filename,
             self,
-            log=True,
+            log=verbose,
         ):
             return False
 
-        if tag and not set_tags(
-            object_name=self.object_name,
-            tags="convo",
-            verbose=verbose,
-        ):
-            return False
+        tagged_log: str = ""
+        if self.metadata.get("tagged", False):
+            if not set_tags(
+                object_name=self.object_name,
+                tags="convo",
+                verbose=verbose,
+            ):
+                return False
+
+            self.metadata["tagged"] = True
+            tagged_log = " and tagged"
 
         logger.info(
-            "{}: {} interaction(s) saved to {}".format(
+            "{}: {} interaction(s) saved to {}{}".format(
                 self.__class__.__name__,
                 len(self.list_of_interactions),
                 self.object_name,
+                tagged_log,
             )
         )
 
