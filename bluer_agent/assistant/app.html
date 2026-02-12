@@ -112,22 +112,26 @@
 
                 {% if reply %}
                 <div class="card">
-                    <!-- reply content -->
                     <div class="radio-item">
                         <div class="radio-content">
-                            <div class="muted">Reply | <a
-                                    href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                    reply.id }}</a> | {{ reply.icon }}
+                            <div class="muted">
+                                Reply |
+                                <a href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">
+                                    {{ reply.id }}
+                                </a>
+                                | {{ reply.icon }}
                             </div>
-                            <pre>
-                                {{ reply.content }}
-                            </pre>
+
+                            <textarea name="reply_content" class="reply-edit" rows="8" form="main-form"
+                                data-reply-id="{{ reply.id }}">{{ reply.content }}</textarea>
+
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
-                <label class="muted">❓ what is the question?</label>
+
+                <label class="muted">Question</label>
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
                 <div class="row">
