@@ -54,7 +54,7 @@ def submit(object_name: str):
 
     prompt: str = ""
     prompt_template = """
-Generate an answer to the question given below strictly in the same language of the 
+You are an assistant. Generate an answer to the question given below strictly in the same language of the 
 question given below (whether Farsi or English). Separate the answer into {} independent 
 sections to help the user digest and use the content. Separate the sections with the 
 following mark: --- 

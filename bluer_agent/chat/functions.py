@@ -28,6 +28,7 @@ def chat(
         ),
         [str(message) for message in messages],
         "message(s)",
+        max_count=-1,
     )
 
     html_report.replace(
