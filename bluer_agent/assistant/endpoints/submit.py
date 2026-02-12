@@ -1,4 +1,4 @@
-from typing import Union, List, Dict
+from typing import Union
 from flask import flash, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
@@ -78,6 +78,7 @@ question: {{}}
                 "content": prompt.format(question),
             }
         ],
+        object_name=object_name,
         remove_thoughts=remove_thoughts,
     )
     if not success:

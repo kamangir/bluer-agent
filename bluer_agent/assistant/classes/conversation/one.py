@@ -109,6 +109,7 @@ question: {}
                     ),
                 }
             ],
+            object_name=self.object_name,
         )
         if not success:
             return success
