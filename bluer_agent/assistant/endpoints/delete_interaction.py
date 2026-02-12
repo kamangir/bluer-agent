@@ -1,10 +1,10 @@
 from typing import Union
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.interaction import Reply
 from bluer_agent.assistant.classes.conversation import Conversation
-from bluer_agent.assistant.classes.conversation import get
+from bluer_agent.assistant.endpoints import messages
 from bluer_agent.logger import logger
 
 
@@ -46,7 +46,8 @@ def delete_interaction(object_name: str):
     owner.list_of_interactions.pop(index - 1)
     logger.info(f"deleted {object_name}/{reply_id}/{index}")
 
-    convo.save()
+    if not convo.save():
+        flash(messages.cannot_save_conversation, "warning")
 
     index = min(
         index,

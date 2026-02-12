@@ -1,10 +1,10 @@
 from typing import Union
-from flask import session, request, redirect, url_for
-import re
+from flask import flash, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
+from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.logger import logger
 
@@ -111,8 +111,12 @@ question: {{}}
 
     if isinstance(owner, Conversation) and first_interaction:
         if not convo.generate_subject():
-            convo.save()
+            flash(messages.cannot_generate_subject, "warning")
+            if not convo.save():
+                flash(messages.cannot_save_conversation, "warning")
+
     else:
-        convo.save()
+        if not convo.save():
+            flash(messages.cannot_save_conversation, "warning")
 
     return return_redirect(index=index + 1)
