@@ -15,6 +15,7 @@ def delete_convo(object_name: str):
     list_of_conversations = List_of_Conversations()
     index: int = list_of_conversations.index(object_name)
 
+    next_object_name: str = ""
     if index == -1:
         logger.warning(f"{object_name} isn't in the list of conversations.")
     else:

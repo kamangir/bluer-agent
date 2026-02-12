@@ -13,11 +13,11 @@ def save(object_name: str):
 
     convo = Conversation.load(object_name)
     convo.subject = (request.args.get("subject") or "").strip()
-    if convo.save():
+    if not convo.save():
         flash(messages.cannot_save_conversation, "warning")
 
-    if (
-        not List_of_Conversations()
+    if not (
+        List_of_Conversations()
         .update(
             object_name,
             convo.subject,
