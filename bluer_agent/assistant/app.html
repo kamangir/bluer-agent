@@ -63,7 +63,9 @@
 
                     <input type="hidden" name="subject" id="save-subject">
 
-                    <button type="submit">💾</button>
+                    <button type="submit">
+                        💾
+                    </button>
                 </form>
 
                 <form method="get" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
@@ -77,7 +79,7 @@
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
                 <label class="muted subject-label" for="subject">
-                    {{ object_name }} | {{ reply_id }} | {{ index}}
+                    {{ object_name }} | {{ reply_id }} | {{ index }}
                 </label>
             </div>
 
@@ -115,6 +117,18 @@
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
                 <div class="row">
+
+                    <!-- Combo box -->
+                    <select name="mode" id="mode-select" class="combo">
+                        <option value="ai" selected>🪄</option>
+                        <option value="2">2️⃣</option>
+                        <option value="3">3️⃣</option>
+                        <option value="4">4️⃣</option>
+                        <option value="5">5️⃣</option>
+                        <option value="none">🟰</option>
+                    </select>
+
+                    <!-- Submit -->
                     <button type="submit" id="submit-btn">➕</button>
 
                     <label class="checkbox">
@@ -142,8 +156,8 @@
 
                     <button type="submit" class="danger"
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
-                        onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not
-                        gui_elements.can_delete %}disabled{% endif %}>
+                        onclick="return confirm('Really delete {{ object_name }}/{{ reply_id }}/{{ index }}?');" {% if
+                        not gui_elements.can_delete %}disabled{% endif %}>
                         🗑
                     </button>
                 </div>

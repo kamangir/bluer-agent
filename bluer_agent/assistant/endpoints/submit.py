@@ -11,45 +11,28 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/submit")
 def submit(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
+    mode = request.args.get("mode", "ai")
+
+    def return_redirect(index: int = index):
+        return redirect(
+            url_for(
+                "open_conversation",
+                object_name=object_name,
+                index=index,
+                reply=reply_id,
+            ),
+        )
 
     question = (request.args.get("question") or "").strip()
 
     if not question:
         logger.warning("question not found.")
-        return redirect(
-            url_for(
-                "open_conversation",
-                object_name=object_name,
-                index=index + 1,
-                reply=reply_id,
-            ),
-        )
+        return return_redirect()
 
     convo = Conversation.load(object_name)
     convo.subject = (request.args.get("subject") or "").strip()
-
-    remove_thoughts = bool(request.args.get("remove_thoughts"))
-
-    success, reply = chat(
-        messages=[
-            {
-                "role": "user",
-                "content": question,
-            }
-        ],
-        remove_thoughts=remove_thoughts,
-    )
-    if not success:
-        return redirect(
-            url_for(
-                "open_conversation",
-                object_name=object_name,
-                index=index + 1,
-                reply=reply_id,
-            ),
-        )
 
     owner: Union[Conversation, Reply] = (
         convo
@@ -60,38 +43,67 @@ def submit(object_name: str):
     )
 
     logger.info(
-        "/submit -> reply={}, index={} - owner: {}".format(
+        "/submit -mode={}-> reply={}, index={} - owner: {}".format(
+            mode,
             reply_id,
-            index + 1,
+            index,
             owner.__class__.__name__,
         )
     )
 
-    interaction = Interaction(
-        question=question,
-        list_of_replies=[
-            Reply(
-                content=reply,
-            )
+    remove_thoughts = bool(request.args.get("remove_thoughts"))
+
+    prompt: str = ""
+    prompt_template = """
+Generate an answer to the question given below strictly in the same language of the 
+question given below (whether Farsi or English). Separate the answer into {} independent 
+sections to help the user digest and use the content. Separate the sections with the 
+following mark: --- 
+
+Do not start the sections with \"section:\" or markers like that. Do not use markdown symbols.
+
+question: {{}}
+"""
+    if mode == "none":
+        prompt = "{}"
+    elif mode == "ai":
+        prompt = prompt_template.format("a maximum of five")
+    else:
+        prompt = prompt_template.format(mode)
+
+    success, reply = chat(
+        messages=[
+            {
+                "role": "user",
+                "content": prompt.format(question),
+            }
         ],
+        remove_thoughts=remove_thoughts,
     )
+    if not success:
+        return return_redirect()
+
+    first_interaction = len(owner.list_of_interactions) == 0
 
     owner.list_of_interactions = owner.list_of_interactions = (
-        owner.list_of_interactions[: index + 1]
-        + [interaction]
-        + owner.list_of_interactions[index + 1 :]
+        owner.list_of_interactions[:index]
+        + [
+            Interaction(
+                question=question,
+                list_of_replies=[
+                    Reply(content=reply_)
+                    for reply_ in [item.strip() for item in reply.split("---")]
+                    if reply_
+                ],
+            )
+        ]
+        + owner.list_of_interactions[index:]
     )
 
-    if isinstance(owner, Conversation) and len(convo.list_of_interactions) == 1:
-        convo.generate_subject()
+    if isinstance(owner, Conversation) and first_interaction:
+        if not convo.generate_subject():
+            convo.save()
     else:
         convo.save()
 
-    return redirect(
-        url_for(
-            "open_conversation",
-            object_name=object_name,
-            index=index + 1,
-            reply=reply_id,
-        ),
-    )
+    return return_redirect(index=index + 1)

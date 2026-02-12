@@ -11,16 +11,15 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/delete_convo")
 def delete_convo(object_name: str):
-    next_object_name: str = ""
-
     list_of_conversations = List_of_Conversations()
     index: int = list_of_conversations.index(object_name)
 
     if index == -1:
         logger.warning(f"{object_name} isn't in the list of conversations.")
     else:
-        logger.info(f"removed {object_name} (#{index+1})")
         list_of_conversations.contents.pop(index)
+        logger.info(f"removed {object_name} (#{index})")
+
         list_of_conversations.save()
 
         tags.set_tags(
@@ -29,13 +28,12 @@ def delete_convo(object_name: str):
             verbose=verbose,
         )
 
+        index = min(
+            index,
+            len(list_of_conversations.contents) - 1,
+        )
         try:
-            next_object_name = list_of_conversations.contents[
-                min(
-                    index,
-                    len(list_of_conversations.contents) - 1,
-                )
-            ][0]
+            next_object_name = list_of_conversations.contents[index][0]
         except:
             pass
 
@@ -48,6 +46,5 @@ def delete_convo(object_name: str):
         url_for(
             "open_conversation",
             object_name=next_object_name,
-            index=index + 1,
         )
     )

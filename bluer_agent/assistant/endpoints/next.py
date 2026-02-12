@@ -1,29 +1,41 @@
-from flask import session, redirect, url_for, request
+from typing import Union
+from flask import redirect, url_for, request
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.interaction import Reply
 from bluer_agent.logger import logger
 
 
 @app.get("/<object_name>/next")
 def next(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
-
-    logger.info(f"/next on reply={reply_id}, index={index+1}")
 
     convo = Conversation.load(object_name)
 
-    if index <= len(convo.list_of_interactions) - 1:
+    owner: Union[Conversation, Reply] = (
+        convo
+        if reply_id == "top"
+        else convo.get_reply(
+            reply_id=reply_id,
+        )
+    )
+
+    logger.info(
+        f"/next on reply={reply_id}, index={index} -> owner={owner.__class__.__name__}"
+    )
+
+    if index <= len(owner.list_of_interactions) - 1:
         index += 1
 
-    logger.info(f"next -> reply={reply_id}, index={index+1}")
+    logger.info(f"next -> reply={reply_id}, index={index}")
 
     return redirect(
         url_for(
             "open_conversation",
             object_name=object_name,
-            index=index + 1,
+            index=index,
             reply=reply_id,
         )
     )

@@ -8,6 +8,7 @@ from bluer_objects import file
 from bluer_objects.mlflow.tags import search
 from bluer_objects.metadata import get_from_object
 
+from bluer_agent.assistant.env import verbose
 from bluer_agent.logger import logger
 
 
@@ -73,12 +74,20 @@ class List_of_Conversations:
                 except Exception as e:
                     logger.warning(e)
 
-        log_list(
-            logger,
-            f"{self.__class__.__name__}: {verb}",
-            [entry.object_name for entry in self.contents],
-            "conversation(s)",
-        )
+        if verbose:
+            log_list(
+                logger,
+                f"{self.__class__.__name__}: {verb}",
+                [entry.object_name for entry in self.contents],
+                "conversation(s)",
+            )
+        else:
+            logger.info(
+                "{}: loaded {} conversation(s)".format(
+                    self.__class__.__name__,
+                    len(self.contents),
+                )
+            )
 
         if verb == "found":
             self.save()
@@ -107,9 +116,7 @@ class List_of_Conversations:
         logger.info(
             "{}: saving {} conversation(s)".format(
                 self.__class__.__name__,
-                len(
-                    self.contents,
-                ),
+                len(self.contents),
             )
         )
 
@@ -118,6 +125,7 @@ class List_of_Conversations:
             {
                 "contents": self.contents,
             },
+            log=True,
         )
 
     def update(
