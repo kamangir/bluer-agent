@@ -91,6 +91,15 @@ question: {{}}
             Interaction(
                 question=question,
                 list_of_replies=[
+                    Reply(content=reply),
+                ],
+            )
+        ]
+        if mode == "none"
+        else [
+            Interaction(
+                question=question,
+                list_of_replies=[
                     Reply(content=reply_)
                     for reply_ in [item.strip() for item in reply.split("---")]
                     if reply_
