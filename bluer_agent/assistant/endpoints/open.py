@@ -7,7 +7,7 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>")
 def open_conversation(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
     logger.info(f"/open: reply={reply_id}, index={index}")

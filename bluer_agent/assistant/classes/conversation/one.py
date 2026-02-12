@@ -72,19 +72,19 @@ class Conversation:
 
         gui_elements.can_delete = True
 
-        index = max(min(index, len(list_of_interactions) - 1), 0)
+        index = max(min(index, len(list_of_interactions)), 1)
 
         interaction = (
-            list_of_interactions[index]
-            if 0 <= index < len(list_of_interactions)
+            list_of_interactions[index - 1]
+            if 1 <= index <= len(list_of_interactions)
             else None
         )
 
-        gui_elements.can_prev = index > 0
+        gui_elements.can_prev = index > 1
 
-        gui_elements.can_next = 0 <= index < len(list_of_interactions) - 1
+        gui_elements.can_next = 1 <= index < len(list_of_interactions)
 
-        gui_elements.index_display = f"{index + 1} / {len(list_of_interactions)}"
+        gui_elements.index_display = f"{index} / {len(list_of_interactions)}"
 
         return interaction, gui_elements
 
@@ -244,7 +244,7 @@ question: {}
             interaction=interaction,
             top_interaction=top_interaction,
             gui_elements=gui_elements,
-            index=index + 1,
+            index=index,
             object_name=self.object_name,
             reply=reply,
             reply_id=reply_id,

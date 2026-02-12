@@ -10,7 +10,7 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/delete_interaction")
 def delete_interaction(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
     convo = Conversation.load(object_name)
@@ -25,29 +25,40 @@ def delete_interaction(object_name: str):
     )
 
     logger.info(
-        "/delete_interaction -> reply={}, index={} - owner: {}".format(
+        "/delete_interaction -> reply={}, index={} -> owner: {}".format(
             reply_id,
-            index + 1,
+            index,
             owner.__class__.__name__,
         )
     )
 
-    owner.list_of_interactions.pop(index)
-    logger.info(f"deleted {object_name}/{reply_id}/{index+1}")
+    if index < 1 or index > len(owner.list_of_interactions):
+        logger.error("bad index={}".format(index))
+        return redirect(
+            url_for(
+                "open_conversation",
+                object_name=object_name,
+                index=index,
+                reply=reply_id,
+            )
+        )
+
+    owner.list_of_interactions.pop(index - 1)
+    logger.info(f"deleted {object_name}/{reply_id}/{index}")
 
     convo.save()
 
     index = min(
         index,
-        len(owner.list_of_interactions) - 1,
+        len(owner.list_of_interactions),
     )
-    logger.info(f"index: {index+1}")
+    logger.info(f"index: {index}")
 
     return redirect(
         url_for(
             "open_conversation",
             object_name=object_name,
-            index=index + 1,
+            index=index,
             reply=reply_id,
         )
     )

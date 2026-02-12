@@ -7,10 +7,10 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/up")
 def up(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
-    logger.info(f"/up on reply={reply_id}, index={index+1}")
+    logger.info(f"/up on reply={reply_id}, index={index}")
 
     convo = Conversation.load(object_name)
 
@@ -18,13 +18,13 @@ def up(object_name: str):
         reply_id=reply_id,
     )
 
-    logger.info(f"up -> reply={reply_id}, index={index+1}")
+    logger.info(f"up -> reply={reply_id}, index={index}")
 
     return redirect(
         url_for(
             "open_conversation",
             object_name=object_name,
-            index=index + 1,
+            index=index,
             reply=reply_id,
         )
     )

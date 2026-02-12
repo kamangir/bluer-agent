@@ -11,7 +11,7 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/submit")
 def submit(object_name: str):
-    index = int(request.args.get("index", 1)) - 1
+    index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
     question = (request.args.get("question") or "").strip()
@@ -22,7 +22,7 @@ def submit(object_name: str):
             url_for(
                 "open_conversation",
                 object_name=object_name,
-                index=index + 1,
+                index=index,
                 reply=reply_id,
             ),
         )
@@ -46,7 +46,7 @@ def submit(object_name: str):
             url_for(
                 "open_conversation",
                 object_name=object_name,
-                index=index + 1,
+                index=index,
                 reply=reply_id,
             ),
         )
@@ -62,7 +62,7 @@ def submit(object_name: str):
     logger.info(
         "/submit -> reply={}, index={} - owner: {}".format(
             reply_id,
-            index + 1,
+            index,
             owner.__class__.__name__,
         )
     )
@@ -77,9 +77,9 @@ def submit(object_name: str):
     )
 
     owner.list_of_interactions = owner.list_of_interactions = (
-        owner.list_of_interactions[: index + 1]
+        owner.list_of_interactions[:index]
         + [interaction]
-        + owner.list_of_interactions[index + 1 :]
+        + owner.list_of_interactions[index:]
     )
 
     if isinstance(owner, Conversation) and len(convo.list_of_interactions) == 1:
@@ -91,7 +91,7 @@ def submit(object_name: str):
         url_for(
             "open_conversation",
             object_name=object_name,
-            index=index + 1,
+            index=index,
             reply=reply_id,
         ),
     )
