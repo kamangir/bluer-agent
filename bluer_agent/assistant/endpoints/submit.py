@@ -91,7 +91,7 @@ def submit(object_name: str):
         url_for(
             "open_conversation",
             object_name=object_name,
-            index=index,
+            index=index + 1,
             reply=reply_id,
         ),
     )
