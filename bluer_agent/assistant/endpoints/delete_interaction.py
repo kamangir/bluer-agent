@@ -1,10 +1,11 @@
 from typing import Union
-from flask import request, redirect, url_for, flash
+from flask import request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.interaction import Reply
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 

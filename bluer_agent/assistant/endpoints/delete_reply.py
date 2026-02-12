@@ -1,8 +1,9 @@
-from flask import redirect, url_for, flash, request
+from flask import redirect, url_for, request
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 

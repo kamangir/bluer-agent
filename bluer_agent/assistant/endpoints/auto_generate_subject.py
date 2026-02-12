@@ -1,8 +1,9 @@
-from flask import flash, redirect, url_for
+from flask import redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 
 
 @app.get("/<object_name>/auto_generate_subject")

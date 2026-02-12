@@ -1,4 +1,4 @@
-from flask import redirect, url_for, flash
+from flask import redirect, url_for
 
 from bluer_objects import objects
 
@@ -6,6 +6,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 
 
 @app.get("/<object_name>/new")
