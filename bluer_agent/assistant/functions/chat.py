@@ -44,6 +44,7 @@ def chat(
             filename=filename,
         )
 
-        return success, reply
+        if success:
+            return success, reply
 
     return False, ""

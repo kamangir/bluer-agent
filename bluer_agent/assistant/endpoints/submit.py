@@ -88,25 +88,27 @@ question: {{}}
 
     owner.list_of_interactions = owner.list_of_interactions = (
         owner.list_of_interactions[:index]
-        + [
-            Interaction(
-                question=question,
-                list_of_replies=[
-                    Reply(content=reply),
-                ],
-            )
-        ]
-        if mode == "none"
-        else [
-            Interaction(
-                question=question,
-                list_of_replies=[
-                    Reply(content=reply_)
-                    for reply_ in [item.strip() for item in reply.split("---")]
-                    if reply_
-                ],
-            )
-        ]
+        + (
+            [
+                Interaction(
+                    question=question,
+                    list_of_replies=[
+                        Reply(content=reply),
+                    ],
+                )
+            ]
+            if mode == "none"
+            else [
+                Interaction(
+                    question=question,
+                    list_of_replies=[
+                        Reply(content=reply_)
+                        for reply_ in [item.strip() for item in reply.split("---")]
+                        if reply_
+                    ],
+                )
+            ]
+        )
         + owner.list_of_interactions[index:]
     )
 
