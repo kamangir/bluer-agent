@@ -263,3 +263,19 @@ pre {
     background: #ffe6e6;
     color: #a30000;
 }
+
+.btn-small {
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1;
+    border-radius: 4px;
+}
+
+.danger:hover {
+    background-color: #c9302c;
+}
+
+.danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

@@ -117,7 +117,8 @@
                         <div class="radio-content">
                             <div class="muted">Reply | <a
                                     href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                    reply.id }}</a> | {{ reply.icon }}</div>
+                                    reply.id }}</a> | {{ reply.icon }}
+                            </div>
                             <pre>{{ reply.content }}</pre>
                         </div>
                     </div>
@@ -193,7 +194,16 @@
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
                                 href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
-                                reply_.id }}</a> | {{ reply_.icon }}
+                                reply_.id }}</a> | {{ reply_.icon }} |
+
+                            <a class="danger btn-small" href="{{ url_for('delete_reply',
+                    object_name=object_name,
+                    index=index,
+                    reply=reply_.id,
+                    subject=subject) }}" onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
+                                🗑
+                            </a>
+
                         </div>
                         <pre>{{ reply_.content }}</pre>
                     </div>
