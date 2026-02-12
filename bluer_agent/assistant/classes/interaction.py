@@ -34,3 +34,14 @@ class Interaction:
     @property
     def icon(self) -> str:
         return "[{}]".format("".join(reply.icon for reply in self.list_of_replies))
+
+    def index_of(self, reply_id: str) -> int:
+        for index, reply in enumerate(self.list_of_replies):
+            if reply.id == reply_id:
+                return index
+
+            for interaction in reply.list_of_interactions:
+                if interaction.index_of(reply_id) != -1:
+                    return index
+
+        return -1

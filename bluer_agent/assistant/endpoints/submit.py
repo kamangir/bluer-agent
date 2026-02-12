@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List, Dict
 from flask import flash, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
@@ -26,7 +26,6 @@ def submit(object_name: str):
         )
 
     question = (request.args.get("question") or "").strip()
-
     if not question:
         logger.warning("question not found.")
         return return_redirect()
@@ -72,7 +71,8 @@ question: {{}}
         prompt = prompt_template.format(mode)
 
     success, reply = chat(
-        messages=[
+        messages=convo.get_context(reply_id=reply_id)
+        + [
             {
                 "role": "user",
                 "content": prompt.format(question),
