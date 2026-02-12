@@ -136,6 +136,19 @@
 
                 <div class="row">
 
+                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
+                        gui_elements.can_prev %}disabled{% endif %}>
+                        ⬅️
+                    </button>
+
+                    <span class="muted">{{ gui_elements.index_display }}</span>
+
+                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not
+                        gui_elements.can_next %}disabled{% endif %}>
+                        ➡️
+                    </button>
+
+
                     <!-- Combo box -->
                     <select name="mode" id="mode-select" class="combo">
                         <option value="none">🟰</option>
@@ -154,23 +167,10 @@
                         <span class="muted">🧠 remove thoughts</span>
                     </label>
 
-                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
-                        gui_elements.can_prev %}disabled{% endif %}>
-                        ⬅️
-                    </button>
-
                     <button type="submit" formaction="{{ url_for('up', object_name=object_name) }}" {% if not
                         gui_elements.can_up %}disabled{% endif %}>
                         ⬆️
                     </button>
-
-
-                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not
-                        gui_elements.can_next %}disabled{% endif %}>
-                        ➡️
-                    </button>
-
-                    <span class="muted">{{ gui_elements.index_display }}</span>
 
                     <button type="submit" class="danger"
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
