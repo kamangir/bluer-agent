@@ -109,6 +109,7 @@ question: {}
                     ),
                 }
             ],
+            object_name=self.object_name,
         )
         if not success:
             return success
@@ -125,6 +126,51 @@ question: {}
             )
             .save()
         )
+
+    def get_context(
+        self,
+        reply_id: str,
+    ) -> List[Dict]:
+        return Conversation.get_context_(
+            owner=self,
+            reply_id=reply_id,
+        )
+
+    @classmethod
+    def get_context_(
+        cls,
+        owner: Union["Conversation", Reply],
+        reply_id: str,
+    ) -> List[Dict]:
+        if reply_id == "top":
+            return []
+
+        for interaction in owner.list_of_interactions:
+            reply_index = interaction.index_of(reply_id)
+            if reply_index == -1:
+                continue
+
+            reply = interaction.list_of_replies[reply_index]
+            assert isinstance(reply, Reply)
+
+            list_of_messages = [
+                {
+                    "role": "user",
+                    "content": interaction.question,
+                },
+                {
+                    "role": "assistant",
+                    "content": reply.content,
+                },
+            ]
+
+            if reply.id == reply_id:
+                return list_of_messages
+
+            return list_of_messages + cls.get_context_(
+                owner=reply,
+                reply_id=reply_id,
+            )
 
     def get_top_interaction(
         self,

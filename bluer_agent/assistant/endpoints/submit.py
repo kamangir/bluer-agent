@@ -1,10 +1,10 @@
 from typing import Union
-from flask import session, request, redirect, url_for
-import re
+from flask import flash, request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
+from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.logger import logger
 
@@ -26,7 +26,6 @@ def submit(object_name: str):
         )
 
     question = (request.args.get("question") or "").strip()
-
     if not question:
         logger.warning("question not found.")
         return return_redirect()
@@ -55,7 +54,7 @@ def submit(object_name: str):
 
     prompt: str = ""
     prompt_template = """
-Generate an answer to the question given below strictly in the same language of the 
+You are an assistant. Generate an answer to the question given below strictly in the same language of the 
 question given below (whether Farsi or English). Separate the answer into {} independent 
 sections to help the user digest and use the content. Separate the sections with the 
 following mark: --- 
@@ -72,12 +71,14 @@ question: {{}}
         prompt = prompt_template.format(mode)
 
     success, reply = chat(
-        messages=[
+        messages=convo.get_context(reply_id=reply_id)
+        + [
             {
                 "role": "user",
                 "content": prompt.format(question),
             }
         ],
+        object_name=object_name,
         remove_thoughts=remove_thoughts,
     )
     if not success:
@@ -87,23 +88,38 @@ question: {{}}
 
     owner.list_of_interactions = owner.list_of_interactions = (
         owner.list_of_interactions[:index]
-        + [
-            Interaction(
-                question=question,
-                list_of_replies=[
-                    Reply(content=reply_)
-                    for reply_ in [item.strip() for item in reply.split("---")]
-                    if reply_
-                ],
-            )
-        ]
+        + (
+            [
+                Interaction(
+                    question=question,
+                    list_of_replies=[
+                        Reply(content=reply),
+                    ],
+                )
+            ]
+            if mode == "none"
+            else [
+                Interaction(
+                    question=question,
+                    list_of_replies=[
+                        Reply(content=reply_)
+                        for reply_ in [item.strip() for item in reply.split("---")]
+                        if reply_
+                    ],
+                )
+            ]
+        )
         + owner.list_of_interactions[index:]
     )
 
     if isinstance(owner, Conversation) and first_interaction:
         if not convo.generate_subject():
-            convo.save()
+            flash(messages.cannot_generate_subject, "warning")
+            if not convo.save():
+                flash(messages.cannot_save_conversation, "warning")
+
     else:
-        convo.save()
+        if not convo.save():
+            flash(messages.cannot_save_conversation, "warning")
 
     return return_redirect(index=index + 1)

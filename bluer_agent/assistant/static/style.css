@@ -247,3 +247,19 @@ pre {
     color: inherit;
     font-size: 0.9rem;
 }
+
+.flash {
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.flash.success {
+    background: #e6ffed;
+    color: #1a7f37;
+}
+
+.flash.error {
+    background: #ffe6e6;
+    color: #a30000;
+}
