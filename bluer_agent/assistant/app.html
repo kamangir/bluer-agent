@@ -119,7 +119,9 @@
                                     href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
                                     reply.id }}</a> | {{ reply.icon }}
                             </div>
-                            <pre>{{ reply.content }}</pre>
+                            <pre>
+                                {{ reply.content }}
+                            </pre>
                         </div>
                     </div>
                 </div>
