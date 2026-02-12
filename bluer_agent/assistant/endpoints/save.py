@@ -7,6 +7,9 @@ from bluer_agent.assistant.classes.conversation import Conversation
 
 @app.get("/<object_name>/save")
 def save(object_name: str):
+    index = int(request.args.get("index", 1)) - 1
+    reply_id = request.args.get("reply", "top")
+
     convo = Conversation.load(object_name)
     convo.subject = (request.args.get("subject") or "").strip()
     convo.save(tag=False)
@@ -20,5 +23,7 @@ def save(object_name: str):
         url_for(
             "open_conversation",
             object_name=object_name,
+            index=index + 1,
+            reply=reply_id,
         ),
     )

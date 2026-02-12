@@ -1,4 +1,4 @@
-from flask import request, session, redirect, url_for
+from flask import request, redirect, url_for
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
