@@ -15,6 +15,12 @@ class Reply:
         self.content = content
         self.list_of_interactions = copy.deepcopy(list_of_interactions)
 
+    @property
+    def icon(self) -> str:
+        return "[{}]".format(
+            "".join(interaction.icon for interaction in self.list_of_interactions)
+        )
+
 
 class Interaction:
     def __init__(
@@ -24,3 +30,7 @@ class Interaction:
     ):
         self.question = question
         self.list_of_replies = copy.deepcopy(list_of_replies)
+
+    @property
+    def icon(self) -> str:
+        return "[{}]".format("".join(reply.icon for reply in self.list_of_replies))

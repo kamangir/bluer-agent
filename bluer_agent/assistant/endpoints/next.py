@@ -14,7 +14,7 @@ def next(object_name: str):
 
     convo = Conversation.load(object_name)
 
-    if index < len(convo.list_of_interactions) - 1:
+    if index <= len(convo.list_of_interactions) - 1:
         index += 1
 
     logger.info(f"next -> reply={reply_id}, index={index+1}")

@@ -22,7 +22,7 @@
                 <div class="muted">{{ conversation_count }} Conversation(s)</div>
 
                 <div class="sidebar-actions">
-                    <form method="post" action="{{ url_for('new', object_name=object_name) }}">
+                    <form method="get" action="{{ url_for('new', object_name=object_name) }}">
                         <button type="submit" class="sidebar-new" title="New conversation">📜</button>
                     </form>
 
@@ -51,14 +51,14 @@
 
             <div class="row subject-row">
 
-                <form method="post" action="{{ url_for('delete_convo', object_name=object_name) }}"
+                <form method="get" action="{{ url_for('delete_convo', object_name=object_name) }}"
                     onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
                     <button type="submit" class="danger">
                         🗑
                     </button>
                 </form>
 
-                <form id="save-form" method="post" action="{{ url_for('save', object_name=object_name) }}"
+                <form id="save-form" method="get" action="{{ url_for('save', object_name=object_name) }}"
                     style="display:inline;" onsubmit="syncSubjectToSaveForm()">
 
                     <input type="hidden" name="subject" id="save-subject">
@@ -66,7 +66,7 @@
                     <button type="submit">💾</button>
                 </form>
 
-                <form method="post" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
+                <form method="get" action="{{ url_for('auto_generate_subject', object_name=object_name) }}"
                     style="display:inline;">
                     <button type="submit">
                         🪄
@@ -104,7 +104,7 @@
                         <div class="radio-content">
                             <div class="muted">Reply | <a
                                     href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                    reply.id }}</a></div>
+                                    reply.id }}</a> | {{ reply.icon }}</div>
                             <pre>{{ reply.content }}</pre>
                         </div>
                     </div>
@@ -115,7 +115,7 @@
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
                 <div class="row">
-                    <button type="submit" id="submit-btn">Submit...</button>
+                    <button type="submit" id="submit-btn">➕</button>
 
                     <label class="checkbox">
                         <input type="checkbox" name="remove_thoughts" checked>
@@ -141,7 +141,7 @@
                     <span class="muted">{{ gui_elements.index_display }}</span>
 
                     <button type="submit" class="danger"
-                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="post"
+                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
                         onclick="return confirm('Really delete {{ object_name }}/{{ index }}?');" {% if not
                         gui_elements.can_delete %}disabled{% endif %}>
                         🗑
@@ -168,7 +168,7 @@
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
                                 href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
-                                reply_.id }}</a>
+                                reply_.id }}</a> | {{ reply_.icon }}
                         </div>
                         <pre>{{ reply_.content }}</pre>
                     </div>

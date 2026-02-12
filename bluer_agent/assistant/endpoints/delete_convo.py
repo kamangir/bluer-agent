@@ -9,7 +9,7 @@ from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.logger import logger
 
 
-@app.post("/<object_name>/delete_convo")
+@app.get("/<object_name>/delete_convo")
 def delete_convo(object_name: str):
     next_object_name: str = ""
 

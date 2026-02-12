@@ -7,7 +7,7 @@ from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.classes.conversation import Conversation
 
 
-@app.post("/<object_name>/new")
+@app.get("/<object_name>/new")
 def new(object_name: str):
     object_name = objects.unique_object("convo")
 

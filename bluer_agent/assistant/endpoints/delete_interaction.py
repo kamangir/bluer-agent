@@ -5,7 +5,7 @@ from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.logger import logger
 
 
-@app.post("/<object_name>/delete_interaction")
+@app.get("/<object_name>/delete_interaction")
 def delete_interaction(object_name: str):
     # TODO: add reply_id
     index = int(request.values.get("index", 1)) - 1
