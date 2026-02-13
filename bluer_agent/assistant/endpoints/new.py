@@ -15,7 +15,7 @@ def new(object_name: str):
 
     convo = Conversation.load(object_name)
     if not convo.save():
-        flash(messages.cannot_save_conversation, "warning")
+        flash(messages.cannot_save_conversation)
 
     if (
         not List_of_Conversations()
@@ -25,7 +25,7 @@ def new(object_name: str):
         )
         .save()
     ):
-        flash(messages.cannot_save_list_of_conversations, "warning")
+        flash(messages.cannot_save_list_of_conversations)
 
     return redirect(
         url_for(

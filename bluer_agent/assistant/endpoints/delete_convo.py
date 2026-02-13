@@ -24,14 +24,14 @@ def delete_convo(object_name: str):
         logger.info(f"removed {object_name} (#{index})")
 
         if not list_of_conversations.save():
-            flash(messages.cannot_save_list_of_conversations, "warning")
+            flash(messages.cannot_save_list_of_conversations)
 
         if not tags.set_tags(
             object_name=object_name,
             tags="~convo",
             verbose=verbose,
         ):
-            flash(messages.cannot_set_tags, "warning")
+            flash(messages.cannot_set_tags)
 
         index = min(
             index,

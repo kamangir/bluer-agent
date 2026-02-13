@@ -73,6 +73,8 @@
                     style="display:inline;" onsubmit="syncSubjectToSaveForm()">
 
                     <input type="hidden" name="subject" id="save-subject">
+                    <input type="hidden" name="index" value="{{ index }}">
+                    <input type="hidden" name="reply" value="{{ reply_id }}">
 
                     <button type="submit">
                         💾
@@ -119,7 +121,14 @@
                                 <a href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">
                                     {{ reply.id }}
                                 </a>
-                                | {{ reply.icon }}
+                                | {{ reply.icon }} |
+
+                                <button type="submit" class="btn-small" form="main-form"
+                                    formaction="{{ url_for('save_reply', object_name=object_name, index=index, reply=reply.id) }}"
+                                    formmethod="post" title="Save reply">
+                                    💾
+                                </button>
+
                             </div>
 
                             <textarea name="reply_content" class="reply-edit" rows="8" form="main-form"

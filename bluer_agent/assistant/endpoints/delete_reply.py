@@ -32,7 +32,7 @@ def delete_reply(object_name: str):
 
     interaction = convo.get_top_interaction(reply_id=reply_id)
     if not interaction:
-        flash(messages.cannot_find_reply, "warning")
+        flash(messages.cannot_find_reply)
         return return_redirect()
 
     reply_index = [reply.id for reply in interaction.list_of_replies].index(reply_id)
@@ -44,7 +44,7 @@ def delete_reply(object_name: str):
     interaction.list_of_replies.pop(reply_index)
 
     if not convo.save():
-        flash(messages.cannot_save_conversation, "warning")
+        flash(messages.cannot_save_conversation)
 
     return return_redirect(
         reply_id=top_reply_id,

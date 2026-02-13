@@ -48,7 +48,7 @@ def delete_interaction(object_name: str):
     logger.info(f"deleted {object_name}/{reply_id}/{index}")
 
     if not convo.save():
-        flash(messages.cannot_save_conversation, "warning")
+        flash(messages.cannot_save_conversation)
 
     index = min(
         index,

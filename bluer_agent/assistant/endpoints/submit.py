@@ -28,7 +28,7 @@ def submit(object_name: str):
 
     question = (request.args.get("question") or "").strip()
     if not question:
-        flash(messages.cannot_find_question, "warning")
+        flash(messages.cannot_find_question)
         logger.warning("question not found.")
         return return_redirect()
 
@@ -116,12 +116,12 @@ question: {{}}
 
     if isinstance(owner, Conversation) and first_interaction:
         if not convo.generate_subject():
-            flash(messages.cannot_generate_subject, "warning")
+            flash(messages.cannot_generate_subject)
             if not convo.save():
-                flash(messages.cannot_save_conversation, "warning")
+                flash(messages.cannot_save_conversation)
 
     else:
         if not convo.save():
-            flash(messages.cannot_save_conversation, "warning")
+            flash(messages.cannot_save_conversation)
 
     return return_redirect(index=index + 1)

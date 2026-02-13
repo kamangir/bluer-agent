@@ -11,7 +11,7 @@ def auto_generate_subject(object_name: str):
     convo = Conversation.load(object_name)
 
     if not convo.generate_subject():
-        flash(messages.cannot_generate_subject, "warning")
+        flash(messages.cannot_generate_subject)
 
     return redirect(
         url_for(
