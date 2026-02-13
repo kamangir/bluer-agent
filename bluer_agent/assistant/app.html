@@ -228,6 +228,22 @@
                                 onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
                                 🗑
                             </a>
+                            |
+                            <a class="btn-small" href="{{ url_for(
+                                'move_reply_up',
+                                object_name=object_name,
+                                index=index,
+                                reply=reply_.id) }}">
+                                ⬆️
+                            </a>
+                            |
+                            <a class="btn-small" href="{{ url_for(
+                                'move_reply_down',
+                                object_name=object_name,
+                                index=index,
+                                reply=reply_.id) }}">
+                                ⬇️
+                            </a>
 
                         </div>
                         <pre>{{ reply_.content }}</pre>
