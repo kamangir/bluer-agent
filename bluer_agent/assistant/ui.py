@@ -6,6 +6,10 @@ def flash(
     category: str = "warning",
 ):
     return flash_(
-        f" ⚠️ {message}" if category == "warning" else message,
+        (
+            f" ⚠️ {message}"
+            if category == "warning"
+            else f"ℹ️ {message}" if category == "info" else message
+        ),
         category,
     )

@@ -1,7 +1,10 @@
 from flask import request, session
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.conversation import (
+    Conversation,
+    List_of_Conversations,
+)
 from bluer_agent.logger import logger
 
 
@@ -12,7 +15,8 @@ def open_conversation(object_name: str):
 
     logger.info(f"/open: reply={reply_id}, index={index}")
 
-    return Conversation.load(object_name).render(
-        index,
+    return List_of_Conversations().render(
+        convo=Conversation.load(object_name),
+        index=index,
         reply_id=reply_id,
     )

@@ -34,6 +34,8 @@ def test_bluer_agent_env():
         [
             env.BLUER_AGENT_API_KEY,
             #
+            env.BLUER_AGENT_ASSISTANT_CACHE,
+            #
             env.BLUER_AGENT_AUDIO_TEST_OBJECT,
             #
             env.BLUER_AGENT_CHAT_ENDPOINT,

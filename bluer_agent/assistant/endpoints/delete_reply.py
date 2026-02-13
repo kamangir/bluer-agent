@@ -1,4 +1,5 @@
-from flask import redirect, url_for, request
+from flask import url_for, request
+from flask import redirect as flask_redirect
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
@@ -14,11 +15,11 @@ def delete_reply(object_name: str):
 
     logger.info(f"/delete_reply on reply={reply_id}, index={index}")
 
-    def return_redirect(
+    def redirect(
         index: int = index,
         reply_id: str = reply_id,
     ):
-        return redirect(
+        return flask_redirect(
             url_for(
                 "open_conversation",
                 object_name=object_name,
@@ -33,7 +34,7 @@ def delete_reply(object_name: str):
     interaction = convo.get_top_interaction(reply_id=reply_id)
     if not interaction:
         flash(messages.cannot_find_reply)
-        return return_redirect()
+        return redirect()
 
     reply_index = [reply.id for reply in interaction.list_of_replies].index(reply_id)
     logger.info(f"reply_id={reply_id} -> reply_index={reply_index}")
@@ -46,6 +47,6 @@ def delete_reply(object_name: str):
     if not convo.save():
         flash(messages.cannot_save_conversation)
 
-    return return_redirect(
+    return redirect(
         reply_id=top_reply_id,
     )
