@@ -110,7 +110,9 @@
                     <div class="radio-item">
                         <div class="radio-content">
                             <div class="muted">Question</div>
-                            <pre>{{ top_interaction.question }}</pre>
+                            <textarea name="question" class="question-edit" rows="8" form="main-form">
+                                {{ top_interaction.question  }}
+                            </textarea>
                         </div>
                     </div>
                 </div>
