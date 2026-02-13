@@ -38,6 +38,9 @@ def delete_interaction(object_name: str):
                 reply_id=reply_id,
             )
         )
+        if not owner:
+            flash(messages.cannot_find_reply)
+            return redirect()
 
         logger.info(
             "/delete_interaction -> reply={}, index={} -> owner: {}".format(

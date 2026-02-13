@@ -35,18 +35,21 @@ def add_reply(object_name: str):
     with lock:
         convo = Conversation.load(object_name)
 
-        owner: Union[Conversation, Reply] = (
+        owner: Union[Conversation, Reply, None] = (
             convo
             if reply_id == "top"
             else convo.get_reply(
                 reply_id=reply_id,
             )
         )
+        if not owner:
+            flash(messages.cannot_find_reply)
+            return redirect()
 
         try:
             interaction: Interaction = owner.list_of_interactions[index - 1]
         except Exception as e:
-            flash(messages.cannot_find_interaction.format(reply_id, index))
+            flash(messages.cannot_find_interaction.format(reply_id, index, e))
             return redirect()
 
         interaction.list_of_replies.append(Reply(content="..."))

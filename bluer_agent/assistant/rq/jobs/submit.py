@@ -79,6 +79,9 @@ question: {{}}
                 reply_id=reply_id,
             )
         )
+        if not owner:
+            return False
+
         logger.info(f"owner: {owner.__class__.__name__}")
 
         first_interaction = len(owner.list_of_interactions) == 0
