@@ -13,7 +13,7 @@ def auto_generate_subject(object_name: str):
 
     return redirect(
         url_for(
-            "open_conversation",
+            "open_project",
             object_name=object_name,
         ),
     )

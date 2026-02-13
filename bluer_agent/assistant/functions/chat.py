@@ -33,7 +33,7 @@ def chat(
             }
         )
 
-        success, reply = chat_(
+        success, step = chat_(
             messages=messages,
             remove_thoughts=remove_thoughts,
             html_report=html_report,
@@ -45,6 +45,6 @@ def chat(
         )
 
         if success:
-            return success, reply
+            return success, step
 
     return False, ""

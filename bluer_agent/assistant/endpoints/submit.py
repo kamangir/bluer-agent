@@ -11,33 +11,33 @@ from bluer_agent.logger import logger
 @app.get("/<object_name>/submit")
 def submit(object_name: str):
     index = int(request.args.get("index", 1))
-    reply_id = request.args.get("reply", "top")
+    step_id = request.args.get("step", "top")
     mode = request.args.get("mode", "ai")
 
     def redirect(index: int = index):
         return flask_redirect(
             url_for(
-                "open_conversation",
+                "open_project",
                 object_name=object_name,
                 index=index,
-                reply=reply_id,
+                step=step_id,
             ),
         )
 
-    question = (request.args.get("question") or "").strip()
-    if not question:
-        flash(messages.cannot_find_question)
-        logger.warning("question not found.")
+    objective = (request.args.get("objective") or "").strip()
+    if not objective:
+        flash(messages.cannot_find_objective)
+        logger.warning("objective not found.")
         return redirect()
 
     queue_job(
         task_name="submit",
         object_name=object_name,
-        reply_id=reply_id,
+        step_id=step_id,
         index=index,
         mode=mode,
         remove_thoughts=bool(request.args.get("remove_thoughts")),
-        question=question,
+        objective=objective,
     )
 
     return redirect(index=index + 1)

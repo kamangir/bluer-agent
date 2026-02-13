@@ -1,27 +1,27 @@
 # assistant: data-model
 
-[Conversation](../../assistant/classes/conversation/one.py)
+[Project](../../assistant/classes/project/one.py)
 
 ```python
-class Conversation:
+class Project:
     self.object_name: str
     self.subject: str
     self.metadata: Dict[str, Any]
-    self.list_of_interactions: List[Interaction]
+    self.list_of_requirements: List[Requirement]
 ```
 
-[Interaction, Reply](../../assistant/classes/interaction.py)
+[Requirement, Step](../../assistant/classes/requirement.py)
 
 ```python
-class Interaction:
+class Requirement:
     self.question: str = question
-    self.list_of_replies: List[Reply]
+    self.list_of_step: List[Step]
 ```
 
 ```python
-class Reply:
+class Step:
     self.id: str
     self.content: str
-    self.list_of_interactions: List[Interaction]
+    self.list_of_requirements: List[Requirement]
 ```
 

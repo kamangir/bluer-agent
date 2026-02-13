@@ -2,7 +2,10 @@
 
 ```bash
 @assistant \
-	[download,install,~open,port=<5100>,upload,worker] \
+	[download,~open,port=<5100>,upload] \
 	[-|<object-name>]
  . start assistant.
+@assistant \
+	[install,worker]
+ . start assistant worker.
 ```

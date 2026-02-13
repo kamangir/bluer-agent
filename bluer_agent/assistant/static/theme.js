@@ -1,5 +1,5 @@
 // --- enter-to-submit ---
-const textarea = document.getElementById("question-text");
+const textarea = document.getElementById("objective-text");
 const form = document.getElementById("main-form");
 
 textarea.addEventListener("keydown", function (e) {

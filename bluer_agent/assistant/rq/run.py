@@ -3,7 +3,7 @@ from __future__ import annotations
 from blueness import module
 
 from bluer_agent import NAME
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.project import Project
 from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.rq.jobs.auto_generate_subject import auto_generate_subject
 from bluer_agent.assistant.rq.jobs.submit import submit
@@ -25,7 +25,7 @@ def run_job(
         )
     )
 
-    convo = Conversation.load(object_name)
+    convo = Project.load(object_name)
 
     if task_name == "auto_generate_subject":
         auto_generate_subject(convo, **kwargs)

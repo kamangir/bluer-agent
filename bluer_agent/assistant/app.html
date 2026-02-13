@@ -10,7 +10,7 @@
 <body>
     <div class="layout">
 
-        <!-- LEFT: list_of_conversations -->
+        <!-- LEFT: list_of_projects -->
         <aside class="sidebar">
 
             <!-- TITLE -->
@@ -19,15 +19,15 @@
             </div>
 
             <div class="sidebar-header">
-                <div class="muted">{{ conversation_count }} Conversation(s)</div>
+                <div class="muted">{{ project_count }} Project(s)</div>
 
                 <div class="sidebar-actions">
                     <form method="get" action="{{ url_for('new', object_name=object_name) }}">
-                        <button type="submit" class="sidebar-new" title="New conversation">📜</button>
+                        <button type="submit" class="sidebar-new" title="New project">📜</button>
                     </form>
 
-                    <form method="get" action="{{ url_for('refresh_list_of_conversations', object_name=object_name) }}">
-                        <button type="submit" class="sidebar-new" title="Refresh list of conversations">♻️</button>
+                    <form method="get" action="{{ url_for('refresh_list_of_projects', object_name=object_name) }}">
+                        <button type="submit" class="sidebar-new" title="Refresh list of projects">♻️</button>
                     </form>
 
                     <button type="button" id="theme-toggle" class="sidebar-toggle"
@@ -35,17 +35,18 @@
                 </div>
             </div>
 
-            <div class="conversation-list">
-                {% if list_of_conversations %}
-                {% for entry in list_of_conversations %}
-                <a class="conversation-item {% if entry.object_name == active_object_name %}active{% endif %}"
-                    href="{{ url_for('open_conversation', object_name=entry.object_name) }}"
-                    title="{{ entry.subject }}">
-                    <div class="conversation-title">{{ entry.subject }}</div>
+            <div class="project-list">
+                {% if list_of_projects %}
+                {% for project in list_of_projects %}
+                <a class="project-item {% if project.object_name == active_object_name %}active{% endif %}" href="{{ 
+                    url_for('open_project', 
+                    object_name=project.object_name) 
+                }}" title="{{ project.subject }}">
+                    <div class="project-title">{{ project.subject }}</div>
                 </a>
                 {% endfor %}
                 {% else %}
-                <div class="muted sidebar-empty">No conversations yet.</div>
+                <div class="muted sidebar-empty">No projects yet.</div>
                 {% endif %}
             </div>
         </aside>
@@ -66,7 +67,7 @@
 
             <div class="row subject-row">
 
-                <form method="get" action="{{ url_for('delete_convo', object_name=object_name) }}"
+                <form method="get" action="{{ url_for('delete_project', object_name=object_name) }}"
                     onsubmit="return confirm('Really delete {{ object_name }}?');" style="display:inline;">
                     <button type="submit" class="danger">
                         🗑
@@ -78,7 +79,7 @@
 
                     <input type="hidden" name="subject" id="save-subject">
                     <input type="hidden" name="index" value="{{ index }}">
-                    <input type="hidden" name="reply" value="{{ reply_id }}">
+                    <input type="hidden" name="step" value="{{ step_id }}">
 
                     <button type="submit">
                         💾
@@ -92,60 +93,60 @@
                     </button>
                 </form>
 
-                <input type="text" name="subject" id="subject" placeholder="Conversation subject…"
+                <input type="text" name="subject" id="subject" placeholder="Project subject..."
                     value="{{ subject or '' }}" form="main-form" class="subject-input">
 
                 <label class="muted subject-label" for="subject">
-                    {{ object_name }} | {{ reply_id }} | {{ index }}
+                    {{ object_name }} | {{ step_id }} | {{ index }}
                 </label>
             </div>
 
             <form method="get" action="{{ url_for('submit', object_name=object_name) }}" id="main-form">
                 <input type="hidden" name="index" value="{{ index }}">
-                <input type="hidden" name="reply" value="{{ reply_id }}">
+                <input type="hidden" name="step" value="{{ step_id }}">
 
-                {% if top_interaction %}
+                {% if top_requirement %}
                 <div class="card">
-                    <!-- reply content -->
+                    <!-- step content -->
                     <div class="radio-item">
                         <div class="radio-content">
-                            <div class="muted">Question |
+                            <div class="muted">Objective |
 
                                 <button type="submit" class="btn-small" form="main-form"
-                                    formaction="{{ url_for('save_question', object_name=object_name, index=index, reply=reply.id) }}"
-                                    formmethod="post" title="Save question">
+                                    formaction="{{ url_for('save_objective', object_name=object_name, index=index, step=step.id) }}"
+                                    formmethod="post" title="Save objective">
                                     💾
                                 </button>
 
                             </div>
-                            <textarea name="question" class="question-edit" rows="8"
-                                form="main-form">{{ top_interaction.question  }}</textarea>
+                            <textarea name="objective" class="objective-edit" rows="8"
+                                form="main-form">{{ top_requirement.objective  }}</textarea>
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
-                {% if reply %}
+                {% if step %}
                 <div class="card">
                     <div class="radio-item">
                         <div class="radio-content">
                             <div class="muted">
-                                Reply |
-                                <a href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">
-                                    {{ reply.id }}
+                                Step |
+                                <a href="{{ url_for('open_project', object_name=object_name, step=step.id) }}">
+                                    {{ step.id }}
                                 </a>
-                                | {{ reply.icon }} |
+                                | {{ step.icon }} |
 
                                 <button type="submit" class="btn-small" form="main-form"
-                                    formaction="{{ url_for('save_reply', object_name=object_name, index=index, reply=reply.id) }}"
-                                    formmethod="post" title="Save reply">
+                                    formaction="{{ url_for('save_step', object_name=object_name, index=index, step=step.id) }}"
+                                    formmethod="post" title="Save step">
                                     💾
                                 </button>
 
                             </div>
 
-                            <textarea name="reply_content" class="reply-edit" rows="8" form="main-form"
-                                data-reply-id="{{ reply.id }}">{{ reply.content }}</textarea>
+                            <textarea name="step_content" class="step-edit" rows="8" form="main-form"
+                                data-step-id="{{ step.id }}">{{ step.content }}</textarea>
 
                         </div>
                     </div>
@@ -153,11 +154,32 @@
                 {% endif %}
 
 
-                <label class="muted">Question</label>
-                <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
+                <label class="muted">Objective</label>
+                <textarea name="objective" placeholder="Type here..." id="objective-text" rows="4"></textarea>
 
                 <div class="row">
 
+                    <select name="mode" id="mode-select" class="combo">
+                        <option value="none">🟰</option>
+                        <option value="ai" selected>🪄</option>
+                        <option value="two">2️⃣</option>
+                        <option value="three">3️⃣</option>
+                        <option value="four">4️⃣</option>
+                        <option value="five">5️⃣</option>
+                    </select>
+
+                    <button type="submit" id="submit-btn">➕</button>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="remove_thoughts" checked>
+                        <span class="muted">🧠 remove thoughts</span>
+                    </label>
+
+                </div>
+
+                <hr />
+
+                <div class="row">
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
                         gui_elements.can_prev %}disabled{% endif %}>
                         ⬅️
@@ -170,92 +192,73 @@
                         ➡️
                     </button>
 
-
-                    <!-- Combo box -->
-                    <select name="mode" id="mode-select" class="combo">
-                        <option value="none">🟰</option>
-                        <option value="ai" selected>🪄</option>
-                        <option value="two">2️⃣</option>
-                        <option value="three">3️⃣</option>
-                        <option value="four">4️⃣</option>
-                        <option value="five">5️⃣</option>
-                    </select>
-
-                    <!-- Submit -->
-                    <button type="submit" id="submit-btn">➕</button>
-
-                    <label class="checkbox">
-                        <input type="checkbox" name="remove_thoughts" checked>
-                        <span class="muted">🧠 remove thoughts</span>
-                    </label>
-
                     <button type="submit" formaction="{{ url_for('up', object_name=object_name) }}" {% if not
                         gui_elements.can_up %}disabled{% endif %}>
                         ⬆️
                     </button>
 
                     <button type="submit" class="danger"
-                        formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
-                        onclick="return confirm('Really delete {{ object_name }}/{{ reply_id }}/{{ index }}?');" {% if
+                        formaction="{{ url_for('delete_requirement', object_name=object_name) }}" formmethod="get"
+                        onclick="return confirm('Really delete {{ object_name }}/{{ step_id }}/{{ index }}?');" {% if
                         not gui_elements.can_delete %}disabled{% endif %}>
                         🗑
                     </button>
                 </div>
             </form>
 
-            {% if interaction %}
+            {% if requirement %}
 
             <div class="card">
-                <!-- Question -->
+                <!-- Objective -->
                 <div class="radio-item">
                     <div class="radio-content">
-                        <div class="muted">Question</div>
-                        <pre>{{ interaction.question }}</pre>
+                        <div class="muted">Objective</div>
+                        <pre>{{ requirement.objective }}</pre>
                     </div>
                 </div>
             </div>
 
             <!-- Replies -->
-            {% for reply_ in interaction.list_of_replies %}
+            {% for step_ in requirement.list_of_steps %}
             <div class="card">
                 <div class="radio-item">
                     <div class="radio-content">
-                        <div class="muted reply-label">Reply #{{ loop.index }} |
+                        <div class="muted step-label">Step #{{ loop.index }} |
                             <a href="{{ url_for(
-                                    'open_conversation', 
+                                    'open_project', 
                                     object_name=object_name, 
-                                    reply=reply_.id) }}">
-                                {{ reply_.id }}
+                                    step=step_.id) }}">
+                                {{ step_.id }}
                             </a>
-                            | {{ reply_.icon }} |
+                            | {{ step_.icon }} |
                             <a class="danger btn-small" href="{{ url_for(
-                                'delete_reply',
+                                'delete_step',
                                 object_name=object_name,
                                 index=index,
-                                reply=reply_.id,
+                                step=step_.id,
                                 subject=subject) }}"
-                                onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
+                                onclick="return confirm('Really delete {{ object_name }}/{{ step_.id }}?');">
                                 🗑
                             </a>
                             |
                             <a class="btn-small" href="{{ url_for(
-                                'move_reply_up',
+                                'move_step_up',
                                 object_name=object_name,
                                 index=index,
-                                reply=reply_.id) }}">
+                                step=step_.id) }}">
                                 ⬆️
                             </a>
                             |
                             <a class="btn-small" href="{{ url_for(
-                                'move_reply_down',
+                                'move_step_down',
                                 object_name=object_name,
                                 index=index,
-                                reply=reply_.id) }}">
+                                step=step_.id) }}">
                                 ⬇️
                             </a>
 
                         </div>
-                        <pre>{{ reply_.content }}</pre>
+                        <pre>{{ step_.content }}</pre>
                     </div>
                 </div>
             </div>
@@ -266,11 +269,11 @@
                     <div class="radio-content">
                         <div class="muted">
                             <a href="{{ url_for(
-                                'add_reply', 
+                                'add_step', 
                                 object_name=object_name, 
-                                reply=reply_id, 
+                                step=step_id, 
                                 index=index) }}">
-                                add reply...
+                                add step...
                             </a>
                         </div>
                     </div>
@@ -278,7 +281,7 @@
             </div>
 
             {% else %}
-            <p class="muted">No interactions yet.</p>
+            <p class="muted">No requirements yet.</p>
             {% endif %}
 
             <hr />

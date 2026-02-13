@@ -12,7 +12,7 @@ from bluer_objects.mlflow.tags import search
 
 from bluer_agent import env
 from bluer_agent import ICON
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.project import Project, TAG
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.functions import template
 from bluer_agent.host import signature
@@ -20,22 +20,22 @@ from bluer_agent.logger import logger
 
 
 @dataclass
-class Entry:
+class ProjectSummary:
     object_name: str
     subject: str
 
 
-class List_of_Conversations:
+class List_of_Projects:
     def __init__(
         self,
         refresh: bool = False,
     ):
         self.filename = objects.path_of(
             object_name=env.BLUER_AGENT_ASSISTANT_CACHE,
-            filename="list_of_conversations.dat",
+            filename="list_of_projects.dat",
         )
 
-        self.contents: List[Entry] = []
+        self.contents: List[ProjectSummary] = []
 
         verb: str = ""
         if not refresh:
@@ -49,12 +49,12 @@ class List_of_Conversations:
             log_list(
                 logger,
                 f"{self.__class__.__name__}: {verb}",
-                [entry.object_name for entry in self.contents],
-                "conversation(s)",
+                [project_summary.object_name for project_summary in self.contents],
+                "project summary(s)",
             )
         else:
             logger.info(
-                "{}: loaded {} conversation(s)".format(
+                "{}: loaded {} project summary(s)".format(
                     self.__class__.__name__,
                     len(self.contents),
                 )
@@ -67,9 +67,9 @@ class List_of_Conversations:
         self,
         object_name: str,
         subject: str,
-    ) -> "List_of_Conversations":
+    ) -> "List_of_Projects":
         self.contents.append(
-            Entry(
+            ProjectSummary(
                 object_name=object_name,
                 subject=subject,
             )
@@ -80,14 +80,14 @@ class List_of_Conversations:
     def find(self) -> bool:
         self.contents = []
 
-        success, list_of_objects = search("convo")
+        success, list_of_objects = search(TAG)
         if not success:
             return success
 
         logger.info("found {} object(s)".format(len(list_of_objects)))
 
         for object_name in tqdm(list_of_objects):
-            convo = Conversation.load(object_name=object_name)
+            convo = Project.load(object_name=object_name)
 
             self.append(
                 object_name,
@@ -98,33 +98,33 @@ class List_of_Conversations:
 
     @staticmethod
     def generate_subject(
-        convo: Conversation,
+        convo: Project,
     ) -> bool:
         success, subject = convo.generate_subject()
         if not success:
             return success
 
-        lock = FileLock("/tmp/assistant/list_of_conversations.lock")
+        lock = FileLock("/tmp/assistant/list_of_projects.lock")
         with lock:
-            list_of_conversations = List_of_Conversations()
+            list_of_projects = List_of_Projects()
 
-            list_of_conversations.update(
+            list_of_projects.update(
                 convo.object_name,
                 subject,
             )
 
-            if not list_of_conversations.save():
+            if not list_of_projects.save():
                 return False
 
         lock = FileLock(f"/tmp/assistant/{convo.object_name}.lock")
         with lock:
-            convo = Conversation.load(convo.object_name)
+            convo = Project.load(convo.object_name)
             convo.subject = subject
             return convo.save()
 
     def index(self, object_name: str) -> int:
-        for index, entry in enumerate(self.contents):
-            if entry.object_name == object_name:
+        for index, project_summary in enumerate(self.contents):
+            if project_summary.object_name == object_name:
                 return index
         return -1
 
@@ -149,16 +149,19 @@ class List_of_Conversations:
             return False
 
         self.contents = [
-            entry for entry in metadata.get("contents", []) if entry.object_name
+            project_summary
+            for project_summary in metadata.get("contents", [])
+            if isinstance(project_summary, ProjectSummary)
+            and project_summary.object_name
         ]
 
         return True
 
     def render(
         self,
-        convo: Conversation,
+        convo: Project,
         index: int,
-        reply_id: str,
+        step_id: str,
     ) -> str:
         elapsed_timer = ElapsedTimer()
 
@@ -166,21 +169,21 @@ class List_of_Conversations:
         if not template_text:
             return "❗️ app.html not found."
 
-        interaction, gui_elements = convo.get_gui_elements(
+        requirement, gui_elements = convo.get_gui_elements(
             index=index,
-            reply_id=reply_id,
+            step_id=step_id,
         )
 
         return render_template_string(
             template_text,
             # main view
-            interaction=interaction,
-            top_interaction=convo.get_interaction(reply_id),
+            requirement=requirement,
+            top_requirement=convo.get_requirement(step_id),
             gui_elements=gui_elements,
             index=index,
             object_name=convo.object_name,
-            reply=convo.get_reply(reply_id),
-            reply_id=reply_id,
+            step=convo.get_step(step_id),
+            step_id=step_id,
             signature=" | ".join(
                 [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
                 + signature()
@@ -196,8 +199,8 @@ class List_of_Conversations:
             title=f"{ICON} @assistant",
             subject=convo.subject,
             # sidebar
-            list_of_conversations=self.contents,
-            conversation_count=len(self.contents),
+            list_of_projects=self.contents,
+            project_count=len(self.contents),
             active_object_name=convo.object_name,
         )
 
@@ -206,12 +209,12 @@ class List_of_Conversations:
             log_list(
                 logger,
                 f"{self.__class__.__name__}: saving",
-                [entry.object_name for entry in self.contents],
-                "conversation(s)",
+                [project_summary.object_name for project_summary in self.contents],
+                "project(s)",
             )
         else:
             logger.info(
-                "{}: saving {} conversation(s)".format(
+                "{}: saving {} project summary(ies)".format(
                     self.__class__.__name__,
                     len(self.contents),
                 )
@@ -229,10 +232,10 @@ class List_of_Conversations:
         self,
         object_name: str,
         subject: str,
-    ) -> "List_of_Conversations":
-        for entry in self.contents:
-            if entry.object_name == object_name:
-                entry.subject = subject
+    ) -> "List_of_Projects":
+        for project_summary in self.contents:
+            if project_summary.object_name == object_name:
+                project_summary.subject = subject
                 break
 
         return self

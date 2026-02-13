@@ -6,11 +6,8 @@ from filelock import FileLock
 from blueness import module
 
 from bluer_agent import NAME
-from bluer_agent.assistant.classes.conversation import (
-    Conversation,
-    List_of_Conversations,
-)
-from bluer_agent.assistant.classes.interaction import Interaction, Reply
+from bluer_agent.assistant.classes.project import Project, List_of_Projects
+from bluer_agent.assistant.classes.requirement import Requirement, Step
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.ui import flash
@@ -20,46 +17,45 @@ NAME = module.name(__file__, NAME)
 
 
 def submit(
-    convo: Conversation,
-    reply_id: str,
+    convo: Project,
+    step_id: str,
     index: str,
     mode: str,
     remove_thoughts: bool,
-    question: str,
+    objective: str,
     **kw_args,
 ) -> bool:
     logger.info(
-        "/submit -mode={}-> reply={}, index={}".format(
+        "/submit -mode={}-> step={}, index={}".format(
             mode,
-            reply_id,
+            step_id,
             index,
         )
     )
 
     prompt: str = ""
     prompt_template = """
-You are an assistant. Generate an answer to the question given below strictly in the same language of the 
-question given below (whether Farsi or English). Separate the answer into {} independent 
-sections to help the user digest and use the content. Separate the sections with the 
-following mark: --- 
+You are an assistant. Generate the top {} steps necessary to meet the objective given
+below strictly in the same language of the objective given below (whether Farsi 
+or English) and separate the steps with the following marker: --- 
 
-Do not start the sections with \"section:\" or markers like that. Do not use markdown symbols.
+Do not start the steps with \"step:\", item numbers, or any other markers. Do not use markdown symbols.
 
-question: {{}}
+objective: {{}}
 """
     if mode == "none":
         prompt = "{}"
     elif mode == "ai":
-        prompt = prompt_template.format("a maximum of five")
+        prompt = prompt_template.format("five")
     else:
         prompt = prompt_template.format(mode)
 
-    success, reply = chat(
-        messages=convo.get_context(reply_id=reply_id)
+    success, step = chat(
+        messages=convo.get_context(step_id=step_id)
         + [
             {
                 "role": "user",
-                "content": prompt.format(question),
+                "content": prompt.format(objective),
             }
         ],
         object_name=convo.object_name,
@@ -68,49 +64,49 @@ question: {{}}
     if not success:
         return success
 
-    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_projects.lock")
     with lock:
-        convo = Conversation.load(convo.object_name)
+        convo = Project.load(convo.object_name)
 
-        owner = convo.get_owner(reply_id=reply_id)
+        owner = convo.get_owner(step_id=step_id)
         if not owner:
             return False
         logger.info(f"owner: {owner.__class__.__name__}")
 
-        first_interaction = len(owner.list_of_interactions) == 0
+        first_requirement = len(owner.list_of_requirements) == 0
 
-        owner.list_of_interactions = owner.list_of_interactions = (
-            owner.list_of_interactions[:index]
+        owner.list_of_requirements = owner.list_of_requirements = (
+            owner.list_of_requirements[:index]
             + (
                 [
-                    Interaction(
-                        question=question,
-                        list_of_replies=[
-                            Reply(content=reply),
+                    Requirement(
+                        objective=objective,
+                        list_of_steps=[
+                            Step(content=step),
                         ],
                     )
                 ]
                 if mode == "none"
                 else [
-                    Interaction(
-                        question=question,
-                        list_of_replies=[
-                            Reply(content=reply_)
-                            for reply_ in [item.strip() for item in reply.split("---")]
-                            if reply_
+                    Requirement(
+                        objective=objective,
+                        list_of_steps=[
+                            Step(content=step_)
+                            for step_ in [item.strip() for item in step.split("---")]
+                            if step_
                         ],
                     )
                 ]
             )
-            + owner.list_of_interactions[index:]
+            + owner.list_of_requirements[index:]
         )
 
         if not convo.save():
-            flash(messages.cannot_save_conversation)
+            flash(messages.cannot_save_project)
             return False
 
-    if isinstance(owner, Conversation) and first_interaction:
-        success = List_of_Conversations.generate_subject(convo)
+    if isinstance(owner, Project) and first_requirement:
+        success = List_of_Projects.generate_subject(convo)
         if not success:
             logger.error(messages.cannot_generate_subject)
             return success
