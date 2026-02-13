@@ -12,7 +12,7 @@ from bluer_agent.logger import logger
 def save_objective(object_name: str):
     index = int(request.args.get("index", 1))
     step_id = request.args.get("step", "top")
-    objective = request.form.get("objective")
+    objective = request.form.get("top-objective")
 
     def redirect():
         return flask_redirect(
