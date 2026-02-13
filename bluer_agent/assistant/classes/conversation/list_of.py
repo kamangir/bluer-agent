@@ -175,7 +175,7 @@ class List_of_Conversations:
             template_text,
             # main view
             interaction=interaction,
-            top_interaction=convo.get_top_interaction(reply_id),
+            top_interaction=convo.get_interaction(reply_id),
             gui_elements=gui_elements,
             index=index,
             object_name=convo.object_name,

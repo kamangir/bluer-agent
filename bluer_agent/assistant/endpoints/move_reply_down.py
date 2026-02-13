@@ -36,7 +36,7 @@ def move_reply_down(object_name: str):
         top_reply_id = convo.get_top_reply_id(reply_id=reply_id)
         logger.info(f"top_reply_id: {top_reply_id}")
 
-        interaction = convo.get_top_interaction(reply_id=reply_id)
+        interaction = convo.get_interaction(reply_id=reply_id)
         if not interaction:
             flash(messages.cannot_find_reply)
             return redirect(reply_id=top_reply_id)

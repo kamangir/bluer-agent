@@ -34,7 +34,7 @@ def delete_reply(object_name: str):
         convo = Conversation.load(object_name)
         convo.subject = (request.args.get("subject") or "").strip()
 
-        interaction = convo.get_top_interaction(reply_id=reply_id)
+        interaction = convo.get_interaction(reply_id=reply_id)
         if not interaction:
             flash(messages.cannot_find_reply)
             return redirect()

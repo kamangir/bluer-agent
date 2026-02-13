@@ -12,7 +12,7 @@ from bluer_agent.logger import logger
 def save_question(object_name: str):
     index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
-    question = request.form.get("question").replace("\r", "").replace("\n", "")
+    question = request.form.get("question")
 
     def redirect():
         return flask_redirect(
@@ -30,7 +30,7 @@ def save_question(object_name: str):
     with lock:
         convo = Conversation.load(object_name)
 
-        interaction = convo.get_top_interaction(reply_id=reply_id)
+        interaction = convo.get_interaction(reply_id=reply_id)
         if not interaction:
             flash(messages.cannot_find_interaction)
             return redirect()

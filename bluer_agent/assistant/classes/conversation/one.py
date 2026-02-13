@@ -38,49 +38,6 @@ class Conversation:
 
         self.metadata: Dict[str, Any] = {}
 
-    @property
-    def icon(self) -> str:
-        return "({})".format(
-            "".join([interaction.icon for interaction in self.list_of_interactions])
-        )
-
-    def get_gui_elements(
-        self,
-        index: int,
-        reply_id: str,
-    ) -> Tuple[Any, GuiElements]:
-        logger.info(f"generating gui elements for reply={reply_id}, index={index}")
-
-        list_of_interactions = self.get_list_of_interactions(
-            reply_id=reply_id,
-        )
-
-        gui_elements = GuiElements()
-
-        gui_elements.can_up = reply_id != "top"
-
-        if len(list_of_interactions) == 0:
-            logger.warning(f"interaction not found: index={index}, reply={reply_id}")
-            return None, gui_elements
-
-        gui_elements.can_delete = True
-
-        index = max(min(index, len(list_of_interactions)), 1)
-
-        interaction = (
-            list_of_interactions[index - 1]
-            if 1 <= index <= len(list_of_interactions)
-            else None
-        )
-
-        gui_elements.can_prev = index > 1
-
-        gui_elements.can_next = 1 <= index < len(list_of_interactions)
-
-        gui_elements.index_display = f"{index} / {len(list_of_interactions)}"
-
-        return interaction, gui_elements
-
     def generate_subject(self) -> Tuple[bool, str]:
         if not self.list_of_interactions:
             return False, ""
@@ -154,14 +111,51 @@ question: {}
                 reply_id=reply_id,
             )
 
-    def get_top_interaction(
+    def get_gui_elements(
+        self,
+        index: int,
+        reply_id: str,
+    ) -> Tuple[Any, GuiElements]:
+        logger.info(f"generating gui elements for reply={reply_id}, index={index}")
+
+        list_of_interactions = self.get_list_of_interactions(
+            reply_id=reply_id,
+        )
+
+        gui_elements = GuiElements()
+
+        gui_elements.can_up = reply_id != "top"
+
+        if len(list_of_interactions) == 0:
+            logger.warning(f"interaction not found: index={index}, reply={reply_id}")
+            return None, gui_elements
+
+        gui_elements.can_delete = True
+
+        index = max(min(index, len(list_of_interactions)), 1)
+
+        interaction = (
+            list_of_interactions[index - 1]
+            if 1 <= index <= len(list_of_interactions)
+            else None
+        )
+
+        gui_elements.can_prev = index > 1
+
+        gui_elements.can_next = 1 <= index < len(list_of_interactions)
+
+        gui_elements.index_display = f"{index} / {len(list_of_interactions)}"
+
+        return interaction, gui_elements
+
+    def get_interaction(
         self,
         reply_id: str = "top",
     ) -> Union[Interaction, Conversation, None]:
         if reply_id == "top":
             return None
 
-        return get.get_top_interaction(
+        return get.get_interaction(
             reply_id=reply_id,
             list_of_interactions=self.list_of_interactions,
         )
@@ -203,6 +197,12 @@ question: {}
             reply_id=reply_id,
             list_of_interactions=self.list_of_interactions,
             top_reply_id="top",
+        )
+
+    @property
+    def icon(self) -> str:
+        return "({})".format(
+            "".join([interaction.icon for interaction in self.list_of_interactions])
         )
 
     @staticmethod
