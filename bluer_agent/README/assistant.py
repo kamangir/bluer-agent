@@ -15,7 +15,7 @@ docs = [
         "path": "../docs/assistant.md",
         "items": ImageItems(
             {
-                image_template("TBA"): "",
+                image_template("screenshot-2026-02-13-15-15-06.png"): "",
                 image_template("screenshot-2026-02-11-01-09-15.png"): "",
             }
         ),
