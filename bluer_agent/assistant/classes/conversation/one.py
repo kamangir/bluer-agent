@@ -157,7 +157,10 @@ question: {}
     def get_top_interaction(
         self,
         reply_id: str = "top",
-    ) -> Union[Interaction, None]:
+    ) -> Union[Interaction, Conversation, None]:
+        if reply_id == "top":
+            return None
+
         return get.get_top_interaction(
             reply_id=reply_id,
             list_of_interactions=self.list_of_interactions,

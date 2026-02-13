@@ -10,6 +10,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.logger import logger
 
 # needed, although seem unused :)
+from bluer_agent.assistant.endpoints.add_reply import add_reply
 from bluer_agent.assistant.endpoints.auto_generate_subject import auto_generate_subject
 from bluer_agent.assistant.endpoints.delete_convo import delete_convo
 from bluer_agent.assistant.endpoints.delete_interaction import delete_interaction

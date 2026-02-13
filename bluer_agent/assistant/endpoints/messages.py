@@ -1,3 +1,5 @@
+cannot_find_interaction = "question not interaction with reply={} and index={}."
+
 cannot_find_question = "question not found."
 
 cannot_find_reply = "can not find interaction with the reply."

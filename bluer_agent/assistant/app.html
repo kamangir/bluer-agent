@@ -211,15 +211,21 @@
             <div class="card">
                 <div class="radio-item">
                     <div class="radio-content">
-                        <div class="muted reply-label">Reply #{{ loop.index }} | <a
-                                href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
-                                reply_.id }}</a> | {{ reply_.icon }} |
-
-                            <a class="danger btn-small" href="{{ url_for('delete_reply',
-                    object_name=object_name,
-                    index=index,
-                    reply=reply_.id,
-                    subject=subject) }}" onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
+                        <div class="muted reply-label">Reply #{{ loop.index }} |
+                            <a href="{{ url_for(
+                                    'open_conversation', 
+                                    object_name=object_name, 
+                                    reply=reply_.id) }}">
+                                {{ reply_.id }}
+                            </a>
+                            | {{ reply_.icon }} |
+                            <a class="danger btn-small" href="{{ url_for(
+                                'delete_reply',
+                                object_name=object_name,
+                                index=index,
+                                reply=reply_.id,
+                                subject=subject) }}"
+                                onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
                                 🗑
                             </a>
 
@@ -229,6 +235,22 @@
                 </div>
             </div>
             {% endfor %}
+
+            <div class="card">
+                <div class="radio-item">
+                    <div class="radio-content">
+                        <div class="muted">
+                            <a href="{{ url_for(
+                                'add_reply', 
+                                object_name=object_name, 
+                                reply=reply_id, 
+                                index=index) }}">
+                                add reply...
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {% else %}
             <p class="muted">No interactions yet.</p>
