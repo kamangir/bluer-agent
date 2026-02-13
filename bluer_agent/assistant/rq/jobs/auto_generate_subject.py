@@ -17,12 +17,4 @@ def auto_generate_subject(
     convo: Conversation,
     **kw_args,
 ) -> bool:
-    success = List_of_Conversations().generate_subject(convo)
-    if not success:
-        logger.error(messages.cannot_generate_subject)
-
-    success = convo.save()
-    if not success:
-        logger.error(messages.cannot_save_conversation)
-
-    return success
+    return List_of_Conversations.generate_subject(convo)

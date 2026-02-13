@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 from typing import Union
+from filelock import FileLock
 
 from blueness import module
 
 from bluer_agent import NAME
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.conversation import (
+    Conversation,
+    List_of_Conversations,
+)
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
 from bluer_agent.assistant.functions.chat import chat
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
@@ -16,7 +21,6 @@ NAME = module.name(__file__, NAME)
 
 def submit(
     convo: Conversation,
-    subject: str,
     reply_id: str,
     index: str,
     mode: str,
@@ -24,22 +28,11 @@ def submit(
     question: str,
     **kw_args,
 ) -> bool:
-    convo.subject = subject
-
-    owner: Union[Conversation, Reply] = (
-        convo
-        if reply_id == "top"
-        else convo.get_reply(
-            reply_id=reply_id,
-        )
-    )
-
     logger.info(
-        "/submit -mode={}-> reply={}, index={} - owner: {}".format(
+        "/submit -mode={}-> reply={}, index={}".format(
             mode,
             reply_id,
             index,
-            owner.__class__.__name__,
         )
     )
 
@@ -75,36 +68,55 @@ question: {{}}
     if not success:
         return success
 
-    first_interaction = len(owner.list_of_interactions) == 0
+    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    with lock:
+        convo = Conversation.load(convo.object_name)
 
-    owner.list_of_interactions = owner.list_of_interactions = (
-        owner.list_of_interactions[:index]
-        + (
-            [
-                Interaction(
-                    question=question,
-                    list_of_replies=[
-                        Reply(content=reply),
-                    ],
-                )
-            ]
-            if mode == "none"
-            else [
-                Interaction(
-                    question=question,
-                    list_of_replies=[
-                        Reply(content=reply_)
-                        for reply_ in [item.strip() for item in reply.split("---")]
-                        if reply_
-                    ],
-                )
-            ]
+        owner: Union[Conversation, Reply] = (
+            convo
+            if reply_id == "top"
+            else convo.get_reply(
+                reply_id=reply_id,
+            )
         )
-        + owner.list_of_interactions[index:]
-    )
+        logger.info(f"owner: {owner.__class__.__name__}")
+
+        first_interaction = len(owner.list_of_interactions) == 0
+
+        owner.list_of_interactions = owner.list_of_interactions = (
+            owner.list_of_interactions[:index]
+            + (
+                [
+                    Interaction(
+                        question=question,
+                        list_of_replies=[
+                            Reply(content=reply),
+                        ],
+                    )
+                ]
+                if mode == "none"
+                else [
+                    Interaction(
+                        question=question,
+                        list_of_replies=[
+                            Reply(content=reply_)
+                            for reply_ in [item.strip() for item in reply.split("---")]
+                            if reply_
+                        ],
+                    )
+                ]
+            )
+            + owner.list_of_interactions[index:]
+        )
+
+        if not convo.save():
+            flash(messages.cannot_save_conversation)
+            return False
 
     if isinstance(owner, Conversation) and first_interaction:
-        if not convo.generate_subject():
+        success = List_of_Conversations.generate_subject(convo)
+        if not success:
             logger.error(messages.cannot_generate_subject)
+            return success
 
     return True

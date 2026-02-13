@@ -26,6 +26,10 @@
                         <button type="submit" class="sidebar-new" title="New conversation">📜</button>
                     </form>
 
+                    <form method="get" action="{{ url_for('refresh_list_of_conversations', object_name=object_name) }}">
+                        <button type="submit" class="sidebar-new" title="Refresh list of conversations">♻️</button>
+                    </form>
+
                     <button type="button" id="theme-toggle" class="sidebar-toggle"
                         title="Toggle day / night">🌙</button>
                 </div>

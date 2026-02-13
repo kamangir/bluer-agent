@@ -1,4 +1,5 @@
 from flask import request, redirect, url_for
+from filelock import FileLock
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import List_of_Conversations
@@ -15,21 +16,24 @@ def save(object_name: str):
 
     logger.info(f"/save: reply={reply_id}, index={index}")
 
-    convo = Conversation.load(object_name)
-    convo.subject = (request.args.get("subject") or "").strip()
+    lock = FileLock(f"/tmp/assistant/{object_name}.lock")
+    with lock:
+        convo = Conversation.load(object_name)
+        convo.subject = (request.args.get("subject") or "").strip()
+        if not convo.save():
+            flash(messages.cannot_save_conversation)
 
-    if not convo.save():
-        flash(messages.cannot_save_conversation)
-
-    if not (
-        List_of_Conversations()
-        .update(
-            object_name,
-            convo.subject,
-        )
-        .save()
-    ):
-        flash(messages.cannot_save_list_of_conversations)
+    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    with lock:
+        if not (
+            List_of_Conversations()
+            .update(
+                object_name,
+                convo.subject,
+            )
+            .save()
+        ):
+            flash(messages.cannot_save_list_of_conversations)
 
     return redirect(
         url_for(

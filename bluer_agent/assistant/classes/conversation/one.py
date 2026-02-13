@@ -81,9 +81,9 @@ class Conversation:
 
         return interaction, gui_elements
 
-    def generate_subject(self) -> bool:
+    def generate_subject(self) -> Tuple[bool, str]:
         if not self.list_of_interactions:
-            return False
+            return False, ""
 
         prompt = """
 This is the first question in a conversation. Generate a title for 
@@ -105,11 +105,9 @@ question: {}
             object_name=self.object_name,
         )
         if not success:
-            return success
+            return success, ""
 
-        self.subject = subject
-
-        return True
+        return True, subject
 
     def get_context(
         self,
@@ -260,7 +258,7 @@ question: {}
             return False
 
         tagged_log: str = ""
-        if self.metadata.get("tagged", False):
+        if not self.metadata.get("tagged", False):
             if not set_tags(
                 object_name=self.object_name,
                 tags="convo",
