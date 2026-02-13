@@ -27,13 +27,7 @@ def next(object_name: str):
 
     convo = Conversation.load(object_name)
 
-    owner: Union[Conversation, Reply] = (
-        convo
-        if reply_id == "top"
-        else convo.get_reply(
-            reply_id=reply_id,
-        )
-    )
+    owner = convo.get_owner(reply_id=reply_id)
     if not owner:
         flash(messages.cannot_find_reply)
         return redirect()

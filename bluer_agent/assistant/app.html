@@ -109,8 +109,17 @@
                     <!-- reply content -->
                     <div class="radio-item">
                         <div class="radio-content">
-                            <div class="muted">Question</div>
-                            <pre>{{ top_interaction.question }}</pre>
+                            <div class="muted">Question |
+
+                                <button type="submit" class="btn-small" form="main-form"
+                                    formaction="{{ url_for('save_question', object_name=object_name, index=index, reply=reply.id) }}"
+                                    formmethod="post" title="Save question">
+                                    💾
+                                </button>
+
+                            </div>
+                            <textarea name="question" class="question-edit" rows="8"
+                                form="main-form">{{ top_interaction.question  }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -227,6 +236,22 @@
                                 subject=subject) }}"
                                 onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
                                 🗑
+                            </a>
+                            |
+                            <a class="btn-small" href="{{ url_for(
+                                'move_reply_up',
+                                object_name=object_name,
+                                index=index,
+                                reply=reply_.id) }}">
+                                ⬆️
+                            </a>
+                            |
+                            <a class="btn-small" href="{{ url_for(
+                                'move_reply_down',
+                                object_name=object_name,
+                                index=index,
+                                reply=reply_.id) }}">
+                                ⬇️
                             </a>
 
                         </div>

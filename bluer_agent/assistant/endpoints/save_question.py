@@ -8,11 +8,11 @@ from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 
-@app.post("/<object_name>/save_reply")
-def save_reply(object_name: str):
+@app.post("/<object_name>/save_question")
+def save_question(object_name: str):
     index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
-    reply_content = request.form.get("reply_content")
+    question = request.form.get("question")
 
     def redirect():
         return flask_redirect(
@@ -24,20 +24,18 @@ def save_reply(object_name: str):
             ),
         )
 
-    logger.info(
-        f"/save_reply: reply={reply_id}, index={index}, reply_content={reply_content}"
-    )
+    logger.info(f"/save_question: reply={reply_id}, index={index}, question={question}")
 
     lock = FileLock(f"/tmp/assistant/{object_name}.lock")
     with lock:
         convo = Conversation.load(object_name)
 
-        reply = convo.get_reply(reply_id=reply_id)
-        if not reply:
-            flash(messages.cannot_find_reply)
+        interaction = convo.get_interaction(reply_id=reply_id)
+        if not interaction:
+            flash(messages.cannot_find_interaction)
             return redirect()
 
-        reply.content = reply_content
+        interaction.question = question
 
         if not convo.save():
             flash(messages.cannot_save_conversation)

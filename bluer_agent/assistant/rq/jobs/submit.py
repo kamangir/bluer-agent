@@ -72,16 +72,9 @@ question: {{}}
     with lock:
         convo = Conversation.load(convo.object_name)
 
-        owner: Union[Conversation, Reply] = (
-            convo
-            if reply_id == "top"
-            else convo.get_reply(
-                reply_id=reply_id,
-            )
-        )
+        owner = convo.get_owner(reply_id=reply_id)
         if not owner:
             return False
-
         logger.info(f"owner: {owner.__class__.__name__}")
 
         first_interaction = len(owner.list_of_interactions) == 0

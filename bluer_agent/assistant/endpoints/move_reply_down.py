@@ -9,12 +9,12 @@ from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 
-@app.get("/<object_name>/delete_reply")
-def delete_reply(object_name: str):
+@app.get("/<object_name>/move_reply_down")
+def move_reply_down(object_name: str):
     index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
-    logger.info(f"/delete_reply on reply={reply_id}, index={index}")
+    logger.info(f"/move_reply_down on reply={reply_id}, index={index}")
 
     def redirect(
         index: int = index,
@@ -32,26 +32,35 @@ def delete_reply(object_name: str):
     lock = FileLock(f"/tmp/assistant/{object_name}.lock")
     with lock:
         convo = Conversation.load(object_name)
-        convo.subject = (request.args.get("subject") or "").strip()
+
+        top_reply_id = convo.get_top_reply_id(reply_id=reply_id)
+        logger.info(f"top_reply_id: {top_reply_id}")
 
         interaction = convo.get_interaction(reply_id=reply_id)
         if not interaction:
             flash(messages.cannot_find_reply)
-            return redirect()
+            return redirect(reply_id=top_reply_id)
 
         reply_index = [reply.id for reply in interaction.list_of_replies].index(
             reply_id
         )
         logger.info(f"reply_id={reply_id} -> reply_index={reply_index}")
 
-        top_reply_id = convo.get_top_reply_id(reply_id=reply_id)
-        logger.info(f"top_reply_id: {top_reply_id}")
+        if reply_index >= len(interaction.list_of_replies) - 1:
+            return redirect(reply_id=top_reply_id)
 
-        interaction.list_of_replies.pop(reply_index)
+        try:
+            interaction.list_of_replies = (
+                interaction.list_of_replies[:reply_index]
+                + [interaction.list_of_replies[reply_index + 1]]
+                + [interaction.list_of_replies[reply_index]]
+                + interaction.list_of_replies[reply_index + 2 :]
+            )
+        except Exception as e:
+            flash(e)
+            return redirect(reply_id=top_reply_id)
 
         if not convo.save():
             flash(messages.cannot_save_conversation)
 
-    return redirect(
-        reply_id=top_reply_id,
-    )
+    return redirect(reply_id=top_reply_id)

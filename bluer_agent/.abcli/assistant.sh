@@ -67,6 +67,9 @@ function bluer_agent_assistant() {
 
     bluer_ai_badge reset
 
+    [[ $status -ne 0 ]] &&
+        bluer_ai_log "run \"lsof -i :$port\" and \"kill -9 <PID>\"".
+
     [[ "$do_upload" == 1 ]] &&
         bluer_objects_upload - $object_name
 

@@ -1,6 +1,6 @@
 title:::
 
-- [assistant](./assistant.md)
+- [assistant](./assistant)
 - [audio](./audio)
 - [chat](./chat)
 - [rag](./rag)
