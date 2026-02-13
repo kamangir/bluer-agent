@@ -202,12 +202,20 @@ class List_of_Conversations:
         )
 
     def save(self) -> bool:
-        logger.info(
-            "{}: saving {} conversation(s)".format(
-                self.__class__.__name__,
-                len(self.contents),
+        if verbose:
+            log_list(
+                logger,
+                f"{self.__class__.__name__}: saving",
+                [entry.object_name for entry in self.contents],
+                "conversation(s)",
             )
-        )
+        else:
+            logger.info(
+                "{}: saving {} conversation(s)".format(
+                    self.__class__.__name__,
+                    len(self.contents),
+                )
+            )
 
         return file.save(
             self.filename,

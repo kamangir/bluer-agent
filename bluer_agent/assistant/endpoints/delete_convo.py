@@ -23,12 +23,15 @@ def delete_convo(object_name: str):
             )
         )
 
+    logger.info(f"/delete_convo: object_name={object_name}")
+
     next_object_name: str = ""
 
     lock = FileLock("/tmp/assistant/list_of_conversations.lock")
     with lock:
         list_of_conversations = List_of_Conversations()
         index: int = list_of_conversations.index(object_name)
+        logger.info(f"index:{index}")
 
         if index == -1:
             logger.warning(f"{object_name} isn't in the list of conversations.")
@@ -52,7 +55,7 @@ def delete_convo(object_name: str):
         len(list_of_conversations.contents) - 1,
     )
     try:
-        next_object_name = list_of_conversations.contents[index][0]
+        next_object_name = list_of_conversations.contents[index].object_name
     except:
         pass
 
@@ -61,4 +64,6 @@ def delete_convo(object_name: str):
 
     logger.info(f"next_object_name: {next_object_name}")
 
-    return redirect(object_name=next_object_name)
+    return redirect(
+        object_name=next_object_name,
+    )
