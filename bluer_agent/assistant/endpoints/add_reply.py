@@ -1,22 +1,27 @@
 from typing import Union
-from flask import request, url_for
+from flask import url_for, request
 from flask import redirect as flask_redirect
 from filelock import FileLock
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.interaction import Reply
 from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.interaction import Interaction, Reply
 from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 
-@app.get("/<object_name>/delete_interaction")
-def delete_interaction(object_name: str):
+@app.get("/<object_name>/add_reply")
+def add_reply(object_name: str):
     index = int(request.args.get("index", 1))
     reply_id = request.args.get("reply", "top")
 
-    def redirect():
+    logger.info(f"/add_reply on reply={reply_id}, index={index}")
+
+    def redirect(
+        index: int = index,
+        reply_id: str = reply_id,
+    ):
         return flask_redirect(
             url_for(
                 "open_conversation",
@@ -29,9 +34,8 @@ def delete_interaction(object_name: str):
     lock = FileLock(f"/tmp/assistant/{object_name}.lock")
     with lock:
         convo = Conversation.load(object_name)
-        convo.subject = (request.args.get("subject") or "").strip()
 
-        owner: Union[Conversation, Reply] = (
+        owner: Union[Conversation, Reply, None] = (
             convo
             if reply_id == "top"
             else convo.get_reply(
@@ -42,28 +46,15 @@ def delete_interaction(object_name: str):
             flash(messages.cannot_find_reply)
             return redirect()
 
-        logger.info(
-            "/delete_interaction -> reply={}, index={} -> owner: {}".format(
-                reply_id,
-                index,
-                owner.__class__.__name__,
-            )
-        )
-
-        if index < 1 or index > len(owner.list_of_interactions):
-            logger.error("bad index={}".format(index))
+        try:
+            interaction: Interaction = owner.list_of_interactions[index - 1]
+        except Exception as e:
+            flash(messages.cannot_find_interaction.format(reply_id, index, e))
             return redirect()
 
-        owner.list_of_interactions.pop(index - 1)
-        logger.info(f"deleted {object_name}/{reply_id}/{index}")
+        interaction.list_of_replies.append(Reply(content="..."))
 
         if not convo.save():
             flash(messages.cannot_save_conversation)
-
-    index = min(
-        index,
-        len(owner.list_of_interactions),
-    )
-    logger.info(f"index: {index}")
 
     return redirect()

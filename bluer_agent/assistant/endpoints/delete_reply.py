@@ -1,5 +1,6 @@
 from flask import url_for, request
 from flask import redirect as flask_redirect
+from filelock import FileLock
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.classes.conversation import Conversation
@@ -28,24 +29,28 @@ def delete_reply(object_name: str):
             )
         )
 
-    convo = Conversation.load(object_name)
-    convo.subject = (request.args.get("subject") or "").strip()
+    lock = FileLock(f"/tmp/assistant/{object_name}.lock")
+    with lock:
+        convo = Conversation.load(object_name)
+        convo.subject = (request.args.get("subject") or "").strip()
 
-    interaction = convo.get_top_interaction(reply_id=reply_id)
-    if not interaction:
-        flash(messages.cannot_find_reply)
-        return redirect()
+        interaction = convo.get_top_interaction(reply_id=reply_id)
+        if not interaction:
+            flash(messages.cannot_find_reply)
+            return redirect()
 
-    reply_index = [reply.id for reply in interaction.list_of_replies].index(reply_id)
-    logger.info(f"reply_id={reply_id} -> reply_index={reply_index}")
+        reply_index = [reply.id for reply in interaction.list_of_replies].index(
+            reply_id
+        )
+        logger.info(f"reply_id={reply_id} -> reply_index={reply_index}")
 
-    top_reply_id = convo.get_top_reply_id(reply_id=reply_id)
-    logger.info(f"top_reply_id: {top_reply_id}")
+        top_reply_id = convo.get_top_reply_id(reply_id=reply_id)
+        logger.info(f"top_reply_id: {top_reply_id}")
 
-    interaction.list_of_replies.pop(reply_index)
+        interaction.list_of_replies.pop(reply_index)
 
-    if not convo.save():
-        flash(messages.cannot_save_conversation)
+        if not convo.save():
+            flash(messages.cannot_save_conversation)
 
     return redirect(
         reply_id=top_reply_id,

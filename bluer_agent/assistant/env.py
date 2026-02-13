@@ -1,1 +1,1 @@
-verbose: bool = False
+verbose: bool = True

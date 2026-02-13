@@ -51,9 +51,6 @@ def get_top_interaction(
     reply_id: str,
     list_of_interactions: List[Interaction],
 ) -> Union[Interaction, None]:
-    if reply_id == "top":
-        return None
-
     for interaction in list_of_interactions:
         for reply in interaction.list_of_replies:
             if reply.id == reply_id:

@@ -20,7 +20,14 @@ function bluer_agent_assistant() {
         brew services stop redis
         brew services start redis
 
-        rq worker assistant \
+        local queue_name=$(
+            python3 -m bluer_agent.assistant.rq.jobs \
+                get_queue_name
+        )
+        bluer_ai_log "queue_name: $queue_name"
+
+        rq worker \
+            $queue_name \
             --worker-class rq.worker.SimpleWorker
 
         brew services stop redis

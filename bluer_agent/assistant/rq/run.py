@@ -27,16 +27,11 @@ def run_job(
 
     convo = Conversation.load(object_name)
 
-    found: bool = True
     if task_name == "auto_generate_subject":
         auto_generate_subject(convo, **kwargs)
     elif task_name == "submit":
         submit(convo, **kwargs)
     else:
         logger.error(messages.task_not_found.format(task_name))
-        found = False
-
-    if found and not convo.save():
-        logger.error(messages.cannot_save_conversation)
 
     return True

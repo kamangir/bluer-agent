@@ -33,7 +33,6 @@ def submit(object_name: str):
     queue_job(
         task_name="submit",
         object_name=object_name,
-        subject=(request.args.get("subject") or "").strip(),
         reply_id=reply_id,
         index=index,
         mode=mode,
