@@ -15,7 +15,7 @@ from bluer_agent.logger import logger
 
 @app.get("/<object_name>/delete_convo")
 def delete_convo(object_name: str):
-    def redirect(object_name: str):
+    def redirect(object_name: str = object_name):
         return flask_redirect(
             url_for(
                 "open_conversation",
