@@ -30,7 +30,7 @@ def queue_job(
     )
 
     flash(
-        "{} -> job queue [{}].".format(
+        "task:{} -> job queue [{}].".format(
             task_name,
             job.id,
         ),
