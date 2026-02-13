@@ -5,7 +5,7 @@ from bluer_objects.README.consts import assets_url
 def image_template(suffix):
     return assets_url(
         suffix=f"bluer-agent/assistant/{suffix}",
-        volume=2,
+        volume=3,
         blob=True,
     )
 
