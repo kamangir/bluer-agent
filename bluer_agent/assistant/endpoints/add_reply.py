@@ -35,13 +35,7 @@ def add_reply(object_name: str):
     with lock:
         convo = Conversation.load(object_name)
 
-        owner: Union[Conversation, Reply, None] = (
-            convo
-            if reply_id == "top"
-            else convo.get_reply(
-                reply_id=reply_id,
-            )
-        )
+        owner = convo.get_owner(reply_id=reply_id)
         if not owner:
             flash(messages.cannot_find_reply)
             return redirect()

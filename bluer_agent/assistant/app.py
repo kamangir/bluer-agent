@@ -27,6 +27,7 @@ from bluer_agent.assistant.endpoints.refresh_list_of_conversations import (
 )
 from bluer_agent.assistant.endpoints.save import save
 from bluer_agent.assistant.endpoints.save_reply import save_reply
+from bluer_agent.assistant.endpoints.save_question import save_question
 from bluer_agent.assistant.endpoints.submit import submit
 from bluer_agent.assistant.endpoints.up import up
 

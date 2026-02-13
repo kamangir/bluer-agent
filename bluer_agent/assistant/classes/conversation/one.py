@@ -175,6 +175,17 @@ question: {}
             list_of_interactions=self.list_of_interactions,
         )
 
+    def get_owner(
+        self,
+        reply_id: str,
+    ) -> Union[Conversation, Reply, None]:
+        if reply_id == "top":
+            return self
+
+        return self.get_reply(
+            reply_id=reply_id,
+        )
+
     def get_reply(
         self,
         reply_id: str = "top",
@@ -253,13 +264,6 @@ question: {}
             filename="conversation.dat",
         )
 
-        if not file.save(
-            filename,
-            self,
-            log=verbose,
-        ):
-            return False
-
         tagged_log: str = ""
         if not self.metadata.get("tagged", False):
             if not set_tags(
@@ -271,6 +275,13 @@ question: {}
 
             self.metadata["tagged"] = True
             tagged_log = " and tagged"
+
+        if not file.save(
+            filename,
+            self,
+            log=verbose,
+        ):
+            return False
 
         logger.info(
             "{}: {} interaction(s) saved to {}{}".format(

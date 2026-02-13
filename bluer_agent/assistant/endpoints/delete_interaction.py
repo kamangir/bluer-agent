@@ -31,21 +31,14 @@ def delete_interaction(object_name: str):
         convo = Conversation.load(object_name)
         convo.subject = (request.args.get("subject") or "").strip()
 
-        owner: Union[Conversation, Reply] = (
-            convo
-            if reply_id == "top"
-            else convo.get_reply(
-                reply_id=reply_id,
-            )
-        )
+        owner = convo.get_owner(reply_id=reply_id)
         if not owner:
             flash(messages.cannot_find_reply)
             return redirect()
 
         logger.info(
-            "/delete_interaction -> reply={}, index={} -> owner: {}".format(
+            "/delete_interaction -> reply={} -> owner: {}".format(
                 reply_id,
-                index,
                 owner.__class__.__name__,
             )
         )
