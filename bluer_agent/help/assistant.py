@@ -9,17 +9,12 @@ def help_assistant(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "".join(
-        [
-            xtra(
-                f"download,install,~open,port=<{env.BLUER_AGENT_ASSISTANT_PORT}>,upload,",
-                mono=mono,
-            ),
-            "worker",
-        ]
+    options = xtra(
+        f"download,~open,port=<{env.BLUER_AGENT_ASSISTANT_PORT}>,upload",
+        mono=mono,
     )
 
-    return show_usage(
+    usage_1 = show_usage(
         [
             "@assistant",
             f"[{options}]",
@@ -27,4 +22,31 @@ def help_assistant(
         ],
         "start assistant.",
         mono=mono,
+    )
+
+    # ---
+
+    options = "".join(
+        [
+            xtra("install,", mono=mono),
+            "worker",
+        ]
+    )
+
+    usage_2 = show_usage(
+        [
+            "@assistant",
+            f"[{options}]",
+        ],
+        "start assistant worker.",
+        mono=mono,
+    )
+
+    # ----
+
+    return "\n".join(
+        [
+            usage_1,
+            usage_2,
+        ]
     )
