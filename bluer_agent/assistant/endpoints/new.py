@@ -20,7 +20,7 @@ def new(object_name: str):
         if not convo.save():
             flash(messages.cannot_save_conversation)
 
-    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
     with lock:
         if (
             not List_of_Conversations()

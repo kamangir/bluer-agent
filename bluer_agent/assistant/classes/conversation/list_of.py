@@ -104,7 +104,7 @@ class List_of_Conversations:
         if not success:
             return success
 
-        lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+        lock = FileLock("/tmp/assistant/list_of_conversations.lock")
         with lock:
             list_of_conversations = List_of_Conversations()
 

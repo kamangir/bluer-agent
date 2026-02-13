@@ -12,7 +12,7 @@ from bluer_agent.logger import logger
 def refresh_list_of_conversations(object_name: str):
     logger.info("/refresh_list_of_conversations")
 
-    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
     with lock:
         if not List_of_Conversations(
             refresh=True,

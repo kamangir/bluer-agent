@@ -68,7 +68,7 @@ question: {{}}
     if not success:
         return success
 
-    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
     with lock:
         convo = Conversation.load(convo.object_name)
 

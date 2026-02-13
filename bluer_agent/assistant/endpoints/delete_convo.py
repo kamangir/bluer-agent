@@ -25,7 +25,7 @@ def delete_convo(object_name: str):
 
     next_object_name: str = ""
 
-    lock = FileLock(f"/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
     with lock:
         list_of_conversations = List_of_Conversations()
         index: int = list_of_conversations.index(object_name)
