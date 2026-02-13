@@ -159,6 +159,27 @@
 
                 <div class="row">
 
+                    <select name="mode" id="mode-select" class="combo">
+                        <option value="none">🟰</option>
+                        <option value="ai" selected>🪄</option>
+                        <option value="two">2️⃣</option>
+                        <option value="three">3️⃣</option>
+                        <option value="four">4️⃣</option>
+                        <option value="five">5️⃣</option>
+                    </select>
+
+                    <button type="submit" id="submit-btn">➕</button>
+
+                    <label class="checkbox">
+                        <input type="checkbox" name="remove_thoughts" checked>
+                        <span class="muted">🧠 remove thoughts</span>
+                    </label>
+
+                </div>
+
+                <hr />
+
+                <div class="row">
                     <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
                         gui_elements.can_prev %}disabled{% endif %}>
                         ⬅️
@@ -170,25 +191,6 @@
                         gui_elements.can_next %}disabled{% endif %}>
                         ➡️
                     </button>
-
-
-                    <!-- Combo box -->
-                    <select name="mode" id="mode-select" class="combo">
-                        <option value="none">🟰</option>
-                        <option value="ai" selected>🪄</option>
-                        <option value="two">2️⃣</option>
-                        <option value="three">3️⃣</option>
-                        <option value="four">4️⃣</option>
-                        <option value="five">5️⃣</option>
-                    </select>
-
-                    <!-- Submit -->
-                    <button type="submit" id="submit-btn">➕</button>
-
-                    <label class="checkbox">
-                        <input type="checkbox" name="remove_thoughts" checked>
-                        <span class="muted">🧠 remove thoughts</span>
-                    </label>
 
                     <button type="submit" formaction="{{ url_for('up', object_name=object_name) }}" {% if not
                         gui_elements.can_up %}disabled{% endif %}>
