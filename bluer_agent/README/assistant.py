@@ -12,12 +12,15 @@ def image_template(suffix):
 
 docs = [
     {
-        "path": "../docs/assistant.md",
+        "path": "../docs/assistant",
         "items": ImageItems(
             {
                 image_template("screenshot-2026-02-13-15-15-06.png"): "",
                 image_template("screenshot-2026-02-11-01-09-15.png"): "",
             }
         ),
-    }
+    },
+    {
+        "path": "../docs/assistant/data-model.md",
+    },
 ]

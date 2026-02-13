@@ -23,13 +23,8 @@ class GuiElements:
     can_up: bool = False
 
 
-latest_version: str = "2.00"
-
-
 class Conversation:
     def __init__(self):
-        self.version = latest_version
-
         self.object_name: str = ""
 
         self.list_of_interactions: List[Interaction] = []
@@ -248,10 +243,6 @@ question: {}
         return convo
 
     def migrate(self) -> bool:
-        if not hasattr(self, "version"):
-            self.version = latest_version
-            logger.info(f"{self.__class__.__name__}.migrate: += version")
-
         if not hasattr(self, "metadata"):
             logger.info(f"{self.__class__.__name__}.migrate: += metadata")
             self.metadata = {}
