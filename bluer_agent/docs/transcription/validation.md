@@ -17,7 +17,10 @@
 ```
 
 ```yaml
-{}
+"\u0645\u062F\u0627\u06CC\u0646\u0648\u0628 \u06CC\u0646\u06A9\u0646 \u0627\u062A\
+  \ \u0646\u06A9\u0645 \u062F\u0627\u06CC\u0646\u0648\u0628 \u0632\u0627\u0646 \u0645\
+  \u062F\u0627\u0628\u0631\u0632 \u06CC\u0647\u062F\u0646 \u0627\u062A \u0647\u062F\
+  \u0645 \u062F\u0627\u0628\u0631\u0628 \u0641\u0644\u0648\u0632"
 
 ```
 
@@ -33,7 +36,8 @@
 ```
 
 ```yaml
-{}
+Racism is how societies teach themselves to rot from the inside.
+...
 
 ```
 

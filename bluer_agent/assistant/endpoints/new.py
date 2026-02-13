@@ -4,37 +4,37 @@ from filelock import FileLock
 from bluer_objects import objects
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.conversation import List_of_Conversations
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.project import List_of_Projects
+from bluer_agent.assistant.classes.project import Project
 from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.ui import flash
 
 
 @app.get("/<object_name>/new")
 def new(object_name: str):
-    object_name = objects.unique_object("convo")
+    object_name = objects.unique_object("project")
 
     lock = FileLock(f"/tmp/assistant/{object_name}.lock")
     with lock:
-        convo = Conversation.load(object_name)
+        convo = Project.load(object_name)
         if not convo.save():
-            flash(messages.cannot_save_conversation)
+            flash(messages.cannot_save_project)
 
-    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_projects.lock")
     with lock:
         if (
-            not List_of_Conversations()
+            not List_of_Projects()
             .append(
                 object_name,
                 convo.subject,
             )
             .save()
         ):
-            flash(messages.cannot_save_list_of_conversations)
+            flash(messages.cannot_save_list_of_projects)
 
     return redirect(
         url_for(
-            "open_conversation",
+            "open_project",
             object_name=object_name,
         )
     )

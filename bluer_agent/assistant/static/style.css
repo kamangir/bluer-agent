@@ -65,13 +65,13 @@ body {
     color: var(--text, #e6edf3);
 }
 
-.conversation-list {
+.project-list {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.conversation-item {
+.project-item {
     display: block;
     text-decoration: none;
     padding: 10px;
@@ -80,15 +80,15 @@ body {
     color: var(--text, #e6edf3);
 }
 
-.conversation-item:hover {
+.project-item:hover {
     border-color: var(--accent, #5cc8ff);
 }
 
-.conversation-item.active {
+.project-item.active {
     outline: 2px solid var(--accent, #5cc8ff);
 }
 
-.conversation-title {
+.project-title {
     font-weight: 600;
     line-height: 1.2;
 }
@@ -158,7 +158,7 @@ button {
     background: var(--card);
 }
 
-.reply-label {
+.step-label {
     margin-top: 10px;
 }
 

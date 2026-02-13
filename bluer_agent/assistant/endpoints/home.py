@@ -9,11 +9,11 @@ from bluer_agent.assistant.endpoints import app
 def home():
     object_name = app.config.get("object_name", "")
     if not object_name:
-        object_name = objects.unique_object("convo")
+        object_name = objects.unique_object("project")
 
     return redirect(
         url_for(
-            "open_conversation",
+            "open_project",
             object_name=object_name,
         ),
     )

@@ -1,30 +1,30 @@
-from flask import session, redirect, url_for, request
+from flask import redirect, url_for, request
 
 from bluer_agent.assistant.endpoints import app
-from bluer_agent.assistant.classes.conversation import Conversation
+from bluer_agent.assistant.classes.project import Project
 from bluer_agent.logger import logger
 
 
 @app.get("/<object_name>/up")
 def up(object_name: str):
     index = int(request.args.get("index", 1))
-    reply_id = request.args.get("reply", "top")
+    step_id = request.args.get("step", "top")
 
-    logger.info(f"/up on reply={reply_id}, index={index}")
+    logger.info(f"/up on step={step_id}, index={index}")
 
-    convo = Conversation.load(object_name)
+    convo = Project.load(object_name)
 
-    reply_id = convo.get_top_reply_id(
-        reply_id=reply_id,
+    step_id = convo.get_top_step_id(
+        step_id=step_id,
     )
 
-    logger.info(f"up -> reply={reply_id}, index={index}")
+    logger.info(f"up -> step={step_id}, index={index}")
 
     return redirect(
         url_for(
-            "open_conversation",
+            "open_project",
             object_name=object_name,
             index=index,
-            reply=reply_id,
+            step=step_id,
         )
     )

@@ -7,60 +7,60 @@ from bluer_objects import objects
 
 from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.env import verbose
-from bluer_agent.assistant.classes.conversation import List_of_Conversations
+from bluer_agent.assistant.classes.project import List_of_Projects, TAG
 from bluer_agent.assistant.endpoints import messages
 from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 
-@app.get("/<object_name>/delete_convo")
-def delete_convo(object_name: str):
+@app.get("/<object_name>/delete_project")
+def delete_project(object_name: str):
     def redirect(object_name: str = object_name):
         return flask_redirect(
             url_for(
-                "open_conversation",
+                "open_project",
                 object_name=object_name,
             )
         )
 
-    logger.info(f"/delete_convo: object_name={object_name}")
+    logger.info(f"/delete_project: object_name={object_name}")
 
     next_object_name: str = ""
 
-    lock = FileLock("/tmp/assistant/list_of_conversations.lock")
+    lock = FileLock("/tmp/assistant/list_of_projects.lock")
     with lock:
-        list_of_conversations = List_of_Conversations()
-        index: int = list_of_conversations.index(object_name)
+        list_of_projects = List_of_Projects()
+        index: int = list_of_projects.index(object_name)
         logger.info(f"index:{index}")
 
         if index == -1:
-            logger.warning(f"{object_name} isn't in the list of conversations.")
+            logger.warning(f"{object_name} isn't in the list of projects.")
             return redirect()
 
-        list_of_conversations.contents.pop(index)
+        list_of_projects.contents.pop(index)
         logger.info(f"removed {object_name} (#{index})")
 
-        if not list_of_conversations.save():
-            flash(messages.cannot_save_list_of_conversations)
+        if not list_of_projects.save():
+            flash(messages.cannot_save_list_of_projects)
 
     if not tags.set_tags(
         object_name=object_name,
-        tags="~convo",
+        tags=f"~{TAG}",
         verbose=verbose,
     ):
         flash(messages.cannot_set_tags)
 
     index = min(
         index,
-        len(list_of_conversations.contents) - 1,
+        len(list_of_projects.contents) - 1,
     )
     try:
-        next_object_name = list_of_conversations.contents[index].object_name
+        next_object_name = list_of_projects.contents[index].object_name
     except:
         pass
 
     if not next_object_name:
-        next_object_name = objects.unique_object("convo")
+        next_object_name = objects.unique_object("project")
 
     logger.info(f"next_object_name: {next_object_name}")
 
