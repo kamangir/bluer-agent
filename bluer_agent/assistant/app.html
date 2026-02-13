@@ -73,6 +73,8 @@
                     style="display:inline;" onsubmit="syncSubjectToSaveForm()">
 
                     <input type="hidden" name="subject" id="save-subject">
+                    <input type="hidden" name="index" value="{{ index }}">
+                    <input type="hidden" name="reply" value="{{ reply_id }}">
 
                     <button type="submit">
                         💾
@@ -112,22 +114,49 @@
 
                 {% if reply %}
                 <div class="card">
-                    <!-- reply content -->
                     <div class="radio-item">
                         <div class="radio-content">
-                            <div class="muted">Reply | <a
-                                    href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">{{
-                                    reply.id }}</a> | {{ reply.icon }}</div>
-                            <pre>{{ reply.content }}</pre>
+                            <div class="muted">
+                                Reply |
+                                <a href="{{ url_for('open_conversation', object_name=object_name, reply=reply.id) }}">
+                                    {{ reply.id }}
+                                </a>
+                                | {{ reply.icon }} |
+
+                                <button type="submit" class="btn-small" form="main-form"
+                                    formaction="{{ url_for('save_reply', object_name=object_name, index=index, reply=reply.id) }}"
+                                    formmethod="post" title="Save reply">
+                                    💾
+                                </button>
+
+                            </div>
+
+                            <textarea name="reply_content" class="reply-edit" rows="8" form="main-form"
+                                data-reply-id="{{ reply.id }}">{{ reply.content }}</textarea>
+
                         </div>
                     </div>
                 </div>
                 {% endif %}
 
-                <label class="muted">❓ what is the question?</label>
+
+                <label class="muted">Question</label>
                 <textarea name="question" placeholder="Type here..." id="question-text" rows="4"></textarea>
 
                 <div class="row">
+
+                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
+                        gui_elements.can_prev %}disabled{% endif %}>
+                        ⬅️
+                    </button>
+
+                    <span class="muted">{{ gui_elements.index_display }}</span>
+
+                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not
+                        gui_elements.can_next %}disabled{% endif %}>
+                        ➡️
+                    </button>
+
 
                     <!-- Combo box -->
                     <select name="mode" id="mode-select" class="combo">
@@ -147,23 +176,10 @@
                         <span class="muted">🧠 remove thoughts</span>
                     </label>
 
-                    <button type="submit" formaction="{{ url_for('prev', object_name=object_name) }}" {% if not
-                        gui_elements.can_prev %}disabled{% endif %}>
-                        ⬅️
-                    </button>
-
                     <button type="submit" formaction="{{ url_for('up', object_name=object_name) }}" {% if not
                         gui_elements.can_up %}disabled{% endif %}>
                         ⬆️
                     </button>
-
-
-                    <button type="submit" formaction="{{ url_for('next', object_name=object_name) }}" {% if not
-                        gui_elements.can_next %}disabled{% endif %}>
-                        ➡️
-                    </button>
-
-                    <span class="muted">{{ gui_elements.index_display }}</span>
 
                     <button type="submit" class="danger"
                         formaction="{{ url_for('delete_interaction', object_name=object_name) }}" formmethod="get"
@@ -193,7 +209,16 @@
                     <div class="radio-content">
                         <div class="muted reply-label">Reply #{{ loop.index }} | <a
                                 href="{{ url_for('open_conversation', object_name=object_name, reply=reply_.id) }}">{{
-                                reply_.id }}</a> | {{ reply_.icon }}
+                                reply_.id }}</a> | {{ reply_.icon }} |
+
+                            <a class="danger btn-small" href="{{ url_for('delete_reply',
+                    object_name=object_name,
+                    index=index,
+                    reply=reply_.id,
+                    subject=subject) }}" onclick="return confirm('Really delete {{ object_name }}/{{ reply_.id }}?');">
+                                🗑
+                            </a>
+
                         </div>
                         <pre>{{ reply_.content }}</pre>
                     </div>

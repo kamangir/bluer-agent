@@ -1,14 +1,20 @@
 from typing import List
 from tqdm import tqdm
-from flask import session
 from dataclasses import dataclass
+from flask import render_template_string
 
 from bluer_options.logger.config import log_list
+from bluer_options.timing import ElapsedTimer
 from bluer_objects import file
+from bluer_objects import objects
 from bluer_objects.mlflow.tags import search
-from bluer_objects.metadata import get_from_object
 
+from bluer_agent import env
+from bluer_agent import ICON
+from bluer_agent.assistant.classes.conversation import Conversation
 from bluer_agent.assistant.env import verbose
+from bluer_agent.assistant.functions import template
+from bluer_agent.host import signature
 from bluer_agent.logger import logger
 
 
@@ -19,20 +25,11 @@ class Entry:
 
 
 class List_of_Conversations:
-    def __init__(
-        self,
-        filename: str = "",
-    ):
-        self.filename = filename
-        if not self.filename:
-            if "list_of_conversations" not in session:
-                session["list_of_conversations"] = file.auxiliary(
-                    object_name="auxiliary",
-                    nickname="list_of_conversations",
-                    extension="dat",
-                )
-
-            self.filename = session["list_of_conversations"]
+    def __init__(self):
+        self.filename = objects.path_of(
+            object_name=env.BLUER_AGENT_ASSISTANT_CACHE,
+            filename="list_of_conversations.dat",
+        )
 
         verb: str = "loaded"
         _, metadata = file.load(
@@ -61,18 +58,12 @@ class List_of_Conversations:
             logger.info("found {} object(s)".format(len(list_of_objects)))
 
             for object_name in tqdm(list_of_objects):
-                metadata = get_from_object(
+                convo = Conversation.load(object_name=object_name)
+
+                self.append(
                     object_name,
-                    "convo",
-                    {},
+                    convo.subject,
                 )
-                try:
-                    self.append(
-                        object_name,
-                        metadata["subject"],
-                    )
-                except Exception as e:
-                    logger.warning(e)
 
         if verbose:
             log_list(
@@ -106,11 +97,72 @@ class List_of_Conversations:
 
         return self
 
+    def generate_subject(
+        self,
+        convo: Conversation,
+    ) -> bool:
+        if not convo.generate_subject():
+            return False
+
+        self.update(
+            convo.object_name,
+            convo.subject,
+        )
+
+        return self.save()
+
     def index(self, object_name: str) -> int:
         for index, entry in enumerate(self.contents):
             if entry.object_name == object_name:
                 return index
         return -1
+
+    def render(
+        self,
+        convo: Conversation,
+        index: int,
+        reply_id: str,
+    ) -> str:
+        elapsed_timer = ElapsedTimer()
+
+        template_text = template.load()
+        if not template_text:
+            return "❗️ app.html not found."
+
+        interaction, gui_elements = convo.get_gui_elements(
+            index=index,
+            reply_id=reply_id,
+        )
+
+        return render_template_string(
+            template_text,
+            # main view
+            interaction=interaction,
+            top_interaction=convo.get_top_interaction(reply_id),
+            gui_elements=gui_elements,
+            index=index,
+            object_name=convo.object_name,
+            reply=convo.get_reply(reply_id),
+            reply_id=reply_id,
+            signature=" | ".join(
+                [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
+                + signature()
+                + [
+                    "took {}".format(
+                        elapsed_timer.as_str(
+                            include_ms=True,
+                            short=True,
+                        ),
+                    )
+                ]
+            ),
+            title=f"{ICON} @assistant",
+            subject=convo.subject,
+            # sidebar
+            list_of_conversations=self.contents,
+            conversation_count=len(self.contents),
+            active_object_name=convo.object_name,
+        )
 
     def save(self) -> bool:
         logger.info(

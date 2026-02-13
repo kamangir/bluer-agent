@@ -1,4 +1,4 @@
-from flask import redirect, url_for, flash
+from flask import redirect, url_for
 
 from bluer_objects.mlflow import tags
 from bluer_objects import objects
@@ -7,6 +7,7 @@ from bluer_agent.assistant.endpoints import app
 from bluer_agent.assistant.env import verbose
 from bluer_agent.assistant.classes.conversation import List_of_Conversations
 from bluer_agent.assistant.endpoints import messages
+from bluer_agent.assistant.ui import flash
 from bluer_agent.logger import logger
 
 
@@ -23,14 +24,14 @@ def delete_convo(object_name: str):
         logger.info(f"removed {object_name} (#{index})")
 
         if not list_of_conversations.save():
-            flash(messages.cannot_save_list_of_conversations, "warning")
+            flash(messages.cannot_save_list_of_conversations)
 
         if not tags.set_tags(
             object_name=object_name,
             tags="~convo",
             verbose=verbose,
         ):
-            flash(messages.cannot_set_tags, "warning")
+            flash(messages.cannot_set_tags)
 
         index = min(
             index,

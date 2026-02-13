@@ -35,3 +35,60 @@ function syncSubjectToSaveForm() {
         hiddenInput.value = subjectInput.value;
     }
 }
+
+
+(function () {
+    // --- existing theme code can stay above/below this ---
+
+    const KEYS = {
+        pageX: "scroll:page:x",
+        pageY: "scroll:page:y",
+        // If you also want specific containers, add keys like:
+        // sidebarY: "scroll:sidebar:y",
+    };
+
+    function savePageScroll() {
+        try {
+            sessionStorage.setItem(KEYS.pageX, String(window.scrollX || 0));
+            sessionStorage.setItem(KEYS.pageY, String(window.scrollY || 0));
+        } catch (_) { }
+    }
+
+    function restorePageScroll() {
+        try {
+            const x = parseInt(sessionStorage.getItem(KEYS.pageX) || "0", 10);
+            const y = parseInt(sessionStorage.getItem(KEYS.pageY) || "0", 10);
+            // rAF helps after layout/fonts settle
+            requestAnimationFrame(() => window.scrollTo(x, y));
+        } catch (_) { }
+    }
+
+    // Restore after navigation/refresh
+    window.addEventListener("load", restorePageScroll);
+
+    // Save before leaving and on actions that usually navigate
+    window.addEventListener("beforeunload", savePageScroll);
+    document.addEventListener("submit", savePageScroll, true);
+    document.addEventListener(
+        "click",
+        (e) => {
+            if (e.target && e.target.closest && e.target.closest("a")) savePageScroll();
+        },
+        true
+    );
+
+    // Optional: keep it updated while scrolling (useful if beforeunload is blocked)
+    // (throttled)
+    let t = null;
+    window.addEventListener(
+        "scroll",
+        () => {
+            if (t) return;
+            t = setTimeout(() => {
+                t = null;
+                savePageScroll();
+            }, 150);
+        },
+        { passive: true }
+    );
+})();

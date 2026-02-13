@@ -1,23 +1,16 @@
 from __future__ import annotations
 
 from typing import Any, List, Tuple, Union, Dict
-from flask import render_template_string
 from dataclasses import dataclass
 
-from bluer_options.timing import ElapsedTimer
 from bluer_objects import file
 from bluer_objects import objects
 from bluer_objects.mlflow.tags import set_tags
 
-from bluer_agent import env
-from bluer_agent import ICON
-from bluer_agent.assistant.classes.conversation.list_of import List_of_Conversations
 from bluer_agent.assistant.env import verbose
-from bluer_agent.assistant.functions import template
 from bluer_agent.assistant.classes.interaction import Interaction, Reply
 from bluer_agent.assistant.classes.conversation import get
 from bluer_agent.assistant.functions.chat import chat
-from bluer_agent.host import signature
 from bluer_agent.logger import logger
 
 
@@ -115,17 +108,8 @@ question: {}
             return success
 
         self.subject = subject
-        if not self.save():
-            return False
 
-        return (
-            List_of_Conversations()
-            .update(
-                self.object_name,
-                subject,
-            )
-            .save()
-        )
+        return True
 
     def get_context(
         self,
@@ -261,58 +245,6 @@ question: {}
             self.metadata = {}
 
         return True
-
-    def render(
-        self,
-        index: int,
-        reply_id: str,
-    ) -> str:
-        elapsed_timer = ElapsedTimer()
-
-        list_of_conversations = List_of_Conversations()
-
-        template_text = template.load()
-        if not template_text:
-            return "❗️ app.html not found."
-
-        interaction, gui_elements = self.get_gui_elements(
-            index=index,
-            reply_id=reply_id,
-        )
-
-        reply = self.get_reply(reply_id)
-
-        top_interaction = self.get_top_interaction(reply_id)
-
-        return render_template_string(
-            template_text,
-            # main view
-            interaction=interaction,
-            top_interaction=top_interaction,
-            gui_elements=gui_elements,
-            index=index,
-            object_name=self.object_name,
-            reply=reply,
-            reply_id=reply_id,
-            signature=" | ".join(
-                [f"model: {env.BLUER_AGENT_CHAT_MODEL_NAME}"]
-                + signature()
-                + [
-                    "took {}".format(
-                        elapsed_timer.as_str(
-                            include_ms=True,
-                            short=True,
-                        ),
-                    )
-                ]
-            ),
-            title=f"{ICON} @assistant",
-            subject=self.subject,
-            # sidebar
-            list_of_conversations=list_of_conversations.contents,
-            conversation_count=len(list_of_conversations.contents),
-            active_object_name=self.object_name,
-        )
 
     def save(self) -> bool:
         filename = objects.path_of(
