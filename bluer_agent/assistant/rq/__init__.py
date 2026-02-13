@@ -11,8 +11,10 @@ REDIS_URL = os.getenv(
 )
 redis_conn = Redis.from_url(REDIS_URL)
 
+queue_name = "assistant"
+
 job_queue = Queue(
-    "assistant",
+    queue_name,
     connection=redis_conn,
     default_timeout=600,  # seconds
 )

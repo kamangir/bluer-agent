@@ -7,8 +7,6 @@ from bluer_agent.assistant.classes.conversation import (
     Conversation,
     List_of_Conversations,
 )
-from bluer_agent.assistant.endpoints import messages
-from bluer_agent.logger import logger
 
 NAME = module.name(__file__, NAME)
 
