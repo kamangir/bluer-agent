@@ -11,7 +11,7 @@ main(
     VERSION=VERSION,
     main_filename=__file__,
     tasks={
-        "build_README": lambda args: build.build(args),
+        "build_README": build.build,
     },
     logger=logger,
 )
