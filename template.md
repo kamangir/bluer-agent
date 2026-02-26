@@ -11,7 +11,7 @@ pip install bluer-agent
 ## features
 
 - [assistant](./bluer_agent/docs/assistant)
-- [audio](./bluer_agent/docs/audio.md)
+- [audio](./bluer_agent/docs/audio)
 - [chat](./bluer_agent/docs/chat)
 - [crawl](./bluer_agent/docs/crawl)
 - [rag](./bluer_agent/docs/rag)

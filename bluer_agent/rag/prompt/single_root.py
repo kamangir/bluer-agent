@@ -5,6 +5,7 @@ from blueness import module
 from bluer_options import string
 
 from bluer_agent import NAME
+from bluer_agent.chat.messages import List_of_Messages
 from bluer_agent.logger import logger
 
 
@@ -16,6 +17,7 @@ def build_prompt(
     context: List[Dict],
     top_n: int = 12,
     max_chars_per_hit: int = 420,
+    previous_messages: List_of_Messages = List_of_Messages(),
 ) -> List[Dict]:
     context = sorted(
         context,
@@ -47,18 +49,21 @@ def build_prompt(
     )
 
     logger.info(
-        "{}.build_prompt({} query, {} context, top {}): {}".format(
+        "{}.build_prompt({} query, {} context, top {}): {} + {} previous message(s)".format(
             NAME,
             string.pretty_bytes(len(query)),
             len(context),
             top_n,
             string.pretty_bytes(len(content)),
+            len(previous_messages.messages),
         )
     )
 
-    return [
-        {
-            "role": "user",
-            "content": content,
-        },
-    ]
+    message = {
+        "role": "user",
+        "content": content,
+    }
+
+    previous_messages.messages.append(message)
+
+    return previous_messages.messages

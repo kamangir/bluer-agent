@@ -17,13 +17,7 @@ def help_converse(
     tokens: List[str],
     mono: bool,
 ) -> str:
-    options = "".join(
-        [
-            xtra("~download,", mono=mono),
-            "",
-            xtra(",upload", mono=mono),
-        ]
-    )
+    options = xtra("~download,upload", mono=mono)
 
     args = sorted(
         [
