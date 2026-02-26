@@ -3,7 +3,7 @@
 ```bash
 @audio \
 	converse \
-	[~download,,upload] \
+	[~download,upload] \
 	[corpus-badkoobeh-2026-02-05-hvu72u | <context-object-name>] \
 	[-|<object-name>] \
 	[--channels <1>] \

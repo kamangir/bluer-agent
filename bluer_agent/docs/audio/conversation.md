@@ -2,14 +2,12 @@
 
 
 ```bash
-@select conversation-$(@@timestamp)
+@select convo-$(@@timestamp)
 
-@audio converse upload
+@audio converse upload - .
 
 @upload public,zip
 ```
-
-🔥
 
 
 ```yaml
@@ -17,4 +15,4 @@
 
 ```
 
-object::TBA
+object::convo-2026-02-26-vaw7uf
