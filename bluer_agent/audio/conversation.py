@@ -142,7 +142,7 @@ def converse(
     if not post_to_object(
         object_name,
         "conversation",
-        list_of_messages,
+        list_of_messages.messages,
     ):
         success = False
 
