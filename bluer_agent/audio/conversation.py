@@ -105,6 +105,8 @@ def converse(
             )
         )
 
+        audio_prompt = reply_sentence
+
         if not loop:
             break
 

@@ -5,6 +5,8 @@ title:::
 @select conversation-$(@@timestamp)
 
 @audio converse upload
+
+@upload public,zip
 ```
 
 🔥
@@ -12,3 +14,5 @@ title:::
 set:::object_name TBA
 
 metadata:::get:::object_name
+
+object::get:::object_name

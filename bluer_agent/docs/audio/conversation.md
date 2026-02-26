@@ -5,6 +5,8 @@
 @select conversation-$(@@timestamp)
 
 @audio converse upload
+
+@upload public,zip
 ```
 
 🔥
@@ -14,3 +16,5 @@
 {}
 
 ```
+
+object::TBA
