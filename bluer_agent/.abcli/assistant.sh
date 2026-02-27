@@ -10,7 +10,7 @@ function bluer_agent_assistant() {
     local start_worker=$(bluer_ai_option_int "$options" worker 0)
 
     if [[ "$start_worker" == 1 ]]; then
-        bluer_ai_badge - "👾 🧠"
+        bluer_ai_badge - "assistant worker 👾"
 
         if [[ "$do_install" == 1 ]]; then
             brew install redis
@@ -53,7 +53,7 @@ function bluer_agent_assistant() {
     [[ $? -ne 0 ]] && return 1
 
     bluer_ai_log "👾 $url"
-    bluer_ai_badge - "👾"
+    bluer_ai_badge - "assistant 👾"
 
     [[ "$do_open" == 1 ]] &&
         bluer_ai_browse $url
